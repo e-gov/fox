@@ -1,0 +1,128 @@
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: 'FoxAPI'
+paths:
+  /fox/foxes/{uuid}:
+    get:
+      description: 
+        Gets `Fox` objects.
+        Required query param of **uuid** determines the identifier of the `Fox` to be returned
+      parameters:
+        - name: uuid
+          in: path
+          description: Identifier of the fox to be returned
+          required: true
+          type: string
+      tags:
+        - Foxes
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Fox'
+        '404':
+          description: The requested `Fox` was not found
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      description:
+         Updates a particular `Fox` object
+      parameters:
+        - name: uuid
+          in: path
+          description: Identifier of the fox to be updated
+          required: true
+          type: string
+        - name: fox
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Fox'
+      tags:
+        - Foxes
+        - Update
+      responses:
+        '200':
+          description: The `Fox` object was updated successfully
+        '404':
+          description: The requested `Fox` was not found
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /fox/foxes/{uuid}/delete:
+    get:
+      description:
+        Deletes the `Fox` object identified by the **uuid**
+      parameters:
+        - name: uuid
+          in: path
+          description: The identifier of the `Fox` to be deleted. The operation is not reversible
+          required: true
+          type: string
+      tags:
+        - Delete
+      responses:
+        '200':
+          description: The `Fox` object was deleted successfully
+        '404':
+          description: The requested `Fox` was not found
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        
+  /fox/add:
+    post:
+      description: 
+        Create a new `Fox` object with the data submitted. Returns the **uuid** of the `Fox` created
+      parameters:
+        - name: fox
+          required: true
+          in: body
+          schema: 
+            $ref: '#/definitions/Fox'
+      tags:
+        - Foxes
+        - Create
+      responses:
+        '200':
+           description: Successful creation of the `Fox` object. Returns identifier of the newly created Fox
+           schema:
+             $ref: '#/definitions/UUID'
+        default:
+           description: Unexpected error
+           schema:
+              $ref: '#/definitions/Error'
+definitions:
+  Fox:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Name of the Fox
+      parents:
+        type: array
+        items: 
+          type: string
+          maximum: 2
+      uuid:
+        type: string
+        description: Unique identifier for the Fox
+    
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
+  UUID:
+     type: string
+     description: Unique identifier of any object
