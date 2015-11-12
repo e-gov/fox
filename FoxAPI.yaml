@@ -27,32 +27,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-    post:
-      description:
-         Updates a particular `Fox` object
-      parameters:
-        - name: uuid
-          in: path
-          description: Identifier of the fox to be updated
-          required: true
-          type: string
-        - name: fox
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/Fox'
-      tags:
-        - Foxes
-        - Update
-      responses:
-        '200':
-          description: The `Fox` object was updated successfully
-        '404':
-          description: The requested `Fox` was not found
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
   /fox/foxes/{uuid}/delete:
     get:
       description:
@@ -78,7 +52,7 @@ paths:
   /fox/add:
     post:
       description: 
-        Create a new `Fox` object with the data submitted. Returns the **uuid** of the `Fox` created
+        Create a new `Fox` object with the data submitted. Returns the **uuid** of the `Fox` created. If the Fox exists, it is overwritten without warning.
       parameters:
         - name: fox
           required: true
@@ -89,10 +63,14 @@ paths:
         - Foxes
         - Create
       responses:
-        '200':
+        '201':
            description: Successful creation of the `Fox` object. Returns identifier of the newly created Fox
            schema:
              $ref: '#/definitions/UUID'
+        '422':
+           description: The incoming data was not a valid `Fox` JSON object
+           schema:
+             $ref: '#/definitions/Error'
         default:
            description: Unexpected error
            schema:
@@ -120,8 +98,6 @@ definitions:
         type: integer
         format: int32
       message:
-        type: string
-      fields:
         type: string
   UUID:
      type: string

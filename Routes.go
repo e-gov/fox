@@ -16,12 +16,6 @@ type Routes []Route
 
 var routes = Routes{
 	Route{
-		"Index",
-		"GET",
-		"/",
-		Index,
-	},
-	Route{
 		"FoxList",
 		"GET",
 		"/todos",
@@ -38,5 +32,11 @@ var routes = Routes{
 		"POST",
 		"/fox/add",
 		AddFox,
+	},
+	Route{
+		"UpdateFox",
+		"POST",
+		"/fox/foxes/{foxId}",
+		UpdateFox,
 	},
 }
