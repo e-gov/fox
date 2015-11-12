@@ -13,23 +13,6 @@ import (
 	"code.google.com/p/go-uuid/uuid"
 )
 
-func Index(w http.ResponseWriter, r *http.Request){
-	fmt.Fprintln(w, "Welcome!")
-}
-
-func TodoIndex(w http.ResponseWriter, r *http.Request){
-	todos := Todos{
-		Todo{Name: "First thing to do"},
-		Todo{Name: "Second thing to do"},
-	}
-
-	w.Header().Set("Content-type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(todos); err != nil {
-		panic(err)
-	}
-}
-
 func FoxShow(w http.ResponseWriter, r *http.Request){
 	var fox Fox
 	vars := mux.Vars(r)
