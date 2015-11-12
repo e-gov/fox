@@ -1,0 +1,3 @@
+; Persistence configuration
+[storage]
+filepath = "db/" # Where to store the files for persistence
