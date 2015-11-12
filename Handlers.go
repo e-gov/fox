@@ -73,10 +73,35 @@ func AddFox(w http.ResponseWriter, r *http.Request){
 
 func UpdateFox(w http.ResponseWriter, r *http.Request){
 	vars := mux.Vars(r)
+	foxId := vars["foxId"]
 
-	if FoxExists(vars["foxId"]){
-		DeleteFoxFromStorage(vars["foxId"])
+	if FoxExists(foxId){
+		DeleteFoxFromStorage(foxId)
 	}
 
-	addFoxToStorage(w, r, http.StatusAccepted, vars["foxId"])
+	addFoxToStorage(w, r, http.StatusAccepted, foxId)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusAccepted)
+
+	if err := json.NewEncoder(w).Encode(Error{Code:http.StatusAccepted, Message:fmt.Sprint("Fox %s updated", foxId)}); err != nil{
+		panic(err)
+	}
+
+}
+
+func DeleteFox(w http.ResponseWriter, r *http.Request){
+	vars := mux.Vars(r)
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	foxId := vars["foxId"]
+	if !FoxExists(foxId){
+		w.WriteHeader(http.StatusNotFound)
+		if err := json.NewEncoder(w).Encode(Error{Code:http.StatusNotFound, Message:fmt.Sprint("Fox %s not found", foxId)}); err != nil{
+			panic(err)
+		}
+		return
+	}
+	DeleteFoxFromStorage(foxId)
+	w.WriteHeader(http.StatusOK)
+
 }

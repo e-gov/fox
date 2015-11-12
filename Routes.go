@@ -33,4 +33,11 @@ var routes = Routes{
 		"/fox/foxes/{foxId}",
 		UpdateFox,
 	},
+	Route{
+		"DeleteFox",
+		"GET",
+		"/fox/foxes/{foxId}/delete",
+		DeleteFox,
+	},
+
 }

@@ -27,6 +27,36 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+    post:
+      description:
+         Updates a particular `Fox` object. If it does not exist, it is created. 
+      parameters:
+        - name: uuid
+          in: path
+          description: Identifier of the fox to be updated
+          required: true
+          type: string
+        - name: fox
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Fox'
+      tags:
+        - Foxes
+        - Update
+      responses:
+        '202':
+          description: The `Fox` object was updated successfully
+        '404':
+          description: The requested `Fox` was not found
+        '422':
+           description: The incoming data was not a valid `Fox` JSON object
+           schema:
+             $ref: '#/definitions/Error'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /fox/foxes/{uuid}/delete:
     get:
       description:
