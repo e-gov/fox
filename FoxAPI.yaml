@@ -68,6 +68,7 @@ paths:
           required: true
           type: string
       tags:
+        - Foxes
         - Delete
       responses:
         '200':
@@ -105,6 +106,20 @@ paths:
            description: Unexpected error
            schema:
               $ref: '#/definitions/Error'
+  /fox/status:
+    get:
+      description: Returns status information for the API
+      tags:
+        - Statistics
+      responses:
+        '200':
+           description: Status of the API instance
+           schema:
+             $ref: '#/definitions/APIStatus'
+        default:
+           description: Unexpected error
+           schema:
+             $ref: '#/definitions/Error'
 definitions:
   Fox:
     type: object
@@ -132,3 +147,18 @@ definitions:
   UUID:
      type: string
      description: Unique identifier of any object
+  APIStatus:
+     type: object
+     properties:
+        timeSinceLastOK:
+           type: integer
+           format: int64
+           description: The number of milliseconds since the API instance returned a HTTP 200 indicating a successful response
+        timeSinceLastNOK:
+           type: integer
+           format: int64          
+           description: The number of milliseconds since the API instance returned a code not from 2-series 
+        parallelRequestCount:
+           type: integer
+           format: int64           
+           description: The number of meaningful requests being processed in parallel at the time of the status request
