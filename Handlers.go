@@ -11,6 +11,8 @@ import (
 	"log"
 
 	"code.google.com/p/go-uuid/uuid"
+
+	"time"
 )
 
 func FoxShow(w http.ResponseWriter, r *http.Request){
@@ -80,8 +82,6 @@ func UpdateFox(w http.ResponseWriter, r *http.Request){
 	}
 
 	addFoxToStorage(w, r, http.StatusAccepted, foxId)
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusAccepted)
 
 	if err := json.NewEncoder(w).Encode(Error{Code:http.StatusAccepted, Message:fmt.Sprint("Fox %s updated", foxId)}); err != nil{
 		panic(err)
@@ -104,4 +104,16 @@ func DeleteFox(w http.ResponseWriter, r *http.Request){
 	DeleteFoxFromStorage(foxId)
 	w.WriteHeader(http.StatusOK)
 
+}
+
+func ShowStats(w http.ResponseWriter, r *http.Request){
+	s := Statistics{
+		TimeSinceLastNOK:int64(time.Since(timeOfLastNOK)/time.Millisecond),
+		TimeSinceLastOK:int64(time.Since(timeOfLastOK)/time.Millisecond),
+		ParallelRequestCount:parallelRequestCount,
+		NodeName:nodeName}
+
+	if err := json.NewEncoder(w).Encode(s); err != nil{
+		panic(err)
+	}
 }
