@@ -1,0 +1,130 @@
+---
+layout: default
+---
+
+<div class="home">
+
+  <!--p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p-->
+    <div id="content"></div>
+    <script type="text/babel">
+	var FoxBox = React.createClass({
+		loadFoxesFromServer: function(){
+			$.ajax({
+				url: this.props.url + "/foxes",
+				dataType: 'json',
+				cache: false,
+				success: function(data){
+					this.setState({data: data});
+				}.bind(this),
+				error: function(xhr, status, err){
+					console.error(this.props.url, status, err.toString());
+				}.bind(this)
+			});
+		},
+		handleFoxSubmit: function(fox){
+			$.ajax({
+				url: this.props.url + "/add",
+				dataType: 'json',
+				crossDomain: true,
+				type: 'POST',
+				data: JSON.stringify(fox),
+				success: function(data){
+					this.setState({data: data});
+				}.bind(this),
+				error: function(xhr, status, err){
+					console.error(this.props.url, status, err.toString());
+				}.bind(this)
+			});
+		},
+		handleFoxDelete: function(fox){
+			// Does not do anything
+		},
+		getInitialState: function(){
+			return {data: []}
+		},
+		componentDidMount: function(){
+				this.loadFoxesFromServer();
+				setInterval(this.loadFoxesFromServer, this.props.pollInterval);
+		},
+		render: function(){
+			return (
+				<div className="foxbox">
+					Foxes
+					<FoxForm onFoxSubmit={this.handleFoxSubmit}/>
+					<FoxList onFoxDelete={this.handleFoxDelete} data={this.state.data} />
+				</div>
+			);
+		}
+	});
+
+	var FoxList = React.createClass({
+		render: function(){
+			var foxNodes = this.props.data.map(function(fox){
+				return (
+				<Fox name={fox.name} key={fox.uuid}/>
+				);	
+			})
+			return (
+				<table border="1" className="foxlist">
+					<tbody>
+					{foxNodes}
+					</tbody>
+				</table>
+			);
+		}
+
+	});
+	var FoxForm = React.createClass({
+		getInitialState: function(){
+			return {name:''};
+		},
+		handleNameChange: function(f){
+			this.setState({name: f.target.value});
+		},
+		handleSubmit: function(f){
+			f.preventDefault();
+			var name = this.state.name.trim();
+			if(!name){
+				return;
+			};
+			this.props.onFoxSubmit({name: name});
+			this.setState({name: ''});
+		},
+		render: function(){
+			return (
+				<form className="foxForm" onSubmit={this.handleSubmit}>
+					<input type="text" value={this.state.name} onChange={this.handleNameChange} placeholder="Fox name"/>
+					<input type="submit" value="Save"/>
+				</form>
+			);
+		}
+	});
+	var Fox = React.createClass({
+		handleDelete: function(f){
+			f.preventDefault();
+			var uuid = this.state.uuid;
+			this.props.onFoxDelete({uuid: uuid});
+		},
+		render: function(){
+			return(
+				<tr className="Fox">
+					<td className="foxName">
+						{this.props.name}
+					</td>
+					<td className="deleteForm">
+						<form className="dForm" onSubmit={this.handleDelete}>
+							<input type="submit" value="Delete"/>
+						</form>
+					</td>
+					{this.props.children}
+				</tr>
+			)
+		}
+	});
+      ReactDOM.render(
+	<FoxBox url="http://localhost:8090/fox" pollInterval={2000}/>,
+        document.getElementById('content')
+      );
+    </script>
+
+</div>
