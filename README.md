@@ -6,7 +6,9 @@ The FoxAPI application implements [this specification](http://editor.swagger.io/
 The static site is built for jekyll, use `jekyll serve` to launch
 
 To compile the GO app do
-    go install
-    go build
+```
+go install
+go build
+```
 
 After which you end up with a binary that takes a single parameter (the instance name) to launch
