@@ -22,6 +22,7 @@ go install fox # application will be built into bin/fox
 
 ```
 cp src/fox/config.gcfg.template bin/config.gcfg
+mkdir /tmp/foxdb  # make sure that the configured storage folder exists.
 ```
 
 2. Execute Fox binary (**bin/fox**) passing an instance name as a parameter.
