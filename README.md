@@ -24,8 +24,8 @@ export LANG=en_US.UTF-8
 
 ```
 export GOPATH=$PWD
-go get fox  # get dependencies
-go install fox # application will be built into bin/fox
+go get fox      # get dependencies
+go install fox  # application will be built into bin/fox
 ```
 
 ## Running a REST server
