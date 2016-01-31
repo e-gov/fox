@@ -5,10 +5,25 @@ The FoxAPI application implements [this specification](http://editor.swagger.io/
 
 The static site is built for jekyll, use `jekyll serve` to launch
 
-To compile the GO app do
+## Building a demo application
+
+1. Change to the directory where the repository is cloned.
+2. Setup environment and build application:
+
 ```
-go install
-go build
+export GOPATH=$PWD
+go get fox  # get dependencies
+go install fox # application will be built into bin/fox
 ```
 
-After which you end up with a binary that takes a single parameter (the instance name) to launch
+## Running an application
+
+1. Copy and adapt example configuration file:
+
+```
+cp src/fox/config.gcfg.template bin/config.gcfg
+```
+
+2. Execute Fox binary (**bin/fox**) passing an instance name as a parameter.
+
+REST interface will respond on **http://localhost:8090/**.
