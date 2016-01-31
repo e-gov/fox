@@ -4,8 +4,9 @@ layout: default
 
 <div class="home">
 
+  <!--p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p-->
     <div id="content"></div>
-    <script type="text/babel">
+		<script type="text/babel">
 	var FoxBox = React.createClass({
 		loadFoxesFromServer: function(){
 			$.ajax({
@@ -120,10 +121,10 @@ layout: default
 			)
 		}
 	});
-      ReactDOM.render(
+	ReactDOM.render(
 	<FoxBox url="http://localhost:8090/fox" pollInterval={2000}/>,
-	document.getElementById('content')
-      );
-    </script>
+				document.getElementById('content')
+	);
+		</script>
 
 </div>
