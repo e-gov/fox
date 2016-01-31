@@ -1,0 +1,4 @@
+; Persistence configuration
+[storage]
+# Location of persistent files
+filepath = "/tmp/foxdb/"

@@ -1,3 +1,0 @@
-; Persistence configuration
-[storage]
-filepath = "/Users/andreskytt/tmp/fox/db/" # Where to store the files for persistence
