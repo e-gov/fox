@@ -37,8 +37,8 @@ go install fox # application will be built into bin/fox
 cp src/fox/config.gcfg.template bin/config.gcfg
 mkdir /tmp/foxdb  # make sure that the configured storage folder exists.
 cd bin
-./fox my
+./fox
 ```
 
-
 REST interface will respond on **http://localhost:8090/**. You should now be able to use web UI.
+To change a port or name of the application ("my" by default), check **./bin/fox -h**.
