@@ -31,12 +31,14 @@ go install fox # application will be built into bin/fox
 ## Running a REST server
 
 1. Copy and adapt example configuration file:
+2. Execute Fox binary passing an instance name as a parameter.
 
 ```
 cp src/fox/config.gcfg.template bin/config.gcfg
 mkdir /tmp/foxdb  # make sure that the configured storage folder exists.
+cd bin
+./fox my
 ```
 
-2. Execute Fox binary (**bin/fox**) passing an instance name as a parameter.
 
-REST interface will respond on **http://localhost:8090/**. You should not be able to use web UI.
+REST interface will respond on **http://localhost:8090/**. You should now be able to use web UI.
