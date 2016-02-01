@@ -27,9 +27,9 @@ var routes = Routes{
 		FoxShow,
 	},
     Route{
-	"GetFoxes",
-	"GET",
-	"/fox/foxes",
+		"GetFoxes",
+		"GET",
+		"/fox/foxes",
 	FoxList,   
     },
 	Route{
