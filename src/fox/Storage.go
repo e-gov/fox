@@ -8,16 +8,21 @@ import(
     "log"
 )
 func getFileName(uuid string) string{
-	return getConfig().Storage.Filepath + uuid
+	s :=  getConfig().Storage.Filepath + uuid
+	return s
 }
 
 func getConfig() Config{
 	var cfg Config
 
 	// Read configuration
+	// TODO: implement caching 
 	if err := gcfg.ReadFileInto(&cfg, "config.gcfg"); err != nil{
 		panic(err)
 	}
+	cfg.Sanitize()
+	log.Printf("Getconfig")
+	log.Printf(cfg.Storage.Filepath)
 	return cfg
 }
 
@@ -59,8 +64,8 @@ func GetFoxes()([]Fox, error){
     var foxes []Fox
     
     foxes = make([]Fox, 0)
-    
-    files, _ := ioutil.ReadDir(getConfig().Storage.Filepath)
+    fname := getConfig().Storage.Filepath
+    files, _ := ioutil.ReadDir(fname)
     for _, f := range files {
 	log.Print(f.Name())
 	fox, err := ReadFox(f.Name())

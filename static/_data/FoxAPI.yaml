@@ -58,7 +58,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
   /fox/foxes/{uuid}/delete:
-    get:
+    delete:
       description:
         Deletes the `Fox` object identified by the **uuid**
       parameters:
