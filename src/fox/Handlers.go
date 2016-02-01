@@ -82,11 +82,19 @@ func addFoxToStorage(w http.ResponseWriter, r *http.Request, status int, uuid st
     log.Print(st)
 
 	if err := json.Unmarshal(body, &fox); err != nil{
+<<<<<<< HEAD
 	w.WriteHeader(422)
 		if err := json.NewEncoder(w).Encode(Error{Code:422, Message:err.Error()}); err != nil{
 			panic(err)
 		}
 	return
+=======
+        w.WriteHeader(422)
+		if err := json.NewEncoder(w).Encode(Error{Code:422, Message:err.Error()}); err != nil{
+			panic(err)
+		}
+        return
+>>>>>>> e81db7bd7292825b3bfb1e8a9a969381b69783f6
 	}
 
 	w.WriteHeader(status)
