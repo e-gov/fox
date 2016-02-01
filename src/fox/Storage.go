@@ -92,5 +92,4 @@ func DeleteFoxFromStorage(uuid string){
 	if err:=os.Remove(getFileName(uuid)); err != nil{
 		panic(err)
 	}
-
 }
