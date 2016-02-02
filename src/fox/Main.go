@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os/signal"
+	"syscall"
+	"os"
 )
 
 func main()  {
@@ -15,4 +18,19 @@ func main()  {
 	router := NewRouter()
 	log.Printf("Starting a server on localhost:%d", *port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), router))
+}
+
+func init()  {
+	loadConfig()
+	
+	sc := make(chan os.Signal, 1)
+	
+	signal.Notify(sc, syscall.SIGHUP)
+	
+	go func ()  {
+		for {
+			<-sc
+			loadConfig()
+		}		
+	}()
 }

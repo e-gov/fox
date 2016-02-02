@@ -3,28 +3,13 @@ package main
 import(
 	"os"
 	"encoding/json"
-	"gopkg.in/gcfg.v1"
 	"io/ioutil"
     "log"
 )
 func getFileName(uuid string) string{
-	s :=  getConfig().Storage.Filepath + uuid
-	return s
+	return getConfig().Storage.Filepath + uuid
 }
 
-func getConfig() Config{
-	var cfg Config
-
-	// Read configuration
-	// TODO: implement caching 
-	if err := gcfg.ReadFileInto(&cfg, "config.gcfg"); err != nil{
-		panic(err)
-	}
-	cfg.Sanitize()
-	log.Printf("Getconfig")
-	log.Printf(cfg.Storage.Filepath)
-	return cfg
-}
 
 // Persist the fox instance to somewhere
 func StoreFox(fox Fox, uuid string) UUID {
