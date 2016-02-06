@@ -35,7 +35,7 @@ var routes = Routes{
 	Route{
 		"AddFox",
 		"POST",
-		"/fox/add",
+		"/fox/foxes",
 		AddFox,
 	},
 	Route{

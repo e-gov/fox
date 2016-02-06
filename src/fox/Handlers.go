@@ -110,13 +110,19 @@ func UpdateFox(w http.ResponseWriter, r *http.Request){
 
 	if FoxExists(foxId){
 		DeleteFoxFromStorage(foxId)
+		log.Println("Deleting prior version of fox " + foxId)
+		addFoxToStorage(w, r, http.StatusAccepted, foxId)
+
+		if err := json.NewEncoder(w).Encode(Error{Code:http.StatusAccepted, Message:fmt.Sprint("Fox %s updated", foxId)}); err != nil{
+			panic(err)
+		}
+
+	}else{
+		// If the fox does not exist, go for the creation instead
+		log.Println("New fox, creating with uuid " + foxId)
+		AddFox(w, r)
 	}
 
-	addFoxToStorage(w, r, http.StatusAccepted, foxId)
-
-	if err := json.NewEncoder(w).Encode(Error{Code:http.StatusAccepted, Message:fmt.Sprint("Fox %s updated", foxId)}); err != nil{
-		panic(err)
-	}
 
 }
 

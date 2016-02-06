@@ -27,9 +27,9 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-    post:
+    put:
       description:
-         Updates a particular `Fox` object. If it does not exist, it is created. 
+         Updates a particular `Fox` object. If it does not exist, a new fox is created ignoring the uuid parameter and, upon success, HTTP 201 is returned along with information about the new Fox.
       parameters:
         - name: uuid
           in: path
@@ -53,6 +53,10 @@ paths:
            description: The incoming data was not a valid `Fox` JSON object
            schema:
              $ref: '#/definitions/Error'
+        '201':
+           description: Creation of the `Fox` object. Returns identifier of the newly created Fox
+           schema:
+             $ref: '#/definitions/UUID'
         default:
           description: Unexpected error
           schema:
@@ -80,10 +84,10 @@ paths:
           schema:
             $ref: '#/definitions/Error'
         
-  /fox/add:
+  /fox/foxes:
     post:
       description: 
-        Create a new `Fox` object with the data submitted. Returns the **uuid** of the `Fox` created. If the Fox exists, it is overwritten without warning.
+        Create a new `Fox` object with the data submitted. Returns the **uuid** of the `Fox` created. If the Fox exists, it is overwritten without warning. Any additions to the URL, like UUIDs, will be ignored.
       parameters:
         - name: fox
           required: true
@@ -165,3 +169,5 @@ definitions:
         nodeName:
           type: string
           description: The name of the API node
+
+
