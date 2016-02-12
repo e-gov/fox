@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 0.0.1
+  version: 0.0.3
   title: 'FoxAPI'
 paths:
   /fox/foxes/{uuid}:
@@ -15,7 +15,7 @@ paths:
           required: true
           type: string
       tags:
-        - Foxes
+        - Read
       responses:
         '200':
           description: Successful response
@@ -42,7 +42,6 @@ paths:
           schema:
             $ref: '#/definitions/Fox'
       tags:
-        - Foxes
         - Update
       responses:
         '202':
@@ -72,7 +71,6 @@ paths:
           required: true
           type: string
       tags:
-        - Foxes
         - Delete
       responses:
         '200':
@@ -85,6 +83,22 @@ paths:
             $ref: '#/definitions/Error'
         
   /fox/foxes:
+    get:
+      summary: Retrieve a list of foxes
+      description: Returns a list of all foxes in the registry, not limiting the size
+      tags:
+        - Read
+      responses:
+        '200':
+          description: A list of foxes. In case no objects are found, an empty array is returned
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/Fox'
+        default:
+           description: Unexpected error
+           schema:
+              $ref: '#/definitions/Error'
     post:
       description: 
         Create a new `Fox` object with the data submitted. Returns the **uuid** of the `Fox` created. If the Fox exists, it is overwritten without warning. Any additions to the URL, like UUIDs, will be ignored.
@@ -95,7 +109,6 @@ paths:
           schema: 
             $ref: '#/definitions/Fox'
       tags:
-        - Foxes
         - Create
       responses:
         '201':
@@ -169,5 +182,3 @@ definitions:
         nodeName:
           type: string
           description: The name of the API node
-
-
