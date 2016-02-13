@@ -25,8 +25,12 @@ func sanitize(c *Config){
 }
 
 func LoadConfig(){
+	LoadConfigByName("config.gcfg")
+}
+
+func LoadConfigByName(name string){
 	var isFatal bool = (config == nil)
-	var fName string = "config.gcfg"
+	var fName = name
 	var tmp *Config
 	
 	tmp = new(Config)
