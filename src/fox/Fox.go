@@ -1,4 +1,4 @@
-package main
+package fox
 
 type Fox struct {
 	Name 		string	`json:"name"`

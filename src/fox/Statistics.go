@@ -1,4 +1,4 @@
-package main
+package fox
 
 type Statistics struct {
 	TimeSinceLastOK 		int64	`json:"timeSinceLastOK"`

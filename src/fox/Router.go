@@ -1,4 +1,4 @@
-package main
+package fox
 
 import (
 	"net/http"
@@ -8,7 +8,8 @@ import (
 	"log"
 )
 
-func NewRouter() *mux.Router{
+func NewRouter(name string) *mux.Router{
+	nodeName = name
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
 		var handler http.Handler

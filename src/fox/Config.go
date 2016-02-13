@@ -1,4 +1,4 @@
-package main
+package fox
 
 import (
 	"sync"
@@ -24,7 +24,7 @@ func sanitize(c *Config){
 	}
 }
 
-func loadConfig(){
+func LoadConfig(){
 	var isFatal bool = (config == nil)
 	var fName string = "config.gcfg"
 	var tmp *Config
