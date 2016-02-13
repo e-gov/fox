@@ -30,19 +30,19 @@ var routes = Routes{
 		"GetFoxes",
 		"GET",
 		"/fox/foxes",
-	FoxList,   
+		FoxList,   
     },
+	Route{
+		"UpdateFox",
+		"PUT",
+		"/fox/foxes/{foxId}",
+		UpdateFox,
+	},
 	Route{
 		"AddFox",
 		"POST",
 		"/fox/foxes",
 		AddFox,
-	},
-	Route{
-		"UpdateFox",
-		"POST",
-		"/fox/foxes/{foxId}",
-		UpdateFox,
 	},
 	Route{
 		"DeleteFox",

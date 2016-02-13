@@ -78,15 +78,13 @@ func addFoxToStorage(w http.ResponseWriter, r *http.Request, status int, uuid st
 	}
 
     sendHeaders(w)    
-    st := string(body[:110])
-    log.Print(st)
 
 	if err := json.Unmarshal(body, &fox); err != nil{
-	w.WriteHeader(422)
+		w.WriteHeader(422)
 		if err := json.NewEncoder(w).Encode(Error{Code:422, Message:err.Error()}); err != nil{
 			panic(err)
 		}
-	return
+		return
 	}
 
 	w.WriteHeader(status)
@@ -101,10 +99,12 @@ func addFoxToStorage(w http.ResponseWriter, r *http.Request, status int, uuid st
 }
 
 func AddFox(w http.ResponseWriter, r *http.Request){
+	log.Println("Add Fox")
 	addFoxToStorage(w, r, http.StatusCreated, uuid.New())
 }
 
 func UpdateFox(w http.ResponseWriter, r *http.Request){
+	log.Println("Update Fox")
 	vars := mux.Vars(r)
 	foxId := vars["foxId"]
 
