@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-// Data structure for configuration
+// Config is the data structure for passing configuration info
 type Config struct {
 	Storage struct{
 		Filepath string
@@ -24,12 +24,16 @@ func sanitize(c *Config){
 	}
 }
 
+// LoadConfig loads configuration using a hard-coded name
+// This is what gets called during normal operation
 func LoadConfig(){
 	LoadConfigByName("config.gcfg")
 }
 
+// LoadConfigByName loads a config from a specific file
+// Used for separating test from operational conifguration
 func LoadConfigByName(name string){
-	var isFatal bool = (config == nil)
+	var isFatal = (config == nil)
 	var fName = name
 	var tmp *Config
 	
