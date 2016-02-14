@@ -18,6 +18,7 @@ var _ = Describe("Fox", func() {
 	var recorder *httptest.ResponseRecorder
 	var request *http.Request
 	var aFox Fox
+	var anotherFox Fox
 	
 	BeforeEach(func(){
 		LoadConfigByName("test_config.gcfg")
@@ -28,36 +29,52 @@ var _ = Describe("Fox", func() {
 			Name: "Rein",
 			Parents: []string{"2", "3"},			
 		}
+		
+		anotherFox = Fox{
+			Name: "NewName",
+			Parents: []string{"4", "5"},
+		}
 	})
 	
 	Describe("Adding foxes", func(){
 		BeforeEach(func(){
-			m, err := json.Marshal(aFox)
-			Expect(err).To(BeNil())
+			m, _ := json.Marshal(aFox)
 			request, _ = http.NewRequest("POST", "/fox/foxes", bytes.NewReader(m))
 		})
 		
-		Context("Adding a fox", func(){
+		Context("Adding, reading and updating a fox", func(){
 			// Simple adding of a fox
 			It("Should return 201", func(){
+				var f Fox
 				router.ServeHTTP(recorder, request)
 				Expect(recorder.Code).To(Equal(201))				
 
 			// See if we can get the same fox back
+			// Read the UUID from the response first
 				body, err := ioutil.ReadAll(io.LimitReader(recorder.Body, 1048576))
 				Expect(err).To(BeNil())
 
-//				fmt.Printf(">>> got body %d", len(recorder.Body.Bytes()))
 				var id *UUID
 				id = new(UUID) 
 				
 				err = json.Unmarshal(body, id)
 				Expect(err).To(BeNil())
-				request, _ = http.NewRequest("GET", "/fox/foxes/" + id.Uuid, nil)
+
+				f = getFox(id.Uuid, router)				
+				
+				// Updating the fox we just received
+				anotherFox.Uuid = id.Uuid
+				m, _ := json.Marshal(anotherFox)
+				request, _ = http.NewRequest("PUT", "/fox/foxes/" + id.Uuid, bytes.NewReader(m))
 				
 				recorder = httptest.NewRecorder()
 				router.ServeHTTP(recorder, request)
-				Expect(recorder.Code).To(Equal(200))					
+				Expect(recorder.Code).To(Equal(202))
+				
+				// Read the fox again
+				f = getFox(id.Uuid, router)
+				Expect(Compare(f, anotherFox)).To(BeTrue())
+				
 			})
 							
 			
@@ -73,7 +90,7 @@ var _ = Describe("Fox", func() {
 		})
 	})
 	
-	Describe ("GET /foxes", func(){
+	Describe ("Reading the fox list", func(){
 		BeforeEach(func(){
 			request, _ = http.NewRequest("GET", "/fox/foxes", nil)
 		})
@@ -82,9 +99,48 @@ var _ = Describe("Fox", func() {
 			It("Should return http 200", func(){
 				router.ServeHTTP(recorder, request)
 				Expect(recorder.Code).To(Equal(200))	
-			})			
+			})
+		})
+		
+		Context("Random fox should return 404", func(){
+			It("Should return 404", func(){
+				request, _ = http.NewRequest("GET", "/fox/foxes/nosuchfoxforsure", nil)
+				router.ServeHTTP(recorder, request)
+				Expect(recorder.Code).To(Equal(404))
+			})
 		})
 	})
 
+	Describe ("Updating a fox", func(){
+		Context("Update a fox", func(){
+			It("Should return 201", func(){				
+				m, _ := json.Marshal(aFox)
+				request, _ = http.NewRequest("PUT", "/fox/foxes/nosuchfoxforsure", bytes.NewReader(m))
+				router.ServeHTTP(recorder, request)
+				Expect(recorder.Code).To(Equal(201))
+			})
+		})
+	})
 
 })
+
+func getFox(uuid string, router *mux.Router) Fox{
+	var r *http.Request
+	var f *Fox
+	
+	recorder := httptest.NewRecorder()
+	r, _ = http.NewRequest("GET", "/fox/foxes/" + uuid, nil)
+	router.ServeHTTP(recorder, r)
+	Expect(recorder.Code).To(Equal(200))
+
+	body, err := ioutil.ReadAll(io.LimitReader(recorder.Body, 1048576))
+	Expect(err).To(BeNil())
+				
+				
+	f = new(Fox)
+				
+	err = json.Unmarshal(body, f)
+	Expect(err).To(BeNil())
+
+	return *f
+}
