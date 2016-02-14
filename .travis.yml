@@ -2,3 +2,6 @@ language: go
 
 go:
         - 1.5
+
+script:
+        - ginkgo ./src/fox/
