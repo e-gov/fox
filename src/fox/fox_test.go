@@ -13,6 +13,8 @@ import (
 	"io"
 )
 
+var bufferLength int64 = 1048576
+
 var _ = Describe("Fox", func() {
 	var router *mux.Router
 	var recorder *httptest.ResponseRecorder
@@ -51,7 +53,7 @@ var _ = Describe("Fox", func() {
 
 			// See if we can get the same fox back
 			// Read the UUID from the response first
-				body, err := ioutil.ReadAll(io.LimitReader(recorder.Body, 1048576))
+				body, err := ioutil.ReadAll(io.LimitReader(recorder.Body, bufferLength))
 				Expect(err).To(BeNil())
 
 				var id *UUID
@@ -74,18 +76,6 @@ var _ = Describe("Fox", func() {
 				// Read the fox again
 				f = getFox(id.Uuid, router)
 				Expect(Compare(f, anotherFox)).To(BeTrue())
-				
-			})
-							
-			
-			// Send garbage instead of a Fox
-			It("Should return 422", func(){
-				m, err := json.Marshal("This is not a valid Fox")
-				Expect(err).To(BeNil())
-				request, _ = http.NewRequest("POST", "/fox/foxes", bytes.NewReader(m))
-
-				router.ServeHTTP(recorder, request)
-				Expect(recorder.Code).To(Equal(422))
 			})
 		})
 	})
@@ -112,13 +102,40 @@ var _ = Describe("Fox", func() {
 	})
 
 	Describe ("Updating a fox", func(){
+		var m []byte
+		
+		BeforeEach(func(){
+				m, _ = json.Marshal(aFox)			
+		})
+		
 		Context("Update a fox", func(){
 			It("Should return 201", func(){				
-				m, _ := json.Marshal(aFox)
 				request, _ = http.NewRequest("PUT", "/fox/foxes/nosuchfoxforsure", bytes.NewReader(m))
 				router.ServeHTTP(recorder, request)
 				Expect(recorder.Code).To(Equal(201))
 			})
+			
+			It("Should return 422", func(){
+				request, _ = http.NewRequest("POST", "/fox/foxes", bytes.NewReader(m))	
+				// Read the UUID from the response first
+				router.ServeHTTP(recorder, request)
+				body, err := ioutil.ReadAll(io.LimitReader(recorder.Body, bufferLength))
+				Expect(err).To(BeNil())
+
+				var id *UUID
+				id = new(UUID) 
+				
+				err = json.Unmarshal(body, id)
+				Expect(err).To(BeNil())
+
+				recorder = httptest.NewRecorder()
+				m, _ = json.Marshal("This is not a valid Fox")
+				request, _ = http.NewRequest("PUT", "/fox/foxes/" + id.Uuid, bytes.NewReader(m))
+
+				router.ServeHTTP(recorder, request)
+				Expect(recorder.Code).To(Equal(422))
+			})
+
 		})
 	})
 
@@ -133,7 +150,7 @@ func getFox(uuid string, router *mux.Router) Fox{
 	router.ServeHTTP(recorder, r)
 	Expect(recorder.Code).To(Equal(200))
 
-	body, err := ioutil.ReadAll(io.LimitReader(recorder.Body, 1048576))
+	body, err := ioutil.ReadAll(io.LimitReader(recorder.Body, bufferLength))
 	Expect(err).To(BeNil())
 				
 				
