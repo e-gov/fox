@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 0.0.3
+  version: 0.0.4
   title: 'FoxAPI'
 paths:
   /fox/foxes/{uuid}:
@@ -60,7 +60,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /fox/foxes/{uuid}/delete:
+  /fox/foxes/{uuid}:
     delete:
       description:
         Deletes the `Fox` object identified by the **uuid**

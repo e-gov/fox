@@ -46,7 +46,7 @@ var routes = Routes{
 	Route{
 		"DeleteFox",
 		"DELETE",
-		"/fox/foxes/{foxId}/delete",
+		"/fox/foxes/{foxId}",
 		Delete,
 	},
 	Route{
