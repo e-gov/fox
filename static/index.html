@@ -14,7 +14,7 @@ layout: default
             </tr>
 
             <tr ng-repeat="fox in foxList">
-                <td ng-bind="fox.id"></td>
+                <td ng-bind="$index + 1"></td>
                 <td ng-bind="fox.name"></td>
                 <td>
                     <a ng-click="delete(fox)">Delete</a>
@@ -24,10 +24,10 @@ layout: default
             <tr>
                 <td></td>
                 <td>
-                    <input type="text" class="form-control" ng-model="newFox.name">
+                    <input type="text" class="form-control" ng-model="newFoxName">
                 </td>
                 <td>
-                    <a ng-click="add(newFox)">Add fox</a>
+                    <a ng-click="add(newFoxName)">Add fox</a>
                 </td>
             </tr>
 
