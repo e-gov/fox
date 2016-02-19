@@ -8,7 +8,6 @@ import (
 	"os/signal"
 	"syscall"
 	"os"
-	"fox"
 )
 
 func main()  {
@@ -17,13 +16,13 @@ func main()  {
 	flag.StringVar(&nodeName,"name", "my", "Name of the running instance")
 	flag.Parse()
 
-	router := fox.NewRouter(nodeName)
+	router := NewRouter(nodeName)
 	log.Printf("Starting a server on localhost:%d", *port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), router))
 }
 
 func init()  {
-	fox.LoadConfig()
+	LoadConfig()
 	
 	sc := make(chan os.Signal, 1)
 	

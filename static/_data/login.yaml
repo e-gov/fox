@@ -1,0 +1,26 @@
+swagger: '2.0'
+
+# This is your document metadata
+info:
+  version: "0.0.1"
+  title: LoginAPI
+
+# Describe your paths here
+paths:
+  /login:
+    post:
+      description: Mints a session token for a given username
+      parameters:
+        -
+          name: username
+          in: query
+          description: User to associate the token with
+          required: true
+          type: string
+      responses:
+        # Response code
+        200:
+          description: Successful response
+          schema:
+            title: Token
+            type: string
