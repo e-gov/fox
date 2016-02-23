@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 	"os"
+	. "fox"
 )
 
 func main()  {
@@ -31,7 +32,7 @@ func init()  {
 	go func ()  {
 		for {
 			<-sc
-			fox.LoadConfig()
+			LoadConfig()
 		}		
 	}()
 }
