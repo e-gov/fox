@@ -17,11 +17,18 @@ type TokenStruct struct {
 type Token struct {
 	Token 		string `json:"token"`
 }
-var mintKey *fernet.Key
 
-// LoadKey initializes a Fernet key based on the contents of the provided filename.
+// Global variable to keep the key in
+var mintKey *fernet.Key
+var keyName = "key.base64"
+
+// LoadKey initializes a Fernet key based on the contents of the fixed filename.
 // It panics, if the file cannot be found
-func LoadKey(filename string)  {
+func LoadKey(){
+	LoadKeyByName(keyName)
+}
+
+func LoadKeyByName(filename string)  {
 	b, err := ioutil.ReadFile(filename)
 	
 	if err != nil{
