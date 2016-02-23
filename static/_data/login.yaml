@@ -8,11 +8,10 @@ info:
 # Describe your paths here
 paths:
   /login:
-    post:
+    get:
       description: Mints a session token for a given username
       parameters:
-        -
-          name: username
+        - name: username
           in: query
           description: User to associate the token with
           required: true
