@@ -42,3 +42,9 @@ cd bin
 
 REST interface will respond on **http://localhost:8090/**. You should now be able to use web UI.
 To change a port or name of the application ("my" by default), check **./bin/fox -h**.
+
+## Generating keys
+To run the Login service, you need a keyfile for the Fernet tokens. It is generated like so
+```
+go run KeyGen.go > key.base64 
+```

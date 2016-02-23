@@ -11,6 +11,7 @@ import (
 	"syscall"
 )
 
+var keyName = "key.base64"
 func main()  {
 	var port = flag.Int("port", 8090, "Port to bind to on the localhost interface")
 	flag.Parse()
@@ -21,7 +22,7 @@ func main()  {
 }
 
 func init()  {
-	login.LoadKey("key.fernet")
+	login.LoadKey(keyName)
 	
 	sc := make(chan os.Signal, 1)
 	
@@ -30,7 +31,7 @@ func init()  {
 	go func ()  {
 		for {
 			<-sc
-			login.LoadKey("key.fernet")
+			login.LoadKey(keyName)
 		}		
 	}()
 }
