@@ -11,9 +11,14 @@ paths:
     get:
       description: Mints a session token for a given username
       parameters:
-        - name: username
+        - name: credentials
           in: query
-          description: User to associate the token with
+          description: The credentials to validate against a third party so a token can be minted. Can, for example, contain a json structure with username and password
+          required: true
+          type: string
+        - name: provider
+          in: query
+          description: Authentication provider the incoming credentials should be validated against. The provider must be able to provide yes/no answers based on the credentials provided
           required: true
           type: string
       responses:
@@ -23,3 +28,5 @@ paths:
           schema:
             title: Token
             type: string
+        401:
+          description: The credentials were not accepted by the authentication provider
