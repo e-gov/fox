@@ -15,6 +15,6 @@ install:
         - export PATH=$PATH:$GOPATH/bin
 
 script:
-        - mkdir foxdb
+        - mkdir src/fox/fox_test/foxdb/
         - ginkgo src/login/login_test/
         - ginkgo src/fox/fox_test/
