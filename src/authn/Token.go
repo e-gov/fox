@@ -1,4 +1,4 @@
-package login
+package authn
 
 import(
 	"io/ioutil"

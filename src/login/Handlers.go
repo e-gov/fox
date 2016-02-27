@@ -30,12 +30,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	
 	// If the credentials check out
 	if authn.Authenticate(u, c, p){
-		t := GetToken(u)
+		t := authn.GetToken(u)
 		
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(http.StatusOK)
 	
-		if err := json.NewEncoder(w).Encode(Token{Token: t}); err != nil {
+		if err := json.NewEncoder(w).Encode(authn.Token{Token: t}); err != nil {
 			panic(err)
 		}
 	}else{

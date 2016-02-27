@@ -4,6 +4,7 @@ import (
 	. "login"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	. "authn"
 	"net/http"
 	"github.com/gorilla/mux"
 	"net/http/httptest"
