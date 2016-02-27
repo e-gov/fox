@@ -9,6 +9,7 @@ import (
 	"login"
 	"os/signal"
 	"syscall"
+	"authn"
 )
 
 func main()  {
@@ -21,7 +22,7 @@ func main()  {
 }
 
 func init()  {
-	login.LoadKey()
+	authn.LoadKey()
 	
 	sc := make(chan os.Signal, 1)
 	
@@ -30,7 +31,7 @@ func init()  {
 	go func ()  {
 		for {
 			<-sc
-			login.LoadKey()
+			authn.LoadKey()
 		}		
 	}()
 }
