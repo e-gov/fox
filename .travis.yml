@@ -15,5 +15,5 @@ install:
         - export PATH=$PATH:$GOPATH/bin
 
 script:
-        - ginkgo login/login_test/
-        - ginkgo fox/fox_test/
+        - ginkgo src/login/login_test/
+        - ginkgo src/fox/fox_test/
