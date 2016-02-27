@@ -5,6 +5,7 @@ go:
 
 install:
         - ls -Al
+        - pwd
         - go get github.com/e-gov/fox/main
         - go get github.com/e-gov/login/main
         - go get github.com/onsi/ginkgo
