@@ -26,7 +26,7 @@ func sanitize(c *Config){
 	// Handle relative paths
 		if string(s[0]) != "/"{
 			pwd, _ := os.Getwd()
-			s = pwd + s
+			s = pwd + "/" + s
 			log.Println("Added pwd to db path: " + s)
 		}
 		c.Storage.Filepath = s
