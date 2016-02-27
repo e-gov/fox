@@ -11,6 +11,8 @@ install:
         - go get login/main
         - go get github.com/onsi/ginkgo
         - go get github.com/onsi/gomega
+        - go install github.com/onsi/ginkgo/ginkgo
+        - export PATH=$PATH:$HOME/gopath/bin
 
 script:
         - ginkgo login/login_test/
