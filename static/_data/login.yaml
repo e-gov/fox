@@ -9,16 +9,21 @@ info:
 paths:
   /login:
     get:
-      description: Mints a session token for a given username
+      description: Mints a session token for a given username if the authentication provider responds to the challenge positively
       parameters:
-        - name: credentials
+        - name: username
           in: query
-          description: The credentials to validate against a third party so a token can be minted. Can, for example, contain a json structure with username and password
+          description: The user being authenticated
+          required: true
+          type: string
+        - name: challenge
+          in: query
+          description: The challenge that gets passed to the authentication provider for validation
           required: true
           type: string
         - name: provider
           in: query
-          description: Authentication provider the incoming credentials should be validated against. The provider must be able to provide yes/no answers based on the credentials provided
+          description: Authentication provider the incoming credentials should be validated against. The provider must be able to provide yes/no answers based on the credentials provided. 
           required: true
           type: string
       responses:
@@ -28,5 +33,7 @@ paths:
           schema:
             title: Token
             type: string
+        400:
+          description: One of the required parameters was missing
         401:
-          description: The credentials were not accepted by the authentication provider
+          description: The credentials were not accepted by the authentication provider or the authentication provider was unknown

@@ -2,9 +2,9 @@ package login
 
 import (
 	"net/http"
-//	fernet "github.com/fernet/fernet-go"
-//	"log"
 	"encoding/json"
+	"authn"
+	"log"
 )
 
 func sendHeaders(w http.ResponseWriter) {
@@ -16,10 +16,31 @@ func sendHeaders(w http.ResponseWriter) {
 
 // Login returns a token 
 func Login(w http.ResponseWriter, r *http.Request) {
+	u := r.FormValue("username")
+	c := r.FormValue("challenge")
+	p := r.FormValue("provider")
+
+	log.Println("u = " + u + ", c = " + c + ", p = " + p)
 	
-	s := GetToken(r.FormValue("username"))
-	if err := json.NewEncoder(w).Encode(Token{Token: s}); err != nil {
-		panic(err)
+	// We need all three
+	if u == "" || c == "" || p == ""{
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	
+	// If the credentials check out
+	if authn.Authenticate(u, c, p){
+		t := GetToken(u)
+		
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+	
+		if err := json.NewEncoder(w).Encode(Token{Token: t}); err != nil {
+			panic(err)
+		}
+	}else{
+	// The credentials did not check out
+		w.WriteHeader(http.StatusForbidden)		
 	}
 
 }

@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"io"
 	"encoding/json"
+	"net/url"
 )
 
 var bufferLength int64 = 1048576
@@ -20,18 +21,32 @@ var _ = Describe("Login", func() {
 	var request *http.Request
 	var keyName = "test_key.base64"
 	var username = "testuser"
+	var challenge = "This might be a password or some token"
+	var provider = "testprovider"
 	
 	BeforeEach(func(){
 		LoadKeyByName(keyName)
 		router = NewRouter()
 		recorder = httptest.NewRecorder()
 		
-		request, _ = http.NewRequest("GET", "/login?username=" + username, nil)
+//		Error{Code: 404, Message: "Fox list not available"}
+//		m, _ := json.Marshal(anotherFox)
+//		request, _ = http.NewRequest("PUT", "/fox/foxes/" + foxID, bytes.NewReader(m))				
+
+		u, _ := url.Parse("/login")
+		q := u.Query()
+		q.Set("username", username)
+		q.Set("challenge", challenge)
+		q.Set("provider", provider)
+		u.RawQuery = q.Encode()		
+
+		request, _ = http.NewRequest("GET", u.RequestURI(), nil)
 		
 	})
 	
 	Describe("Basic token generation", func(){
 		Context("Login a user", func(){
+
 			It("Should return 200", func(){
 				router.ServeHTTP(recorder, request)
 				Expect(recorder.Code).To(Equal(200))

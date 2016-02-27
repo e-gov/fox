@@ -9,7 +9,7 @@ import(
 
 // TokenStruct contains the payload structure minted into the auth tokens 
 type TokenStruct struct {
-	Username 	string	`json:"username"`
+	Username	string	`json:"username"`
 	MintTime 	string  `json:"mintTime"`
 }
 

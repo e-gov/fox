@@ -3,6 +3,10 @@ An implementation of Fox Registry, the reference architecture for cloud-ready go
 
 The FoxAPI application implements [this specification](http://editor.swagger.io/#/?import=https:%2F%2Fraw.githubusercontent.com%2Fe-gov%2Ffox%2Fmaster%2Ftatic%2F_data%2FFoxAPI.yaml)
 
+There are two key components:
+1. The FoxService that implements the main business logic of the fox registry
+2. The LoginService that mints tokens for FoxService instances to be used and communicates with external authentication providers
+
 ## Starting a web-based UI
 
 A web UI is built with jekyll, to start it:
@@ -24,8 +28,8 @@ export LANG=en_US.UTF-8
 
 ```
 export GOPATH=$PWD
-go get fox      # get dependencies
-go install fox  # application will be built into bin/fox
+go build -i -o fox fox/main  # the fox service will be built into ./fox
+go build -i -o login login/main # the login service will be built into ./login
 ```
 
 ## Running a REST server
@@ -36,15 +40,13 @@ go install fox  # application will be built into bin/fox
 ```
 cp src/fox/config.gcfg.template bin/config.gcfg
 mkdir /tmp/foxdb  # make sure that the configured storage folder exists.
-cd bin
 ./fox
+
+
+go run KeyGen.go > key.base64 # Generate the keyfile for authentication tokens
+./login
 ```
 
 REST interface will respond on **http://localhost:8090/**. You should now be able to use web UI.
 To change a port or name of the application ("my" by default), check **./bin/fox -h**.
 
-## Generating keys
-To run the Login service, you need a keyfile for the Fernet tokens. It is generated like so
-```
-go run KeyGen.go > key.base64 
-```
