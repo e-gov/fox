@@ -7,11 +7,11 @@ install:
         - ls -Al
         - pwd
         - export GOPATH=$PWD
-        - go get github.com/e-gov/fox/main
-        - go get github.com/e-gov/login/main
+        - go get fox/main
+        - go get login/main
         - go get github.com/onsi/ginkgo
         - go get github.com/onsi/gomega
 
 script:
-        - ginkgo src/github.com/e-gov/login/login_test/
-        - ginkgo src/github.com/e-gov/fox/fox_test/
+        - ginkgo login/login_test/
+        - ginkgo fox/fox_test/
