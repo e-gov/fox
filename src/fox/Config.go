@@ -4,6 +4,7 @@ import (
 	"sync"
 	"gopkg.in/gcfg.v1"
 	"log"
+	"os"
 )
 
 // Config is the data structure for passing configuration info
@@ -15,12 +16,20 @@ type Config struct {
 
 // Sanitize the configuration 
 func sanitize(c *Config){
-	// Make sure the db path ends with a forwardslash
 	s := c.Storage.Filepath
 	if len(s) > 0{
+	// Make sure the db path ends with a forwardslash
 		if string(s[len(s) - 1]) != "/" {
-			c.Storage.Filepath = s + "/"
+			s = s + "/"
+			log.Println("Added forwardslash to db path: " + s)
 		}
+	// Handle relative paths
+		if string(s[0]) != "/"{
+			pwd, _ := os.Getwd()
+			s = pwd + s
+			log.Println("Added pwd to db path: " + s)
+		}
+		c.Storage.Filepath = s
 	}
 }
 
