@@ -4,8 +4,8 @@ An implementation of Fox Registry, the reference architecture for cloud-ready go
 The FoxAPI application implements [this specification](http://editor.swagger.io/#/?import=https:%2F%2Fraw.githubusercontent.com%2Fe-gov%2Ffox%2Fmaster%2Ftatic%2F_data%2FFoxAPI.yaml)
 
 There are two key components:
-1. The FoxService that implements the main business logic of the fox registry
-2. The LoginService that mints tokens for FoxService instances to be used and communicates with external authentication providers
+ 1. The FoxService that implements the main business logic of the fox registry
+ 2. The LoginService that mints tokens for FoxService instances to be used and communicates with external authentication providers
 
 ## Starting a web-based UI
 
