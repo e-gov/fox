@@ -10,6 +10,7 @@ import (
 	"os/signal"
 	"syscall"
 	"fox"
+	"authn"
 )
 
 var log = logging.MustGetLogger("login")
@@ -33,7 +34,7 @@ func main() {
 
 func init()  {
 	fox.LoadConfig()
-	InitMint()
+	authn.InitMint()
 	sc := make(chan os.Signal, 1)
 	
 	signal.Notify(sc, syscall.SIGHUP)
