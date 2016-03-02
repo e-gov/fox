@@ -4,14 +4,12 @@ import (
 	"net/http"
 	"encoding/json"
 	"authn"
-	"log"
 )
 
 func sendHeaders(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 }
+
 
 
 // Login returns a token 
@@ -19,8 +17,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	u := r.FormValue("username")
 	c := r.FormValue("challenge")
 	p := r.FormValue("provider")
-
-	log.Println("u = " + u + ", c = " + c + ", p = " + p)
 	
 	// We need all three
 	if u == "" || c == "" || p == ""{
@@ -44,3 +40,4 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+

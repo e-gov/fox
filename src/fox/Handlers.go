@@ -15,10 +15,12 @@ import (
 	"time"
 )
 
+type Token struct {
+	Token string `json:"token"`
+}
+
 func sendHeaders(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-
 }
 
 // Show ia s handler for returning a specific fox

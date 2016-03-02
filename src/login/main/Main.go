@@ -3,27 +3,37 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
+	"github.com/op/go-logging"
+	"login"
 	"net/http"
 	"os"
-	"login"
 	"os/signal"
 	"syscall"
-	"authn"
+	"fox"
 )
 
-func main()  {
+var log = logging.MustGetLogger("login")
+
+func main() {
+	format := logging.MustStringFormatter(
+    	`%{color}%{time:15:04:05.000} %{shortfunc} ▶ %{level:.4s} %{id:03x}%{color:reset} %{message}`,
+	)
+
+	b := logging.NewLogBackend(os.Stdout, "", 0)
+	bFormatter := logging.NewBackendFormatter(b, format)
+	logging.SetBackend(bFormatter)
+	
 	var port = flag.Int("port", 8090, "Port to bind to on the localhost interface")
 	flag.Parse()
 
 	router := login.NewRouter()
-	log.Printf("Starting a server on localhost:%d", *port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), router))
+	log.Debugf("Starting a server on localhost:%d", *port)
+	log.Critical(http.ListenAndServe(fmt.Sprintf(":%d", *port), router))
 }
 
 func init()  {
-	authn.LoadKey()
-	
+	fox.LoadConfig()
+	InitMint()
 	sc := make(chan os.Signal, 1)
 	
 	signal.Notify(sc, syscall.SIGHUP)
@@ -31,7 +41,7 @@ func init()  {
 	go func ()  {
 		for {
 			<-sc
-			authn.LoadKey()
+			fox.LoadConfig()
 		}		
 	}()
 }

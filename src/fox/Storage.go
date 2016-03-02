@@ -1,21 +1,21 @@
 package fox
 
-import(
-	"os"
+import (
 	"encoding/json"
 	"io/ioutil"
-    "log"
+	"log"
+	"os"
 )
-func getFileName(uuid string) string{
-	return getConfig().Storage.Filepath + uuid
-}
 
+func getFileName(uuid string) string {
+	return GetConfig().Storage.Filepath + uuid
+}
 
 // Persist the fox instance to somewhere
 func StoreFox(fox Fox, uuid string) UUID {
 	f, err := os.Create(getFileName(uuid))
 
-	if err != nil{
+	if err != nil {
 		panic(err)
 	}
 
@@ -23,44 +23,44 @@ func StoreFox(fox Fox, uuid string) UUID {
 
 	// Make sure the file name matches the uuid in the structure
 	fox.Uuid = uuid
-	if err:=json.NewEncoder(f).Encode(fox); err != nil{
+	if err := json.NewEncoder(f).Encode(fox); err != nil {
 		panic(err)
 	}
 
 	return UUID{Uuid: uuid}
 }
 
-func ReadFox(uuid string) (Fox, error){
+func ReadFox(uuid string) (Fox, error) {
 	var fox Fox
 	data, err := ioutil.ReadFile(getFileName(uuid))
 
-	if err != nil{
+	if err != nil {
 		return fox, err
 	}
 
-	if err := json.Unmarshal(data, &fox); err != nil{
+	if err := json.Unmarshal(data, &fox); err != nil {
 		return fox, err
 	}
 
 	return fox, nil
 }
 
-func GetFoxes()([]Fox, error){
-    var foxes []Fox
-    
-    foxes = make([]Fox, 0)
-    fname := getConfig().Storage.Filepath
-    files, _ := ioutil.ReadDir(fname)
-    for _, f := range files {
-	log.Print(f.Name())
-	fox, err := ReadFox(f.Name())
-	if err != nil{
-	    return foxes, err
+func GetFoxes() ([]Fox, error) {
+	var foxes []Fox
+
+	foxes = make([]Fox, 0)
+	fname := GetConfig().Storage.Filepath
+	files, _ := ioutil.ReadDir(fname)
+	for _, f := range files {
+		log.Print(f.Name())
+		fox, err := ReadFox(f.Name())
+		if err != nil {
+			return foxes, err
+		}
+		foxes = append(foxes, fox)
 	}
-	foxes = append(foxes, fox)
-    }
-    
-    return foxes, nil
+
+	return foxes, nil
 }
 
 func FoxExists(uuid string) bool {
@@ -71,15 +71,15 @@ func FoxExists(uuid string) bool {
 }
 
 // Deletes the fox, if it exists. Does nothing if it does not
-func DeleteFoxFromStorage(uuid string){
+func DeleteFoxFromStorage(uuid string) {
 
-	if !FoxExists(uuid){
+	if !FoxExists(uuid) {
 		// Exit quietly, if the fox is not there
 		return
 	}
 
 	// Attempt to remove the file if it is there. Panic if it fails
-	if err:=os.Remove(getFileName(uuid)); err != nil{
+	if err := os.Remove(getFileName(uuid)); err != nil {
 		panic(err)
 	}
 }

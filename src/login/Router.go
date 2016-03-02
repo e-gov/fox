@@ -5,8 +5,11 @@ import (
 	"os"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/handlers"
-	"log"
+	"github.com/op/go-logging"
 )
+
+var log = logging.MustGetLogger("login")
+
 
 func NewRouter() *mux.Router{
 	router := mux.NewRouter().StrictSlash(true)
@@ -20,7 +23,7 @@ func NewRouter() *mux.Router{
 		Path(route.Pattern).
 		Name(route.Name).
 		Handler(handlers.LoggingHandler(os.Stdout, handler))
-		log.Print("Added " + route.String())
+		log.Debug("Added " + route.String())
 	}
 	return router
 }
