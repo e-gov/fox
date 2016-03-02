@@ -53,3 +53,5 @@ go run KeyGen.go > key.base64 # Generate the keyfile for authentication tokens
 REST interface will respond on **http://localhost:8090/**. You should now be able to use web UI.
 To change a port or name of the application ("my" by default), check **./bin/fox -h**.
 
+## Reloading configuration
+To reload configuration, both the login and fox services accept a HUP signal that should have both produce log messages about re-loading configuration
