@@ -28,7 +28,7 @@ func main() {
 	flag.Parse()
 
 	router := login.NewRouter()
-	log.Debugf("Starting a server on localhost:%d", *port)
+	log.Infof("Starting a server on localhost:%d", *port)
 	log.Critical(http.ListenAndServe(fmt.Sprintf(":%d", *port), router))
 }
 

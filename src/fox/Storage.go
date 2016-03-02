@@ -3,7 +3,6 @@ package fox
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"os"
 )
 
@@ -52,7 +51,7 @@ func GetFoxes() ([]Fox, error) {
 	fname := GetConfig().Storage.Filepath
 	files, _ := ioutil.ReadDir(fname)
 	for _, f := range files {
-		log.Print(f.Name())
+		log.Debug(f.Name())
 		fox, err := ReadFox(f.Name())
 		if err != nil {
 			return foxes, err

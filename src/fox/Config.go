@@ -2,7 +2,6 @@ package fox
 
 import (
 	"gopkg.in/gcfg.v1"
-	"log"
 	"os"
 	"sync"
 )
@@ -27,13 +26,13 @@ func sanitize(c *Config) {
 		// Make sure the db path ends with a forwardslash
 		if string(s[len(s)-1]) != "/" {
 			s = s + "/"
-			log.Println("Added forwardslash to db path: " + s)
+			log.Debugf("Added forwardslash to db path '%s' ", s)
 		}
 		// Handle relative paths
 		if string(s[0]) != "/" {
 			pwd, _ := os.Getwd()
 			s = pwd + "/" + s
-			log.Println("Added pwd to db path: " + s)
+			log.Debugf("Added pwd to db path '%s' ", s)
 		}
 		c.Storage.Filepath = s
 	}
@@ -59,7 +58,7 @@ func LoadConfigByName(name string) {
 		if isFatal {
 			panic(err)
 		} else {
-			log.Println("Failed to load configuration from " + fName)
+			log.Errorf("Failed to load configuration from %s", fName)
 			return
 		}
 	}
@@ -74,7 +73,7 @@ func LoadConfigByName(name string) {
 	
 	config = tmp
 	cLock.Unlock()
-	log.Printf("Success loading configuration ver %d from %s", config.Version, fName)
+	log.Infof("Success loading configuration ver %d from %s", config.Version, fName)
 }
 
 func GetConfig() *Config {

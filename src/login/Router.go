@@ -8,7 +8,7 @@ import (
 	"github.com/op/go-logging"
 )
 
-var log = logging.MustGetLogger("login")
+var log = logging.MustGetLogger("LoginService")
 
 
 func NewRouter() *mux.Router{

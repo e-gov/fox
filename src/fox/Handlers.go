@@ -8,16 +8,12 @@ import (
 	"github.com/gorilla/mux"
 	"io"
 	"io/ioutil"
-	"log"
 
 	"github.com/pborman/uuid"
 
 	"time"
 )
 
-type Token struct {
-	Token string `json:"token"`
-}
 
 func sendHeaders(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
@@ -43,7 +39,7 @@ func Show(w http.ResponseWriter, r *http.Request) {
 
 	// So we got the fox, now attempt returning it
 	if err := json.NewEncoder(w).Encode(fox); err != nil {
-		log.Print("Error encoding the fox")
+		log.Error("Error encoding the fox")
 		panic(err)
 	}
 }
@@ -53,7 +49,7 @@ func List(w http.ResponseWriter, r *http.Request) {
 	var foxes []Fox
 
 	foxes, err := GetFoxes()
-	log.Printf("Found %d foxes", len(foxes))
+	log.Debugf("Found %d foxes", len(foxes))
 
 	sendHeaders(w)
 	if err != nil {
@@ -65,7 +61,7 @@ func List(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := json.NewEncoder(w).Encode(foxes); err != nil {
-		log.Print("Error encoding fox list")
+		log.Error("Error encoding fox list")
 		panic(err)
 	}
 }
@@ -95,9 +91,8 @@ func addFoxToStorage(w http.ResponseWriter, r *http.Request, status int, uuid st
 	w.WriteHeader(status)
 
 	s := StoreFox(fox, uuid)
-	log.Print(s)
 	if err := json.NewEncoder(w).Encode(s); err != nil {
-		log.Print("Error")
+		log.Critical("Error encoding the UUID")
 		panic(err)
 	}
 
@@ -105,20 +100,18 @@ func addFoxToStorage(w http.ResponseWriter, r *http.Request, status int, uuid st
 
 // Add is a handler for adding a fox to the registry
 func Add(w http.ResponseWriter, r *http.Request) {
-	log.Println("Add Fox")
 	addFoxToStorage(w, r, http.StatusCreated, uuid.New())
 }
 
 // Update is a handler for updating a fox. If a fox exists, it is
 // removed first
 func Update(w http.ResponseWriter, r *http.Request) {
-	log.Println("Update Fox")
 	vars := mux.Vars(r)
 	foxId := vars["foxId"]
 
 	if FoxExists(foxId) {
 		DeleteFoxFromStorage(foxId)
-		log.Println("Deleting prior version of fox " + foxId)
+		log.Debugf("Deleting prior version of fox %s" , foxId)
 		addFoxToStorage(w, r, http.StatusAccepted, foxId)
 
 		if err := json.NewEncoder(w).Encode(Error{Code: http.StatusAccepted, Message: fmt.Sprint("Fox %s updated", foxId)}); err != nil {
@@ -127,7 +120,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 
 	} else {
 		// If the fox does not exist, go for the creation instead
-		log.Println("New fox, creating with uuid " + foxId)
+		log.Debugf("New fox, creating with uuid %s", foxId)
 		Add(w, r)
 	}
 

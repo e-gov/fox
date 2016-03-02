@@ -5,8 +5,10 @@ import (
 	"os"
 	"github.com/gorilla/mux"
 	"github.com/gorilla/handlers"
-	"log"
+	"github.com/op/go-logging"
 )
+
+var log = logging.MustGetLogger("FoxService")
 
 func NewRouter(name string) *mux.Router{
 	nodeName = name
@@ -22,7 +24,7 @@ func NewRouter(name string) *mux.Router{
 		Path(route.Pattern).
 		Name(route.Name).
 		Handler(handlers.LoggingHandler(os.Stdout, handler))
-		log.Print("Added " + route.String())
+		log.Debugf("Added route %s", route.String())
 	}
 	return router
 }
