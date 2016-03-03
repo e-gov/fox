@@ -1,10 +1,13 @@
-package fox
+package util
 
 import (
 	"gopkg.in/gcfg.v1"
 	"os"
 	"sync"
+	"github.com/op/go-logging"
 )
+
+var log = logging.MustGetLogger("LoginService")
 
 // Config is the data structure for passing configuration info
 type Config struct {

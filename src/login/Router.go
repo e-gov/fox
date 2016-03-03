@@ -24,6 +24,7 @@ func NewRouter() *mux.Router{
 		Name(route.Name).
 		Handler(handlers.LoggingHandler(os.Stdout, handler))
 		log.Debug("Added " + route.String())
+		
 	}
 	return router
 }

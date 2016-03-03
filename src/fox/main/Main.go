@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"os"
 	"fox"
+	"util"
 )
 
 var log = logging.MustGetLogger("FoxService")
@@ -34,7 +35,7 @@ func main()  {
 }
 
 func init()  {
-	fox.LoadConfig()
+	util.LoadConfig()
 	
 	sc := make(chan os.Signal, 1)
 	
@@ -43,7 +44,7 @@ func init()  {
 	go func ()  {
 		for {
 			<-sc
-			fox.LoadConfig()
+			util.LoadConfig()
 		}		
 	}()
 }

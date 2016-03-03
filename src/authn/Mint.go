@@ -2,11 +2,11 @@ package authn
 
 import (
 	"encoding/json"
-	"fox"
 	fernet "github.com/fernet/fernet-go"
 	"io/ioutil"
 	"sync"
 	"time"
+	"util"
 )
 
 var (
@@ -15,14 +15,14 @@ var (
 )
 
 func InitMint() {
-	confVersion = fox.GetConfig().Version
+	confVersion = util.GetConfig().Version
 	mintLock = new(sync.RWMutex)
 	loadMintKey()
 }
 
 func loadMintKey() {
-	loadMintKeyByName(fox.GetConfig().Authn.MintKeyName)
-	confVersion = fox.GetConfig().Version
+	loadMintKeyByName(util.GetConfig().Authn.MintKeyName)
+	confVersion = util.GetConfig().Version
 }
 
 // loadMintKeyByName loads a key by filename and strores it in the struct
@@ -54,7 +54,7 @@ func GetToken(username string) string {
 	var t []byte
 
 	// If the configuration has changed, re-load the keys
-	if confVersion != fox.GetConfig().Version {
+	if confVersion != util.GetConfig().Version {
 		loadMintKey()
 	}
 

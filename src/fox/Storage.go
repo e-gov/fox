@@ -4,13 +4,14 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os"
+	"util"
 )
 
 func getFileName(uuid string) string {
-	return GetConfig().Storage.Filepath + uuid
+	return util.GetConfig().Storage.Filepath + uuid
 }
 
-// Persist the fox instance to somewhere
+// StoreFox persists the fox instance to somewhere
 func StoreFox(fox Fox, uuid string) UUID {
 	f, err := os.Create(getFileName(uuid))
 
@@ -48,7 +49,7 @@ func GetFoxes() ([]Fox, error) {
 	var foxes []Fox
 
 	foxes = make([]Fox, 0)
-	fname := GetConfig().Storage.Filepath
+	fname := util.GetConfig().Storage.Filepath
 	files, _ := ioutil.ReadDir(fname)
 	for _, f := range files {
 		log.Debug(f.Name())

@@ -9,8 +9,8 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"fox"
 	"authn"
+	"util"
 )
 
 var log = logging.MustGetLogger("login")
@@ -33,7 +33,7 @@ func main() {
 }
 
 func init()  {
-	fox.LoadConfig()
+	util.LoadConfig()
 	authn.InitMint()
 	sc := make(chan os.Signal, 1)
 	
@@ -42,7 +42,7 @@ func init()  {
 	go func ()  {
 		for {
 			<-sc
-			fox.LoadConfig()
+			util.LoadConfig()
 		}		
 	}()
 }

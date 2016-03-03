@@ -2,11 +2,11 @@ package authn
 
 import (
 	"encoding/json"
-	"fox"
 	fernet "github.com/fernet/fernet-go"
 	"sync"
 	"time"
 	"io/ioutil"
+	"util"
 )
 
 var (
@@ -15,7 +15,7 @@ var (
 )
 
 func InitValidator() {
-	confVersion = fox.GetConfig().Version
+	confVersion = util.GetConfig().Version
 	validateLock = new(sync.RWMutex)
 	loadMintKey()
 }
@@ -30,12 +30,12 @@ func Decrypt(token string) *TokenStruct {
 
 
 	// If the configuration has changed, re-load the keys
-	if confVersion != fox.GetConfig().Version {
+	if confVersion != util.GetConfig().Version {
 		loadValidateKeys()
 	}
 
 	tok := []byte(token)
-	m := fernet.VerifyAndDecrypt(tok, time.Duration(fox.GetConfig().Authn.TokenTTL)*time.Minute, GetValidateKeys())
+	m := fernet.VerifyAndDecrypt(tok, time.Duration(util.GetConfig().Authn.TokenTTL)*time.Minute, GetValidateKeys())
 
 	err := json.Unmarshal(m, message)
 	if err != nil {
@@ -45,8 +45,8 @@ func Decrypt(token string) *TokenStruct {
 }
 
 func loadValidateKeys() {
-	loadValidateKeyByName(fox.GetConfig().Authn.ValidateKeyNames)
-	confVersion = fox.GetConfig().Version
+	loadValidateKeyByName(util.GetConfig().Authn.ValidateKeyNames)
+	confVersion = util.GetConfig().Version
 }
 
 // loadValidateKeyByName loads a key by filename and strores it in the struct
