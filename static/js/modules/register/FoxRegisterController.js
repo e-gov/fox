@@ -35,6 +35,11 @@ foxApp.controller('RegisterController', function ($scope, FoxRegisterService) {
         });
     };
 
+    //TODO LISA FOX SHOW PARENTS IMPL
+    $scope.showParents = function(fox) {
+        console.log(fox.parents);
+    };
+
     initRegisterList();
 
 });

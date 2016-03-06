@@ -7,9 +7,9 @@ layout: default
 
         <form class="form-inline" id="add-fox-form">
             <div class="form-group">
-                <input type="text" class="form-control" ng-model="newFoxName">
+                <input type="text" class="form-control" ng-model="newFoxName" placeholder="Name">
             </div>
-            <button type="button" class="btn btn-link" ng-click="add(newFoxName)">Add fox</button>
+            <button type="button" class="btn btn-default" ng-click="add(newFoxName)">Add fox</button>
         </form>
 
         <table class="table table-bordered table-hover table-striped">
@@ -29,6 +29,7 @@ layout: default
                     <td>
                         <a href="" ng-click="delete(fox)">Delete</a>
                         <a href="" ng-click="update(fox)">Update</a>
+                        <a href="" ng-click="showParents(fox)">Show parents</a>
                     </td>
                 </tr>
             </tbody>

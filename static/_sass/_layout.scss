@@ -258,6 +258,19 @@
 
 
 
+.btn-default {
+    border: none;
+    background-color: $brand-color;
+    color: $background-color;
+
+    &:hover, &:active, &:focus, &:active:focus {
+        background-color: darken($brand-color, 6%);
+        color: $background-color;
+    }
+}
+
+
+
 #add-fox-form {
     float: right;
     margin-bottom: 10px;
