@@ -30,7 +30,9 @@ foxApp.controller('RegisterController', function ($scope, FoxRegisterService) {
 
     //TODO LISA FOX DELETE IMPL
     $scope.delete = function(fox) {
-        console.log(fox);
+        FoxRegisterService.deleteFox(fox.uuid, function(result) {
+            initRegisterList();
+        });
     };
 
     initRegisterList();

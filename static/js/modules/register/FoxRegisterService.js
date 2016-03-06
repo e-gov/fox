@@ -25,6 +25,17 @@ foxApp.service("FoxRegisterService", function ($http, configConstant) {
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             url: configConstant.backendURL + "/fox/foxes"
         }).then(onSuccess, onError);
-    }
+    };
+
+    this.deleteFox = function (foxId, onSuccess, onError) {
+        $http({
+            method: "DELETE",
+            cache: false,
+            responseType: 'json',
+            data: {foxId: foxId},
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            url: configConstant.backendURL + "/fox/foxes/" + foxId
+        }).then(onSuccess, onError);
+    };
 
 });
