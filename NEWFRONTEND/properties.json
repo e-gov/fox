@@ -1,0 +1,13 @@
+{
+  "dataSource": "proxy",
+  "proxies": [
+    {
+      "context": "/api",
+      "host": "localhost",
+      "port": 8090,
+      "rewrite": {
+        "^/api": "/"
+      }
+    }
+  ]
+}

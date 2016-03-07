@@ -1,0 +1,183 @@
+swagger: '2.0'
+info:
+  version: 0.0.5
+  title: 'FoxAPI'
+paths:
+  /fox/foxes/{uuid}:
+    get:
+      description: 
+        Gets `Fox` objects.
+        Required query param of **uuid** determines the identifier of the `Fox` to be returned
+      parameters:
+        - name: uuid
+          in: path
+          description: Identifier of the fox to be returned
+          required: true
+          type: string
+      tags:
+        - Read
+      responses:
+        '200':
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Fox'
+        '404':
+          description: The requested `Fox` was not found
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      description:
+         Updates a particular `Fox` object. If it does not exist, a new fox is created ignoring the uuid parameter and, upon success, HTTP 201 is returned along with information about the new Fox.
+      parameters:
+        - name: uuid
+          in: path
+          description: Identifier of the fox to be updated
+          required: true
+          type: string
+        - name: fox
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Fox'
+      tags:
+        - Update
+      responses:
+        '202':
+          description: The `Fox` object was updated successfully
+        '404':
+          description: The requested `Fox` was not found
+        '422':
+           description: The incoming data was not a valid `Fox` JSON object
+           schema:
+             $ref: '#/definitions/Error'
+        '201':
+           description: Creation of the `Fox` object. Returns identifier of the newly created Fox
+           schema:
+             $ref: '#/definitions/UUID'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      description:
+        Deletes the `Fox` object identified by the **uuid**
+      parameters:
+        - name: uuid
+          in: path
+          description: The identifier of the `Fox` to be deleted. The operation is not reversible
+          required: true
+          type: string
+      tags:
+        - Delete
+      responses:
+        '200':
+          description: The `Fox` object was deleted successfully
+        '404':
+          description: The requested `Fox` was not found
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+        
+  /fox/foxes:
+    get:
+      summary: Retrieve a list of foxes
+      description: Returns a list of all foxes in the registry, not limiting the size
+      tags:
+        - Read
+      responses:
+        '200':
+          description: A list of foxes. In case no objects are found, an empty array is returned
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/Fox'
+        default:
+           description: Unexpected error
+           schema:
+              $ref: '#/definitions/Error'
+    post:
+      description: 
+        Create a new `Fox` object with the data submitted. Returns the **uuid** of the `Fox` created. If the Fox exists, it is overwritten without warning. Any additions to the URL, like UUIDs, will be ignored.
+      parameters:
+        - name: fox
+          required: true
+          in: body
+          schema: 
+            $ref: '#/definitions/Fox'
+      tags:
+        - Create
+      responses:
+        '201':
+           description: Successful creation of the `Fox` object. Returns identifier of the newly created Fox
+           schema:
+             $ref: '#/definitions/UUID'
+        '422':
+           description: The incoming data was not a valid `Fox` JSON object
+           schema:
+             $ref: '#/definitions/Error'
+        default:
+           description: Unexpected error
+           schema:
+              $ref: '#/definitions/Error'
+  /fox/status:
+    get:
+      description: Returns status information for the API
+      tags:
+        - Statistics
+      responses:
+        '200':
+           description: Status of the API instance
+           schema:
+             $ref: '#/definitions/APIStatus'
+        default:
+           description: Unexpected error
+           schema:
+             $ref: '#/definitions/Error'
+definitions:
+  Fox:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Name of the Fox
+      parents:
+        type: array
+        items: 
+          type: string
+          maximum: 2
+      uuid:
+        type: string
+        description: Unique identifier for the Fox
+    
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+  UUID:
+     type: string
+     description: Unique identifier of any object
+  APIStatus:
+     type: object
+     properties:
+        timeSinceLastOK:
+           type: integer
+           format: int64
+           description: The number of milliseconds since the API instance returned a HTTP 200 indicating a successful response or the API instance was started
+        timeSinceLastNOK:
+           type: integer
+           format: int64          
+           description: The number of milliseconds since the API instance returned a code not from 2-series or the API instance was started
+        currentRequestCount:
+           type: integer
+           format: int64           
+           description: The number of meaningful requests being processed in parallel at the time of the status request
+        nodeName:
+          type: string
+          description: The name of the API node
