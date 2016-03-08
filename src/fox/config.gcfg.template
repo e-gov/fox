@@ -2,3 +2,10 @@
 [storage]
 # Location of persistent files
 filepath = "/tmp/foxdb/"
+
+; Authentication configuration
+[authn]
+MintKeyName = "key.base64"
+ValidateKeyNames = "key.base64"
+ValidateKeyNames = "key2.base64"
+TokenTTL = 15
