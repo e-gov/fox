@@ -13,9 +13,9 @@ type Config struct {
 		Filepath string
 	}
 	Authn struct {
-		MintKeyName string
+		MintKeyName      string
 		ValidateKeyNames []string
-		TokenTTL int
+		TokenTTL         int
 	}
 }
 
@@ -47,11 +47,15 @@ func LoadConfig() {
 // LoadConfigByName loads a config from a specific file
 // Used for separating test from operational conifguration
 func LoadConfigByName(name string) {
-	var isFatal = (config == nil)
+	var isFatal bool
 	var fName = name
 	var tmp *Config
 
 	tmp = new(Config)
+
+	cLock.RLock()
+	isFatal = (config == nil)
+	cLock.RUnlock()
 
 	if err := gcfg.ReadFileInto(tmp, fName); err != nil {
 		// No config to start up on
@@ -65,12 +69,12 @@ func LoadConfigByName(name string) {
 
 	sanitize(tmp)
 	cLock.Lock()
-	if config == nil{
+	if config == nil {
 		tmp.Version = 1
-	}else{
+	} else {
 		tmp.Version = config.Version + 1
 	}
-	
+
 	config = tmp
 	cLock.Unlock()
 	log.Infof("Success loading configuration ver %d from %s", config.Version, fName)
@@ -81,7 +85,6 @@ func GetConfig() *Config {
 	defer cLock.RUnlock()
 	return config
 }
-
 
 // Global to hold the conf and a lock
 var (

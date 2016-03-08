@@ -35,7 +35,7 @@ func Decrypt(token string) *TokenStruct {
 	}
 
 	tok := []byte(token)
-	m := fernet.VerifyAndDecrypt(tok, time.Duration(fox.GetConfig().Authn.TokenTTL)*time.Minute, GetValidateKeys())
+	m := fernet.VerifyAndDecrypt(tok, time.Duration(int64(fox.GetConfig().Authn.TokenTTL))*time.Minute, GetValidateKeys())
 
 	err := json.Unmarshal(m, message)
 	if err != nil {

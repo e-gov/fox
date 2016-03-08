@@ -76,3 +76,18 @@ func GetKey() *fernet.Key {
 	return key
 
 }
+
+func ReissueToken(token string) string {
+	var newToken string
+
+	decryptedTokensUsername,err := Validate(token)
+
+	if err != nil {
+		panic(err)
+	}
+
+	newToken = GetToken(decryptedTokensUsername)
+
+	return newToken
+}
+
