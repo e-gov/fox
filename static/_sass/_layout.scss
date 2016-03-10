@@ -2,7 +2,7 @@
  * Site header
  */
 .site-header {
-    min-height: 120px;
+    min-height: 100px;
 
     // Positioning context for the mobile navigation icon
     position: relative;
@@ -254,4 +254,24 @@
             font-size: 18px;
         }
     }
+}
+
+
+
+.btn-default {
+    border: none;
+    background-color: $brand-color;
+    color: $background-color;
+
+    &:hover, &:active, &:focus, &:active:focus {
+        background-color: darken($brand-color, 6%);
+        color: $background-color;
+    }
+}
+
+
+
+#add-fox-form {
+    float: right;
+    margin-bottom: 10px;
 }

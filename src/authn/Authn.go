@@ -8,7 +8,6 @@ import(
 
 var (
 	log = logging.MustGetLogger("authn")
-
 	confVersion int
 )
 

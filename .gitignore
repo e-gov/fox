@@ -1,6 +1,8 @@
-/.idea
+*/.idea
 src/github.com/
 src/gopkg.in/
 bin
 pkg
 *.iml
+NEWFRONTEND/properties.json
+NEWFRONTEND/node_modules/
