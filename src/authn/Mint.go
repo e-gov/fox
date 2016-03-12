@@ -21,13 +21,13 @@ func InitMint() {
 }
 
 func loadMintKey() {
-	loadMintKeyByName(util.GetConfig().Authn.MintKeyName)
+	LoadMintKeyByName(util.GetConfig().Authn.MintKeyName)
 	confVersion = util.GetConfig().Version
 }
 
 // loadMintKeyByName loads a key by filename and strores it in the struct
 // The function is threadsafe and panics if the key file is invalid
-func loadMintKeyByName(filename string) {
+func LoadMintKeyByName(filename string) {
 	log.Debugf("Attempting to load mint key from %s", filename)
 	b, err := ioutil.ReadFile(filename)
 
@@ -82,8 +82,8 @@ func ReissueToken(token string) (string, error) {
 	var newToken string
 	var decryptedTokensUsername string
 	var e error
-	
-	if decryptedTokensUsername,e = Validate(token); e!= nil{
+
+	if decryptedTokensUsername, e = Validate(token); e != nil {
 		log.Info("Reissue request for invalid token " + token)
 		return "", e
 	}
@@ -92,4 +92,3 @@ func ReissueToken(token string) (string, error) {
 
 	return newToken, nil
 }
-
