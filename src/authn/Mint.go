@@ -84,6 +84,7 @@ func ReissueToken(token string) (string, error) {
 	var e error
 	
 	if decryptedTokensUsername,e = Validate(token); e!= nil{
+		log.Info("Reissue request for invalid token " + token)
 		return "", e
 	}
 

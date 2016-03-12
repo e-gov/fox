@@ -7,7 +7,6 @@ import (
 	"time"
 	"io/ioutil"
 	"util"
-//	"fmt"
 )
 
 var (
@@ -15,6 +14,8 @@ var (
 	validateLock *sync.RWMutex
 )
 
+// InitValidator initializes the validator by storing current config version,
+// creating a new lock and loading validation keys
 func InitValidator() {
 	confVersion = util.GetConfig().Version
 	validateLock = new(sync.RWMutex)
@@ -40,7 +41,7 @@ func Decrypt(token string) *TokenStruct {
 
 	err := json.Unmarshal(m, &message)
 	if err != nil {
-		log.Debug("Failed to unmarshall the message " + string(m))
+		log.Info("Failed to unmarshall token contents " + string(m))
 		return nil
 	}
 	return &message
@@ -83,6 +84,7 @@ func loadValidateKeyByName(filenames []string) {
 	keys = tempKeys
 }
 
+// GetValidateKeys returns the key reference in a thread-safe fashion
 func GetValidateKeys() []*fernet.Key{
 	validateLock.RLock()
 	defer validateLock.RUnlock()
