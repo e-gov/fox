@@ -59,5 +59,5 @@ To reload configuration, both the login and fox services accept a HUP signal tha
 ## Generating tokens for backend use
 To generate tokens for headless clients, use  TokenMint.go:
 ```
-go run src/authn/mint/TokenMint.go -key <a file containing a minting key> -user <a username the key should be assigned to>
+go run src/authn/mint/TokenMint.go -key <a file containing a minting key> -user <a username the token should be assigned to>
 ```
