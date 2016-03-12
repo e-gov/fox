@@ -46,7 +46,7 @@ mkdir /tmp/foxdb  # make sure that the configured storage folder exists.
 ./fox
 
 
-go run KeyGen.go > key.base64 # Generate the keyfile for authentication tokens
+go run src/authn/keygen/KeyGen.go > key.base64 # Generate the keyfile for authentication tokens
 ./login
 ```
 
@@ -55,3 +55,9 @@ To change a port or name of the application ("my" by default), check **./bin/fox
 
 ## Reloading configuration
 To reload configuration, both the login and fox services accept a HUP signal that should have both produce log messages about re-loading configuration
+
+## Generating tokens for backend use
+To generate tokens for headless clients, use  TokenMint.go:
+```
+go run src/authn/mint/TokenMint.go -key <a file containing a minting key> -user <a username the key should be assigned to>
+```
