@@ -18,3 +18,4 @@ script:
         - mkdir src/fox/fox_test/foxdb/
         - ginkgo src/login/login_test/
         - ginkgo src/fox/fox_test/
+        - ginkgo src/authn/authn_test/
