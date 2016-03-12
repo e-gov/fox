@@ -10,7 +10,7 @@ import (
 
 var log = logging.MustGetLogger("login_test")
 
-func TestFox(t *testing.T) {
+func TestLogin(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Login Suite")
 }

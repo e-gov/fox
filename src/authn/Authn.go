@@ -3,7 +3,7 @@ package authn
 import(
 	"errors"
 	"github.com/op/go-logging"
-
+//	"fmt"
 )
 
 var (

@@ -7,6 +7,7 @@ import (
 	"time"
 	"io/ioutil"
 	"util"
+//	"fmt"
 )
 
 var (
@@ -17,7 +18,7 @@ var (
 func InitValidator() {
 	confVersion = util.GetConfig().Version
 	validateLock = new(sync.RWMutex)
-	loadMintKey()
+	loadValidateKeys()
 }
 
 // Decrypt decrypts a string containing a token
@@ -37,8 +38,9 @@ func Decrypt(token string) *TokenStruct {
 	tok := []byte(token)
 	m := fernet.VerifyAndDecrypt(tok, time.Duration(util.GetConfig().Authn.TokenTTL)*time.Minute, GetValidateKeys())
 
-	err := json.Unmarshal(m, message)
+	err := json.Unmarshal(m, &message)
 	if err != nil {
+		log.Debug("Failed to unmarshall the message " + string(m))
 		return nil
 	}
 	return &message

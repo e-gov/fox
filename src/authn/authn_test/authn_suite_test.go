@@ -5,9 +5,12 @@ import (
 	. "github.com/onsi/gomega"
 
 	"testing"
+	"github.com/op/go-logging"
 )
+
+var log = logging.MustGetLogger("authn_test")
 
 func TestAuthn(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Authn Suite")
+	RunSpecs(t, "Authn suite")
 }

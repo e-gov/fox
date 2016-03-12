@@ -12,7 +12,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"fox"
+	"util"
 )
 
 var bufferLength int64 = 1048576
@@ -26,7 +26,7 @@ var _ = Describe("Login", func() {
 	var provider = "testprovider"
 
 	BeforeEach(func() {
-		fox.LoadConfig()
+		util.LoadConfig()
 		InitMint()
 		router = NewRouter()
 		recorder = httptest.NewRecorder()
