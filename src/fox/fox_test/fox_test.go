@@ -11,6 +11,7 @@ import (
 	"bytes"
 	"io/ioutil"
 	"io"
+	"util"
 )
 
 var bufferLength int64 = 1048576
@@ -23,7 +24,7 @@ var _ = Describe("Fox", func() {
 	var anotherFox Fox
 	
 	BeforeEach(func(){
-		LoadConfigByName("test_config.gcfg")
+		util.LoadConfigByName("test_config.gcfg")
 		router = NewRouter("test")
 		recorder = httptest.NewRecorder()
 		
