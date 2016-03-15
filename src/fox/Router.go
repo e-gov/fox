@@ -2,9 +2,7 @@ package fox
 
 import (
 	"net/http"
-	"os"
 	"github.com/gorilla/mux"
-	"github.com/gorilla/handlers"
 	"github.com/op/go-logging"
 )
 
@@ -17,13 +15,13 @@ func NewRouter(name string) *mux.Router{
 		var handler http.Handler
 
 		handler = route.HandlerFunc
-		handler = StatHandler(handler, route.Name)
-
+		handler = StatHandler(handler)
+		handler = LoggingHandler(handler, log)
 		router.
 		Methods(route.Method).
 		Path(route.Pattern).
 		Name(route.Name).
-		Handler(handlers.LoggingHandler(os.Stdout, handler))
+		Handler(handler)
 		log.Debugf("Added route %s", route.String())
 	}
 	return router
