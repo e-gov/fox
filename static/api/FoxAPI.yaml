@@ -2,6 +2,7 @@ swagger: '2.0'
 info:
   version: 0.0.5
   title: 'FoxAPI'
+  description: The FoxAPI allows to perform basic CRUD operations on the fox registry. Requests to all non-public operations must present a bearer token as per http://tools.ietf.org/html/rfc6750 
 paths:
   /fox/foxes/{uuid}:
     get:
@@ -16,6 +17,7 @@ paths:
           type: string
       tags:
         - Read
+        - Public
       responses:
         '200':
           description: Successful response
@@ -43,9 +45,12 @@ paths:
             $ref: '#/definitions/Fox'
       tags:
         - Update
+        - Private
       responses:
         '202':
           description: The `Fox` object was updated successfully
+        '401':
+          description: The bearer token was either missing or invalid
         '404':
           description: The requested `Fox` was not found
         '422':
@@ -71,9 +76,12 @@ paths:
           type: string
       tags:
         - Delete
+        - Private
       responses:
         '200':
           description: The `Fox` object was deleted successfully
+        '401':
+          description: The bearer token was either missing or invalid
         '404':
           description: The requested `Fox` was not found
         default:
@@ -87,6 +95,7 @@ paths:
       description: Returns a list of all foxes in the registry, not limiting the size
       tags:
         - Read
+        - Public
       responses:
         '200':
           description: A list of foxes. In case no objects are found, an empty array is returned
@@ -109,11 +118,14 @@ paths:
             $ref: '#/definitions/Fox'
       tags:
         - Create
+        - Private
       responses:
         '201':
            description: Successful creation of the `Fox` object. Returns identifier of the newly created Fox
            schema:
              $ref: '#/definitions/UUID'
+        '401':
+          description: The bearer token was either missing or invalid
         '422':
            description: The incoming data was not a valid `Fox` JSON object
            schema:
