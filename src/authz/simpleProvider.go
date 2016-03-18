@@ -8,6 +8,6 @@ type SimpleProvider struct{}
 // on a URL. This includes, for example, mapping the method and URL to required
 // roles on the remote LDAP server
 func (provider SimpleProvider)IsAuthorized(user string, method string, url string) bool{
-	log.Debug("Authorized %s to access %s %s ", user, method, url)
+	log.Debugf("Authorized %s to access %s %s ", user, method, url)
 	return true
 }

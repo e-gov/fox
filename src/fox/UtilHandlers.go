@@ -61,7 +61,7 @@ func (l *statLogger) Size() int{
 	return l.size
 }
 
-// Actual statistics handler
+// Statistics gathering handler
 func StatHandler(inner http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
 		sw := makeLogger(w)
@@ -79,6 +79,7 @@ func StatHandler(inner http.Handler) http.Handler {
 	})
 }
 
+// HTTP logging handler
 func LoggingHandler(inner http.Handler, log *logging.Logger) http.Handler{
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
 		sw := makeLogger(w)

@@ -12,9 +12,11 @@ import (
 	"io/ioutil"
 	"io"
 	"util"
+	"authn"
 )
 
 var bufferLength int64 = 1048576
+var token string
 
 var _ = Describe("Fox", func() {
 	var router *mux.Router
@@ -37,6 +39,9 @@ var _ = Describe("Fox", func() {
 			Name: "NewName",
 			Parents: []string{"4", "5"},
 		}
+		authn.InitValidator()
+		authn.InitMint()
+		token = authn.GetToken("testuser")
 	})
 	
 	Describe("Adding foxes", func(){
@@ -160,6 +165,7 @@ func addFox(f Fox, router *mux.Router) string{
 	
 	recorder := httptest.NewRecorder()
 	r, _ = http.NewRequest("POST", "/fox/foxes", bytes.NewReader(m))
+	r.Header.Set("Authorization","Bearer " + token)
 		
 	router.ServeHTTP(recorder, r)
 	Expect(recorder.Code).To(Equal(201))
