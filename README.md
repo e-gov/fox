@@ -37,11 +37,13 @@ go build -i -o login login/main # the login service will be built into ./login
 
 ## Running a REST server
 
-1. Copy and adapt example configuration file:
+1. Create folder config/{username} in bin, then copy and adapt example configuration file. 
 2. Execute Fox binary passing an instance name as a parameter.
 
 ```
-cp src/fox/config.gcfg.template bin/config.gcfg
+mkdir -p bin/config/$USER
+cp src/config/config.json.template bin/config/$USER/config.json
+
 mkdir /tmp/foxdb  # make sure that the configured storage folder exists.
 ./fox
 
@@ -52,6 +54,10 @@ go run src/authn/keygen/KeyGen.go > key.base64 # Generate the keyfile for authen
 
 REST interface will respond on **http://localhost:8090/**. You should now be able to use web UI.
 To change a port or name of the application ("my" by default), check **./bin/fox -h**.
+
+## Configuration
+Configuration is user-based, every user has a folder with their username under config/, where their personal config file(s) live.
+All services and tests use the same configuration file: config.{ext} for services, test_config.{ext} for tests. Config files can be in all formats supported by [Viper](http://github.com/spf13/viper) (JSON, TOML, YAML, HCL, Java properties).
 
 ## Reloading configuration
 To reload configuration, both the login and fox services accept a HUP signal that should have both produce log messages about re-loading configuration
