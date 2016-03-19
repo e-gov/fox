@@ -1,13 +1,44 @@
 package authz
 
+import(
+	"strings"
+)
+
 // SimpleProvider is the struct to implement 
 // the AuthZProvider interface on
-type SimpleProvider struct{}
+type SimpleProvider struct{
+	requirements []requirement
+}
+
+type requirement struct{
+	role string
+	method string
+	url string
+}
 
 // IsAuthorized contains all the logic to authorize users to perform an action 
 // on a URL. This includes, for example, mapping the method and URL to required
 // roles on the remote LDAP server
-func (provider SimpleProvider)IsAuthorized(user string, method string, url string) bool{
-	log.Debugf("Authorized %s to access %s %s ", user, method, url)
-	return true
+// The current implementation allows any named user to access any restricted URL, 
+// all unrestricted URLs are authorized to everyone. This is a naive implementation
+// not to be used live
+func (provider *SimpleProvider)IsAuthorized(user string, method string, url string) bool{
+
+	for _, r := range provider.requirements{
+		if strings.HasPrefix(url, r.url) && r.method == method{
+			b := (user == "" && r.role == "*") || (user != "")
+			log.Debugf("Request for %s to access %s %s returned %s", user, method, url, b)		
+			return b
+		}
+	}
+	log.Debugf("No matching rules found, denying %s to access %s %s ", user, method, url)
+	return false
+}
+
+// AddRestriction adds restrictions to the current provider
+func (provider *SimpleProvider)AddRestriction(role string, method string, url string){
+	// Just take the prefix, remove the ID. Naive approach, do not replicate
+	u := strings.Split(url, "{")[0]
+	provider.requirements = append(provider.requirements, requirement{role, method, u})
+	log.Debugf("Role %s mapped to %s  %s, %d rules in total", role, method, u, len(provider.requirements))
 }

@@ -10,10 +10,11 @@ type Route struct {
 	Method      string
 	Pattern     string
 	HandlerFunc http.HandlerFunc
+	Role		string
 }
 
 func (r Route) String() string {
-	return fmt.Sprintf("Route name:%s method:%s pattern:%s", r.Name, r.Method, r.Pattern)
+	return fmt.Sprintf("Route name:%s method:%s pattern:%s role:%s", r.Name, r.Method, r.Pattern, r.Role)
 }
 
 type Routes []Route
@@ -24,35 +25,41 @@ var routes = Routes{
 		"GET",
 		"/fox/foxes/{foxId}",
 		Show,
+		"*",
 	},
 	Route{
 		"GetFoxes",
 		"GET",
 		"/fox/foxes",
 		List,
+		"*",
 	},
 	Route{
 		"UpdateFox",
 		"PUT",
 		"/fox/foxes/{foxId}",
 		Update,
+		"ADMIN",
 	},
 	Route{
 		"AddFox",
 		"POST",
 		"/fox/foxes",
 		Add,
+		"ADMIN",
 	},
 	Route{
 		"DeleteFox",
 		"DELETE",
 		"/fox/foxes/{foxId}",
 		Delete,
+		"ADMIN",
 	},
 	Route{
 		"APIStatus",
 		"GET",
 		"/fox/status",
 		Stats,
+		"*",
 	},
 }

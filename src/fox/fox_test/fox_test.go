@@ -96,6 +96,7 @@ var _ = Describe("Fox", func() {
 				anotherFox.Uuid = foxID
 				m, _ := json.Marshal(anotherFox)
 				request, _ = http.NewRequest("PUT", "/fox/foxes/" + foxID, bytes.NewReader(m))				
+				request.Header.Set("Authorization","Bearer " + token)
 				
 				router.ServeHTTP(recorder, request)
 				Expect(recorder.Code).To(Equal(202))
@@ -107,6 +108,7 @@ var _ = Describe("Fox", func() {
 			
 			It("Should return 201", func(){				
 				request, _ = http.NewRequest("PUT", "/fox/foxes/nosuchfoxforsure", bytes.NewReader(m))
+				request.Header.Set("Authorization","Bearer " + token)
 				router.ServeHTTP(recorder, request)
 				Expect(recorder.Code).To(Equal(201))
 			})
@@ -117,7 +119,8 @@ var _ = Describe("Fox", func() {
 				
 				m, _ = json.Marshal("This is not a valid Fox")
 				request, _ = http.NewRequest("PUT", "/fox/foxes/" + s, bytes.NewReader(m))
-
+				request.Header.Set("Authorization","Bearer " + token)
+				
 				router.ServeHTTP(recorder, request)
 				Expect(recorder.Code).To(Equal(422))
 			})
@@ -134,12 +137,14 @@ var _ = Describe("Fox", func() {
 			It("Should return 200", func(){
 				foxID := addFox(aFox, router)
 				request, _ := http.NewRequest("DELETE", "/fox/foxes/" + foxID, nil)
+				request.Header.Set("Authorization","Bearer " + token)
 				router.ServeHTTP(recorder, request)	
 				Expect(recorder.Code).To(Equal(200))			
 			})
 
 			It("Should return 404", func(){
 				request, _ := http.NewRequest("DELETE", "/fox/foxes/nosuchfoxforsure", nil)
+				request.Header.Set("Authorization","Bearer " + token)
 				router.ServeHTTP(recorder, request)	
 				Expect(recorder.Code).To(Equal(404))							
 			})			
