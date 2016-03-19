@@ -1,6 +1,6 @@
 {
   "storage": {
-    "filepath": "/tmp/foxdb"
+    "filepath": "foxdb/"
   },
   "authn": {
     "MintKeyName": "test_key.base64",
