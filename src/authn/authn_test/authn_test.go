@@ -14,7 +14,7 @@ var _ = Describe("Authn", func() {
 	var user = "Flowerchild"
 
 	BeforeEach(func(){
-		util.LoadConfig()
+		util.LoadConfigByName("test_config")
 		authn.InitMint()
 		authn.InitValidator()
 	})
