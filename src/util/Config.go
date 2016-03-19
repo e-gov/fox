@@ -118,20 +118,36 @@ func getUserName() string {
 
 // Generate path to config folder
 func getConfigPath(userName string) string {
+	sep := string(filepath.Separator)
 	wd, _ := os.Getwd()
 
-	pathEl := strings.Split(wd, string(filepath.Separator))
+	pathEl := strings.Split(wd, sep)
+	iSrc := lastIndexOf(pathEl, "src")
+	iBin := lastIndexOf(pathEl, "bin")
 
 	cfgPath := ""
-	for i := 0; i < len(pathEl); i++ {
-		cfgPath += pathEl[i] + string(filepath.Separator)
+	var a []string
+	if iBin > iSrc {
+		a = pathEl[:iBin + 1] // take up to bin (inclusive)
+	}else {
+		a = pathEl[:iSrc + 1] // take up to src (inclusive)
+	}
 
-		if pathEl[i] == "src" || pathEl[i] == "bin" {
-			cfgPath += "config/" + userName + "/"
-			break
+	if len(a) > 0 {
+		cfgPath = strings.Join(a, sep) + "/"
+		cfgPath += "config/" + userName + "/"
+	}
+
+	return cfgPath
+}
+
+func lastIndexOf(h []string, n string) int {
+	for i := len(h) - 1; i > 0; i-- {
+		if h[i] == n {
+			return i
 		}
 	}
-	return cfgPath
+	return -1
 }
 
 // Global to hold the conf and a lock
