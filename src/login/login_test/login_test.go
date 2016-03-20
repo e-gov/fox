@@ -27,7 +27,7 @@ var _ = Describe("Login", func() {
 	var provider = "testprovider"
 
 	BeforeEach(func() {
-		util.LoadConfig()
+		util.LoadConfigByName("test_config")
 		InitMint()
 		InitValidator()
 		router = NewRouter()

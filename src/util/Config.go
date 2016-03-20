@@ -1,10 +1,13 @@
 package util
 
 import (
-	"gopkg.in/gcfg.v1"
 	"os"
+	"os/user"
+	"path/filepath"
 	"sync"
 	"github.com/op/go-logging"
+	"github.com/spf13/viper"
+	"strings"
 )
 
 var log = logging.MustGetLogger("LoginService")
@@ -13,13 +16,13 @@ var log = logging.MustGetLogger("LoginService")
 type Config struct {
 	Version int
 	Storage struct {
-		Filepath string
-	}
-	Authn struct {
-		MintKeyName      string
-		ValidateKeyNames []string
-		TokenTTL         int
-	}
+			Filepath string
+		}
+	Authn   struct {
+			MintKeyName      string
+			ValidateKeyNames []string
+			TokenTTL         int
+		}
 }
 
 // Sanitize the configuration
@@ -27,7 +30,7 @@ func sanitize(c *Config) {
 	s := c.Storage.Filepath
 	if len(s) > 0 {
 		// Make sure the db path ends with a forwardslash
-		if string(s[len(s)-1]) != "/" {
+		if string(s[len(s) - 1]) != "/" {
 			s = s + "/"
 			log.Debugf("Added forwardslash to db path '%s' ", s)
 		}
@@ -44,14 +47,13 @@ func sanitize(c *Config) {
 // LoadConfig loads configuration using a hard-coded name
 // This is what gets called during normal operation
 func LoadConfig() {
-	LoadConfigByName("config.gcfg")
+	LoadConfigByName("config")
 }
 
 // LoadConfigByName loads a config from a specific file
-// Used for separating test from operational conifguration
+// Used for separating test from operational configuration
 func LoadConfigByName(name string) {
 	var isFatal bool
-	var fName = name
 	var tmp *Config
 
 	tmp = new(Config)
@@ -60,17 +62,32 @@ func LoadConfigByName(name string) {
 	isFatal = (config == nil)
 	cLock.RUnlock()
 
-	if err := gcfg.ReadFileInto(tmp, fName); err != nil {
+	userName := getUserName()
+
+	viper.SetConfigName(name)
+
+	configFolder := getConfigPath(userName)
+	viper.AddConfigPath(configFolder)
+	viper.AddConfigPath(".") // default path
+
+
+	if err := viper.ReadInConfig(); err != nil {
 		// No config to start up on
 		if isFatal {
+			log.Debugf("Looking for config in: %s", configFolder)
 			panic(err)
 		} else {
-			log.Errorf("Failed to load configuration from %s", fName)
+			log.Errorf("Failed to load configuration from %s\n", name)
 			return
 		}
 	}
 
+	log.Infof("Config file found: %s\n", viper.ConfigFileUsed())
+
+	viper.Unmarshal(tmp)
 	sanitize(tmp)
+
+	// TODO viper can reload config too. Remove this?
 	cLock.Lock()
 	if config == nil {
 		tmp.Version = 1
@@ -80,7 +97,8 @@ func LoadConfigByName(name string) {
 
 	config = tmp
 	cLock.Unlock()
-	log.Infof("Success loading configuration ver %d from %s", config.Version, fName)
+
+	log.Infof("Success loading configuration ver %d from %s", config.Version, viper.ConfigFileUsed())
 }
 
 func GetConfig() *Config {
@@ -89,8 +107,51 @@ func GetConfig() *Config {
 	return config
 }
 
+// Return currently logged in user's username
+func getUserName() string {
+	u, err := user.Current()
+	if err != nil {
+		log.Errorf("Cannot find current user")
+	}
+	return u.Username
+}
+
+// Generate path to config folder
+func getConfigPath(userName string) string {
+	sep := string(filepath.Separator)
+	wd, _ := os.Getwd()
+
+	pathEl := strings.Split(wd, sep)
+	iSrc := lastIndexOf(pathEl, "src")
+	iBin := lastIndexOf(pathEl, "bin")
+
+	cfgPath := ""
+	var a []string
+	if iBin > iSrc {
+		a = pathEl[:iBin + 1] // take up to bin (inclusive)
+	}else {
+		a = pathEl[:iSrc + 1] // take up to src (inclusive)
+	}
+
+	if len(a) > 0 {
+		cfgPath = strings.Join(a, sep) + "/"
+		cfgPath += "config/" + userName + "/"
+	}
+
+	return cfgPath
+}
+
+func lastIndexOf(h []string, n string) int {
+	for i := len(h) - 1; i > 0; i-- {
+		if h[i] == n {
+			return i
+		}
+	}
+	return -1
+}
+
 // Global to hold the conf and a lock
 var (
 	config *Config
-	cLock  = new(sync.RWMutex)
+	cLock = new(sync.RWMutex)
 )
