@@ -25,4 +25,10 @@ var routes = Routes{
 		"/login",
 		Login,
 	},
+	Route{
+		"Reissue",
+		"GET",
+		"/reissue",
+		Reissue,	
+	},
 }

@@ -13,6 +13,7 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"util"
+	"authn"
 )
 
 var bufferLength int64 = 1048576
@@ -28,6 +29,7 @@ var _ = Describe("Login", func() {
 	BeforeEach(func() {
 		util.LoadConfig()
 		InitMint()
+		InitValidator()
 		router = NewRouter()
 		recorder = httptest.NewRecorder()
 
@@ -58,5 +60,39 @@ var _ = Describe("Login", func() {
 
 			})
 		})
+	})
+	
+	Describe("Token re-issue", func(){
+		var token string
+		BeforeEach(func(){
+				authn.InitMint()
+				token = authn.GetToken("testuser")
+
+		})
+		Context("Re-issue a token", func(){
+			It("Should return 200", func(){
+				request, _ = http.NewRequest("GET", "/reissue", nil)
+				request.Header.Set("Authorization","Bearer " + token)
+				
+				router.ServeHTTP(recorder, request)
+				Expect(recorder.Code).To(Equal(200))
+			})
+			
+			It("No token should yield 401", func(){
+				request, _ = http.NewRequest("GET", "/reissue", nil)
+				// No token is present
+				router.ServeHTTP(recorder, request)
+				Expect(recorder.Code).To(Equal(401))
+
+			})
+			It("False token should yield 401", func(){
+				request, _ = http.NewRequest("GET", "/reissue", nil)
+				request.Header.Set("Authorization","Bearer no such token")
+				router.ServeHTTP(recorder, request)
+				Expect(recorder.Code).To(Equal(401))
+			})
+
+		})
+
 	})
 })
