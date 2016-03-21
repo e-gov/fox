@@ -2,23 +2,12 @@
   "dataSource": "proxy",
   "proxies": [
     {
-      "context": "/pma-web/api",
-      "host": "name.webmedia.int",
-      "port": 8080,
-      "https": false
-    },
-    {
-      "context": "/j_spring_cas_security_check",
-      "host": "name.webmedia.int",
-      "port": 8080,
-      "https": false,
-      "changeOrigin": false
-    },
-    {
-      "context": "/jgc_rest_lyh",
-      "host": "pump.regio.ee",
-      "https": false,
-      "changeOrigin": false
+      "context": "/api",
+      "host": "localhost",
+      "port": 8090,
+      "rewrite": {
+        "^/api": "/"
+      }
     }
   ]
 }
