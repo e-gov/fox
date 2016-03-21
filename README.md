@@ -9,10 +9,27 @@ There are two key components:
 
 ## Starting a web-based UI
 
-A web UI is built with jekyll, to start it:
+A web UI is built with `grunt`, to start it:
 
-1. Make sure Jekyll is installed.
-2. Run `jekyll serve` from the static folder.
+1. Make sure node.js and npm is installed.
+2. Go to static folder `cd static`.
+3. Run following commands
+
+```
+npm install -g 
+```
+This should install all required tools to start the UI
+Now go and copy `static/properties.json.sample` to `static/properties.json`
+If you have default settings then sample properties will do just fine. Otherwise dig into properties.json
+
+Now you should be all set. 
+To run web ui run following command in `/static`
+```
+grunt serve
+```
+It should run webserver in `localhost:9000`
+
+
 
 If you see errors about the encoding of files on OS X, try this:
 
@@ -52,7 +69,7 @@ go run src/authn/keygen/KeyGen.go > key.base64 # Generate the keyfile for authen
 ./login
 ```
 
-REST interface will respond on **http://localhost:8090/**. You should now be able to use web UI.
+REST interface will respond on **http://localhost:8090/**. You should now be able to use web UI in **http://localhost:9000/**.
 To change a port or name of the application ("my" by default), check **./bin/fox -h**.
 
 ## Configuration
