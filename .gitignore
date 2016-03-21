@@ -4,5 +4,5 @@ src/gopkg.in/
 bin
 pkg
 *.iml
-NEWFRONTEND/properties.json
-NEWFRONTEND/node_modules/
+static/properties.json
+static/node_modules/
