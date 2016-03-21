@@ -16,7 +16,8 @@ A web UI is built with `grunt`, to start it:
 3. Run following commands
 
 ```
-npm install -g 
+npm install
+npm install -g grunt-cli
 ```
 This should install all required tools to start the UI
 Now go and copy `static/properties.json.sample` to `static/properties.json`

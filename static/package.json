@@ -1,5 +1,5 @@
 {
-  "name": "pma",
+  "name": "fox",
   "version": "0.0.1",
   "dependencies": {
     "grunt-wiredep": "^2.0.0",

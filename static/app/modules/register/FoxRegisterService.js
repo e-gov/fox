@@ -16,14 +16,23 @@ foxApp.service("FoxRegisterService", function ($http, configConstant) {
     };
 
     this.addFox = function (foxName, onSuccess, onError) {
-        alert("I am hier");
         $http({
             method: "POST",
             cache: false,
             responseType: 'json',
             data: {name: foxName},
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            headers: {'Content-Type': 'application/json; charset=utf-8'},
             url: configConstant.backendURL + "/fox/foxes"
+        }).then(onSuccess, onError);
+    };
+
+    this.deleteFox = function (uuid, onSuccess, onError) {
+        $http({
+            method: "DELETE",
+            cache: false,
+            responseType: 'json',
+            headers: {'Content-Type': 'application/json; charset=utf-8'},
+            url: configConstant.backendURL + "/fox/foxes/" + uuid + "/delete"
         }).then(onSuccess, onError);
     }
 

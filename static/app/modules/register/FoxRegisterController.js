@@ -13,13 +13,13 @@ foxApp.controller('RegisterController', function ($scope, FoxRegisterService) {
         });
     }
 
-    //TODO LISA FOX ADD IMPL
     $scope.add = function (foxName) {
         if (!foxName || foxName == '') {
             return;
         }
-        FoxRegisterService.addFox(foxName, function(result) {
+        FoxRegisterService.addFox(foxName, function() {
             initRegisterList();
+            $scope.newFoxName = undefined;
         });
     };
 
@@ -28,9 +28,10 @@ foxApp.controller('RegisterController', function ($scope, FoxRegisterService) {
         console.log(fox);
     };
 
-    //TODO LISA FOX DELETE IMPL
     $scope.delete = function(fox) {
-        console.log(fox);
+        FoxRegisterService.deleteFox(fox.uuid, function() {
+            initRegisterList();
+        });
     };
 
     initRegisterList();
