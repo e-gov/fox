@@ -48,9 +48,11 @@ export LANG=en_US.UTF-8
 export GOPATH=$PWD
 go get fox/main
 go build -i -o fox fox/main  # the fox service will be built into ./fox
+go build -i -o fox.exe fox/main # when installing on Windows
 
 go get login/main
 go build -i -o login login/main # the login service will be built into ./login
+go build -i -o login.exe fox/main # when installing on Windows
 ```
 
 ## Running a REST server
