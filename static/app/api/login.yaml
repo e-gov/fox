@@ -1,11 +1,9 @@
 swagger: '2.0'
 
-# This is your document metadata
 info:
-  version: "0.0.1"
+  version: "0.0.2"
   title: LoginAPI
-
-# Describe your paths here
+  description: The LoginAPI allows to generate tokens based on either third party credentials or previously minted tokens
 paths:
   /login:
     get:
@@ -37,3 +35,14 @@ paths:
           description: One of the required parameters was missing
         401:
           description: The credentials were not accepted by the authentication provider or the authentication provider was unknown
+  /reissue:
+    get:
+      description: Re-issues a token based on an existing one passed as a bearer token
+      responses:
+        200:
+          description: Successful response
+          schema:
+            title: Token
+            type: string
+        401:
+          description: The token passed was invalid
