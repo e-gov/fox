@@ -13,6 +13,7 @@ import (
 	"io"
 	"util"
 	"authn"
+	"fmt"
 )
 
 var bufferLength int64 = 1048576
@@ -151,12 +152,23 @@ var _ = Describe("Fox", func() {
 		})		
 	})
 	
+	Describe("Permissions should be checked", func(){
+		It("Should return 401", func(){
+			request, _ := http.NewRequest("DELETE", "/fox/foxes/nosuchfoxforsure", nil)
+			router.ServeHTTP(recorder, request)	
+			Expect(recorder.Code).To(Equal(401))
+			
+			fmt.Println(recorder.HeaderMap)
+			Expect(recorder.HeaderMap).To(ContainElement(ContainElement(ContainSubstring("WWW-Authenticate"))))
+		})
+	})
+	
 	Describe("Getting statistics", func(){
 		Context("Get the stats", func(){
 			It("Should return 200", func(){
 				request, _ := http.NewRequest("GET", "/fox/status", nil)
 				router.ServeHTTP(recorder, request)	
-				Expect(recorder.Code).To(Equal(200))							
+				Expect(recorder.Code).To(Equal(200))			
 			})
 		})
 	})

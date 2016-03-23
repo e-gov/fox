@@ -41,7 +41,7 @@ func Reissue(w http.ResponseWriter, r *http.Request){
 		
 		t := r.Header.Get("Authorization")
 		if strings.HasPrefix(t, "Bearer "){
-			user, err := authn.Validate(strings.SplitAfter(t, "Bearer ")[1])
+ 			user, err := authn.Validate(strings.SplitAfter(t, "Bearer ")[1])
 			if err != nil{
 				w.WriteHeader(http.StatusUnauthorized)	
 			}else{

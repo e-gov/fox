@@ -13,6 +13,7 @@ import(
 func PermissionHandler(inner http.Handler) http.Handler{
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
 		var user string
+		var ps string 
 		 
 		t := r.Header.Get("Authorization")
 		if strings.HasPrefix(t, "Bearer "){
@@ -26,7 +27,16 @@ func PermissionHandler(inner http.Handler) http.Handler{
 			sw := makeLogger(w)
 			inner.ServeHTTP(sw, r)		
 		} else {
+				for _, p := range authn.KnownProviders(){
+					if ps > ""{
+						ps = ps + "," + p	
+					} else {
+						ps = p
+					}
+				}
+				w.Header().Set("WWW-Authenticate", "WWW-Authenticate:" + ps)
 				w.WriteHeader(http.StatusUnauthorized)
+				
 		}
 						
 	})

@@ -37,3 +37,9 @@ func Validate(token string) (string, error){
 	}
 	return t.Username, nil
 }
+
+// KnownProviders returns the list of known authentication providers
+func KnownProviders() []string{
+	var s []string
+	return append(s, "password")
+}
