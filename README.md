@@ -48,11 +48,11 @@ export LANG=en_US.UTF-8
 export GOPATH=$PWD
 go get fox/main
 go build -i -o fox fox/main  # the fox service will be built into ./fox
-go build -i -o fox.exe fox/main # when installing on Windows
+go build -i -o fox.exe fox/main # when building on Windows
 
 go get login/main
 go build -i -o login login/main # the login service will be built into ./login
-go build -i -o login.exe fox/main # when installing on Windows
+go build -i -o login.exe fox/main # when building on Windows
 ```
 
 ## Running a REST server
@@ -64,6 +64,9 @@ go build -i -o login.exe fox/main # when installing on Windows
 mkdir -p bin/config/$USER
 cp src/config/config.json.template bin/config/$USER/config.json
 
+mkdir -p bin/config/$env:username # Windows
+cp src/config/config.json.template bin/config/$env:username/config.json # Windows
+
 mkdir /tmp/foxdb  # make sure that the configured storage folder exists.
 ./fox
 
@@ -73,7 +76,7 @@ go run src/authn/keygen/KeyGen.go > key.base64 # Generate the keyfile for authen
 ```
 
 REST interface will respond on **http://localhost:8090/**. You should now be able to use web UI in **http://localhost:9000/**.
-To change a port or name of the application ("my" by default), check **./bin/fox -h**.
+To change a port or name of the application ("my" by default), check **./fox -h**.
 
 ## Configuration
 Configuration is user-based, every user has a folder with their username under config/, where their personal config file(s) live.
