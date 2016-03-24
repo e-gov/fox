@@ -10,7 +10,7 @@
     ],
     "TokenTTL": 15,
 	"PwdProvider":{
-		"PwdFileName":"pwd.list",
+		"PwdFileName":"test_pwd.list",
 		"Salt":"RebasedJaKanad"
 	}
   }
