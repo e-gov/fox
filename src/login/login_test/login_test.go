@@ -22,8 +22,8 @@ var _ = Describe("Login", func() {
 	var router *mux.Router
 	var recorder *httptest.ResponseRecorder
 	var request *http.Request
-	var username = "testuser"
-	var challenge = "This might be a password or some token"
+	var username = "FantasticMrFox"
+	var challenge = "test"
 	var provider = "testprovider"
 
 	BeforeEach(func() {
