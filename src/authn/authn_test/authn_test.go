@@ -12,8 +12,8 @@ var _ = Describe("Authn", func() {
 	var newToken string
 	var err error
 	var user = "FantasticMrFox"
-	var challange = ""
-	var provider = ""
+	var challange = "test"
+	var provider = "pwd"
 
 
 	BeforeEach(func(){

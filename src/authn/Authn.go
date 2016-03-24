@@ -25,7 +25,7 @@ type Token struct {
 // provider being unknown will be interepreted 
 // as the user not being authenticated
 func Authenticate(username string, challenge string, provider string) bool  {
-	return true
+	return GetProvider(provider).Authenticate(username, challenge)
 }
 
 // Validate the Fernet token and extract the username

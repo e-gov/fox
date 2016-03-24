@@ -22,7 +22,12 @@ type Config struct {
 			MintKeyName      string
 			ValidateKeyNames []string
 			TokenTTL         int
+			PwdProvider struct {
+				PwdFileName string
+				Salt		string
+			}
 		}
+	
 }
 
 // Sanitize the configuration
