@@ -29,6 +29,7 @@ func Authenticate(username string, challenge string, provider string) bool  {
 }
 
 // Validate the Fernet token and extract the username
+// Returns either a username or an error
 func Validate(token string) (string, error){
 	
 	t := Decrypt(token)

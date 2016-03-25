@@ -1,7 +1,7 @@
 swagger: '2.0'
 
 info:
-  version: "0.0.2"
+  version: "0.0.3"
   title: LoginAPI
   description: The LoginAPI allows to generate tokens based on either third party credentials or previously minted tokens
 paths:
@@ -46,3 +46,15 @@ paths:
             type: string
         401:
           description: The token passed was invalid
+  /roles:
+    get:
+      description: Returns a list of roles the current security context is authorized to use. If a valid token is supplied, a list of roles for the user is returned. If there is no token or the token is invalid, a list of roles an un-authenticated user has is returned.
+      responses:
+        200:
+          description: Since some roles are always present, this is the only viable response
+          schema:
+            type: array
+            items:
+              type: string
+              description: Role of the authentication context
+            

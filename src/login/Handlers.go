@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"authn"
 	"strings"
+	"authz"
 )
 
 func sendHeaders(w http.ResponseWriter) {
@@ -52,6 +53,26 @@ func Reissue(w http.ResponseWriter, r *http.Request){
 			w.WriteHeader(http.StatusUnauthorized)
 		}
 
+}
+
+// Roles returns a list of applicable roles based on the username in the token
+func Roles(w http.ResponseWriter, r *http.Request){
+	var token string 
+	
+	t := r.Header.Get("Authorization")
+	if strings.HasPrefix(t, "Bearer "){
+		token = strings.SplitAfter(t, "Bearer ")[1]
+	}else{
+		token = ""
+	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+
+	if err := json.NewEncoder(w).Encode(authz.GetProvider().GetRoles(token)); err != nil {
+		panic(err)
+	}
+	
 }
 
 // Mint a token for a given username and send it to the specified writer

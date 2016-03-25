@@ -2,6 +2,7 @@ package authz
 
 import(
 	"strings"
+	"authn"
 )
 
 // SimpleProvider is the struct to implement 
@@ -41,4 +42,17 @@ func (provider *SimpleProvider)AddRestriction(role string, method string, url st
 	u := strings.Split(url, "{")[0]
 	provider.requirements = append(provider.requirements, requirement{role, method, u})
 	log.Debugf("Role %s mapped to %s  %s, %d rules in total", role, method, u, len(provider.requirements))
+}
+
+// GetRoles implements a naive role listing. All valid tokens will 
+// result in a single "ADMIN" role, everybody else gets "*"
+func (provider *SimpleProvider)GetRoles(token string)[]string{
+	user, _ := authn.Validate(token)
+	var roles []string
+	
+	if user != ""{
+		return append(roles, "ADMIN")
+	}
+	
+	return append(roles, "*") 
 }

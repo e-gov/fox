@@ -16,6 +16,9 @@ type Provider interface{
 	// AddRestriction adds information about which roles are necessary to 
 	// access a given URL/method 
 	AddRestriction(string, string, string)	
+	
+	// GetRoles returns a list of authorized roles for a given token
+	GetRoles(string)[]string
 }
 
 // GetProvider returns the current authz provider

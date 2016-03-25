@@ -26,6 +26,8 @@ var _ = Describe("Login", func() {
 	var challenge = "test"
 	var provider = "testprovider"
 
+	var token string
+
 	BeforeEach(func() {
 		util.LoadConfigByName("test_config")
 		InitMint()
@@ -41,6 +43,10 @@ var _ = Describe("Login", func() {
 		u.RawQuery = q.Encode()
 
 		request, _ = http.NewRequest("GET", u.RequestURI(), nil)
+		
+		authn.InitMint()
+		token = authn.GetToken("testuser")
+
 	})
 
 	Describe("Basic token generation", func() {
@@ -57,18 +63,11 @@ var _ = Describe("Login", func() {
 
 				err = json.Unmarshal(body, token)
 				Expect(err).To(BeNil())
-
 			})
 		})
 	})
 	
 	Describe("Token re-issue", func(){
-		var token string
-		BeforeEach(func(){
-				authn.InitMint()
-				token = authn.GetToken("testuser")
-
-		})
 		Context("Re-issue a token", func(){
 			It("Should return 200", func(){
 				request, _ = http.NewRequest("GET", "/reissue", nil)
@@ -95,4 +94,36 @@ var _ = Describe("Login", func() {
 		})
 
 	})
+	
+	Describe("Role list", func(){
+		Context("Get a role list without a token", func(){
+			It("Should get a brief list of roles", func(){	
+				request, _ = http.NewRequest("GET", "/roles", nil)
+
+				Expect(getRoles(router, recorder, request)).To(Not(BeEmpty()))
+			})
+			It("Should get an admin role", func(){	
+				request, _ = http.NewRequest("GET", "/roles", nil)
+				request.Header.Set("Authorization","Bearer " + token)
+				
+				Expect(getRoles(router, recorder, request)).To(ContainElement("ADMIN"))
+			})
+		})
+	})
+
 })
+
+func getRoles(router *mux.Router, recorder *httptest.ResponseRecorder, request *http.Request)[]string{
+	var roles []string			
+	router.ServeHTTP(recorder, request)
+	Expect(recorder.Code).To(Equal(200))
+	
+	body, err := ioutil.ReadAll(io.LimitReader(recorder.Body, bufferLength))
+	Expect(err).To(BeNil())
+
+	err = json.Unmarshal(body, &roles)
+	Expect(err).To(BeNil())
+
+	return roles
+}
+

@@ -31,4 +31,10 @@ var routes = Routes{
 		"/reissue",
 		Reissue,	
 	},
+	Route{
+		"Roles",
+		"GET",
+		"/roles",
+		Roles,
+	},
 }
