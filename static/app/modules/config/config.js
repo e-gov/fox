@@ -25,6 +25,9 @@ foxApp.config(function ($routeProvider) {
         .when('/swagger', {
             templateUrl: 'views/swagger.html'
         })
+        .when('/about', {
+            templateUrl: 'views/about.html'
+        })
         .otherwise({
             redirectTo: '/'
         });
