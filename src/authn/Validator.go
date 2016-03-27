@@ -62,14 +62,14 @@ func loadValidateKeyByName(filenames []string) {
 		b, err := ioutil.ReadFile(name)
 
 		if err != nil {
-			log.Errorf("Could open a key file %s", name)
+			log.Errorf("Could not open a key file %s", name)
 		}else{
 			k, err := fernet.DecodeKey(string(b))
 
 			if err != nil {
 				log.Errorf("Could not parse a key from %s", name)
 			}else{
-				log.Debugf("Successfully loaded mint key from %s", name)
+				log.Debugf("Successfully loaded validation key from %s", name)
 				tempKeys = append(tempKeys, k)			
 			}
 		}
