@@ -139,8 +139,8 @@ func getConfigPath(userName string) string {
 	}
 
 	if len(a) > 0 {
-		cfgPath = strings.Join(a, sep) + "/"
-		cfgPath += "config/" + userName + "/"
+		cfgPath = strings.Join(a, sep) + sep
+		cfgPath += "config" + sep + userName + sep
 	}
 
 	return cfgPath
