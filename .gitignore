@@ -6,3 +6,11 @@ pkg
 *.iml
 static/properties.json
 static/node_modules/
+
+.vscode/
+.idea/
+
+src/9fans.net/
+src/golang.org/
+src/rsc.io/
+src/sourcegraph.com/
