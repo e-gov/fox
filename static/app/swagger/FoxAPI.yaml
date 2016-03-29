@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   version: 0.0.6
   title: 'FoxAPI'
-  description: The FoxAPI allows to perform basic CRUD operations on the fox registry. Requests to all non-public operations must present a bearer token as per http://tools.ietf.org/html/rfc6750 
+  description: The FoxAPI allows to perform basic CRUD operations on the fox registry. Requests to all non-public operations must present a bearer token as per http://tools.ietf.org/html/rfc6750
 paths:
   /fox/foxes/{uuid}:
     get:
