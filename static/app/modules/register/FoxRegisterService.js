@@ -1,7 +1,7 @@
 /**
  * Created by mihkelk on 17.02.2016.
  */
-foxApp.service("FoxRegisterService", function ($http, configConstant) {
+foxApp.service("FoxRegisterService", function ($http, configConstant, $translate) {
 
     this.getAll = function (onSuccess, onError) {
         $http({
@@ -34,6 +34,11 @@ foxApp.service("FoxRegisterService", function ($http, configConstant) {
             headers: {'Content-Type': 'application/json; charset=utf-8'},
             url: configConstant.backendURL + "/fox/foxes/" + uuid + "/delete"
         }).then(onSuccess, onError);
-    }
+    };
+
+    this.changeLanguage = function(key) {
+        console.log("Test");
+        $translate.use(key);
+    };
 
 });

@@ -4,7 +4,7 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>Fox</th>
+            <th>{{ 'COLUMN_NAME' | translate }}</th>
             <th></th>
         </tr>
         </thead>
@@ -15,10 +15,10 @@
             <td ng-bind="fox.name"></td>
             <td>
                 <a href=""
-                   ng-click="delete(fox)">Delete
+                   ng-click="delete(fox)">{{ 'DELETE' | translate }}
                 </a>
                 <a href=""
-                   ng-click="update(fox)">Update
+                   ng-click="update(fox)">{{ 'UPDATE' | translate }}
                 </a>
             </td>
         </tr>
@@ -32,7 +32,7 @@
                 </label>
             </td>
             <td>
-                <a ng-click="add(newFoxName)">Add fox</a>
+                <a ng-click="add(newFoxName)">{{ 'ADD' | translate }}</a>
             </td>
         </tr>
         </tbody>

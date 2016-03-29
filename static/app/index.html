@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1">
 
-    <title>The Fox Registry</title>
+    <title>{{ 'TITLE' | translate }}</title>
     <meta name="description"
           content="Näidisrakendus">
 
@@ -30,7 +30,10 @@
     <script src="bower_components/angular-route/angular-route.min.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="bower_components/angular-swagger-ui/dist/scripts/swagger-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.10.0/angular-translate.min.js"></script>
 
+
+    <script src="modules/config/translations.js"></script>
     <script src="modules/config/config.js"></script>
 
     <!-- Angular Controllers -->
@@ -59,7 +62,7 @@
 
             <a class="site-title"
                ng-href="/#/" >
-                The Fox Registry
+                {{ 'TITLE' | translate }}
             </a>
 
             <nav class="site-nav">
@@ -77,13 +80,13 @@
 
                 <div class="trigger">
                     <a class="page-link"
-                       ng-href="/#/">The Fox Registry
+                       ng-href="/#/">{{ 'TITLE' | translate }}
                     </a>
                     <a class="page-link"
-                       ng-href="/#/swagger">Api Doc
+                       ng-href="/#/swagger">{{ 'API_DOC' | translate }}
                     </a>
                     <a class="page-link"
-                       ng-href="/#/about">About
+                       ng-href="/#/about">{{ 'ABOUT' | translate }}
                     </a>
                 </div>
             </nav>
@@ -91,6 +94,16 @@
         </div>
 
     </header>
+
+    <!-- TO DO!
+    <button ng-click="changeLanguage('en')">
+        eng
+    </button>
+
+    <button ng-click="changeLanguage('et')">
+        est
+    </button>
+    -->
 
     <div class="wrapper">
         <div class="home">

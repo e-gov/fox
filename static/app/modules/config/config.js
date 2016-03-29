@@ -1,10 +1,12 @@
 /**
  * Created by mihkelk on 16.02.2016.
  */
+
 var foxApp = angular.module("fox", [
     'ngRoute',
     'ngSanitize',
-    'swaggerUi'
+    'swaggerUi',
+    'pascalprecht.translate'
 ]);
 
 foxApp.config(function ($httpProvider) {
@@ -32,3 +34,10 @@ foxApp.config(function ($routeProvider) {
             redirectTo: '/'
         });
 });
+
+foxApp.config(['$translateProvider', function ($translateProvider) {
+    // add translation table
+    $translateProvider.translations('en', translations_EN);
+    $translateProvider.translations('et', translations_ET);
+    $translateProvider.preferredLanguage('et');
+}]);
