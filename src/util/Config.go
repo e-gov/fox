@@ -68,8 +68,10 @@ func LoadConfigByName(name string) {
 	cLock.RUnlock()
 
 	userName := getUserName()
-
+	log.Debugf("Current user is %s", userName)
+	
 	viper.SetConfigName(name)
+	viper.SetConfigType("json")
 
 	configFolder := getConfigPath(userName)
 	viper.AddConfigPath(configFolder)
@@ -136,6 +138,11 @@ func getConfigPath(userName string) string {
 		a = pathEl[:iBin + 1] // take up to bin (inclusive)
 	}else {
 		a = pathEl[:iSrc + 1] // take up to src (inclusive)
+		// If neither bin nor source is found, we are probably at 
+		// project home
+		if iBin == -1{
+			a = append(pathEl, "src")
+		}
 	}
 
 	if len(a) > 0 {
