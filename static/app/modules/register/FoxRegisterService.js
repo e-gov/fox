@@ -37,7 +37,6 @@ foxApp.service("FoxRegisterService", function ($http, configConstant, $translate
     };
 
     this.changeLanguage = function(key) {
-        console.log("Test");
         $translate.use(key);
     };
 
