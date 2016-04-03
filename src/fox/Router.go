@@ -5,10 +5,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/op/go-logging"
 	"authz"
-	"github.com/rcrowley/go-metrics"
-	"time"
-	thatlog "log"
-	"os"
 )
 
 var log = logging.MustGetLogger("FoxService")
@@ -34,6 +30,5 @@ func NewRouter(name string) *mux.Router{
 		log.Debugf("Added route %s", route.String())
 		
 	}
-	go metrics.Log(metrics.DefaultRegistry, 30 * time.Second, thatlog.New(os.Stderr, "metrics: ", thatlog.Lmicroseconds))
 	return router
 }

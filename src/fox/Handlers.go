@@ -10,8 +10,7 @@ import (
 	"io/ioutil"
 
 	"github.com/pborman/uuid"
-	
-	"time"
+	"github.com/rcrowley/go-metrics"
 )
 
 
@@ -146,13 +145,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 
 // Stats is a handler for displaying API statistics
 func Stats(w http.ResponseWriter, r *http.Request) {
-	s := Statistics{
-		TimeSinceLastNOK:     int64(time.Since(timeOfLastNOK) / time.Millisecond),
-		TimeSinceLastOK:      int64(time.Since(timeOfLastOK) / time.Millisecond),
-		ParallelRequestCount: parallelRequestCount,
-		NodeName:             nodeName}
-
-	if err := json.NewEncoder(w).Encode(s); err != nil {
-		panic(err)
-	}
+	sendHeaders(w)
+	w.WriteHeader(http.StatusOK)
+	metrics.WriteJSONOnce(metrics.DefaultRegistry, w)
 }

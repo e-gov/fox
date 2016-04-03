@@ -50,3 +50,4 @@ func NewTelemetry(i http.Handler, name string)Telemetry{
 	t := Telemetry{inner: i, rCount:r, sCount:s, fCount:f, tmr: tme}
 	return t
 }
+
