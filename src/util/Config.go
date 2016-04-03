@@ -134,8 +134,6 @@ func getConfigPath(userName string) string {
 	iBin := lastIndexOf(pathEl, "bin")
 
 	cfgPath := ""
-	log.Debugf("Found bin at %d", iBin)
-	log.Debugf("Found src at %d", iSrc)
 	var a []string
 	if iBin > iSrc {
 		a = pathEl[:iBin + 1] // take up to bin (inclusive)
@@ -143,7 +141,7 @@ func getConfigPath(userName string) string {
 		a = pathEl[:iSrc + 1] // take up to src (inclusive)
 		// If neither bin nor source is found, we are probably at 
 		// project home
-		if iBin == -1{
+		if iSrc == -1{
 			a = append(pathEl, "src")
 		}
 	}
