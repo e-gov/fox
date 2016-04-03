@@ -6,6 +6,7 @@ import(
 	"time"
 	"fmt"
 	logging "github.com/op/go-logging"
+	"github.com/rcrowley/go-metrics"
 )
 
 // The variables to hold the statistics
@@ -13,6 +14,8 @@ var parallelRequestCount int = 0
 var timeOfLastNOK time.Time = time.Now()
 var timeOfLastOK time.Time = time.Now()
 var nodeName string
+
+var c metrics.Meter
 
 // An extension of the ResponseWriter that can record the
 // HTTP status codes sent out
@@ -59,24 +62,6 @@ func (l *statLogger) Status() int{
 
 func (l *statLogger) Size() int{
 	return l.size
-}
-
-// Statistics gathering handler
-func StatHandler(inner http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
-		sw := makeLogger(w)
-
-		parallelRequestCount++
-		inner.ServeHTTP(sw, r)
-		parallelRequestCount--
-
-		// Anything beyond 300 is NOK
-		if sw.Status() >= 300{
-			timeOfLastNOK = time.Now()
-		}else {
-			timeOfLastOK = time.Now()
-		}
-	})
 }
 
 // HTTP logging handler

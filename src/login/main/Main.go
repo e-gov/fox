@@ -26,7 +26,7 @@ func main() {
 	
 	var port = flag.Int("port", 8090, "Port to bind to on the localhost interface")
 	flag.Parse()
-
+	
 	router := login.NewRouter()
 	log.Infof("Starting a server on localhost:%d", *port)
 	log.Critical(http.ListenAndServe(fmt.Sprintf(":%d", *port), router))

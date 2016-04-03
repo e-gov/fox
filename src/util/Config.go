@@ -95,6 +95,7 @@ func LoadConfigByName(name string) {
 	sanitize(tmp)
 
 	// TODO viper can reload config too. Remove this?
+	// Nope, the versioning is so we can trigger reloading of keys
 	cLock.Lock()
 	if config == nil {
 		tmp.Version = 1
