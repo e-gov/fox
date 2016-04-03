@@ -35,8 +35,7 @@ foxApp.controller('RegisterController', function ($scope, FoxRegisterService) {
     };
 
     $scope.changeLanguage = function(key) {
-        console.log("Test");
-        //FoxRegisterService.changeLanguage(key);
+        FoxRegisterService.changeLanguage(key);
     };
 
     initRegisterList();
