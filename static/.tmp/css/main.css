@@ -207,25 +207,43 @@ pre > code {
   float: left;
   text-transform: uppercase;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000320}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000321}}
 .site-title, .site-title:visited {
   color: #111 !important;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000325}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000326}}
 .site-title:hover {
   text-decoration: none;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000330}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000331}}
+.enButton {
+  border: 0px;
+  height: 19px;
+  width: 24px;
+  text-decoration: none;
+  background-image: url("../images/eng.png");
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000340}}
+.estButton {
+  border: 0px;
+  height: 19px;
+  width: 24px;
+  text-decoration: none;
+  background-image: url("../images/est.png");
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000349}}
 .site-nav {
   float: right;
   line-height: 90px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000334}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000353}}
 .site-nav .menu-icon {
   display: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000338}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000357}}
 .site-nav .page-link {
   color: #F87117;
   line-height: 1.5;
@@ -235,16 +253,16 @@ pre > code {
   text-decoration: none;
   transition: color 100ms linear;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000347}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000366}}
 .site-nav .page-link:hover {
   color: #111 !important;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000352}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000371}}
 .site-nav .page-link:not(:last-child) {
   margin-right: 25px;
 }
 @media screen and (max-width: 600px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000330}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000349}}
   .site-nav {
     position: absolute;
     top: 9px;
@@ -254,7 +272,7 @@ pre > code {
     border-radius: 5px;
     text-align: right;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000366}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000385}}
   .site-nav .menu-icon {
     display: block;
     float: right;
@@ -264,32 +282,32 @@ pre > code {
     padding-top: 10px;
     text-align: center;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000375}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000394}}
   .site-nav .menu-icon > svg {
     width: 18px;
     height: 15px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000379}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000398}}
   .site-nav .menu-icon > svg path {
     fill: #292929;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000385}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003104}}
   .site-nav .trigger {
     clear: both;
     display: none;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000390}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003109}}
   .site-nav:hover .trigger {
     display: block;
     padding-bottom: 5px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000395}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003114}}
   .site-nav .page-link {
     display: block;
     padding: 5px 10px;
     margin-left: 20px;
   }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\0000399}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003118}}
   .site-nav .page-link:not(:last-child) {
     margin-right: 0;
   }
@@ -298,7 +316,7 @@ pre > code {
 /**
  * Site footer
  */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003112}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003131}}
 .site-footer {
   width: 100%;
   padding: 30px 0;
@@ -306,7 +324,7 @@ pre > code {
   margin-top: 50px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003119}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003138}}
 .footer-heading {
   font-size: 18px;
   margin-bottom: 30px;
@@ -314,55 +332,55 @@ pre > code {
   text-transform: uppercase;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003126}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003145}}
 .contact-list,
 .social-media-list {
   list-style: none;
   margin-left: 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003132}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003151}}
 .footer-col-wrapper {
   font-size: 15px;
   color: #cfcfcf;
   margin-left: -15px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003139}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003158}}
 .footer-col {
   float: left;
   padding-left: 15px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003144}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003163}}
 .footer-col-1 {
   width: calc(35% - (30px / 2));
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003149}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003168}}
 .footer-col-2 {
   width: calc(20% - (30px / 2));
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003154}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003173}}
 .footer-col-3 {
   width: calc(45% - (30px / 2));
 }
 
 @media screen and (max-width: 800px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003160}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003179}}
   .footer-col-1,
   .footer-col-2 {
     width: calc(50% - (30px / 2));
   }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003166}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003185}}
   .footer-col-3 {
     width: calc(100% - (30px / 2));
   }
 }
 @media screen and (max-width: 600px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003173}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003192}}
   .footer-col {
     float: none;
     width: calc(100% - (30px / 2));
@@ -371,33 +389,33 @@ pre > code {
 /**
  * Page content
  */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003185}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003204}}
 .page-content {
   padding: 30px 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003189}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003208}}
 .page-heading {
   font-size: 20px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003193}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003212}}
 .post-list {
   margin-left: 0;
   list-style: none;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003197}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003216}}
 .post-list > li {
   margin-bottom: 30px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003202}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003221}}
 .post-meta {
   font-size: 14px;
   color: #828282;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003207}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003226}}
 .post-link {
   display: block;
   font-size: 24px;
@@ -406,54 +424,54 @@ pre > code {
 /**
  * Posts
  */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003217}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003236}}
 .post-header {
   margin-bottom: 30px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003221}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003240}}
 .post-title {
   font-size: 42px;
   letter-spacing: -1px;
   line-height: 1;
 }
 @media screen and (max-width: 800px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003221}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003240}}
   .post-title {
     font-size: 36px;
   }
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003231}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003250}}
 .post-content {
   margin-bottom: 30px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003234}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003253}}
 .post-content h2 {
   font-size: 32px;
 }
 @media screen and (max-width: 800px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003234}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003253}}
   .post-content h2 {
     font-size: 28px;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003242}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003261}}
 .post-content h3 {
   font-size: 26px;
 }
 @media screen and (max-width: 800px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003242}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003261}}
   .post-content h3 {
     font-size: 22px;
   }
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003250}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003269}}
 .post-content h4 {
   font-size: 20px;
 }
 @media screen and (max-width: 800px) {
-@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003250}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/mihkel\/Documents\/RIA\/fox\/static\/app\/css\/_layout\.scss}line{font-family:\00003269}}
   .post-content h4 {
     font-size: 18px;
   }

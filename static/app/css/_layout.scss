@@ -17,6 +17,7 @@
     float: left;
     text-transform: uppercase;
 
+
     &,
     &:visited {
         color: $text-color !important;
@@ -25,6 +26,24 @@
     &:hover {
         text-decoration: none;
     }
+}
+
+.enButton {
+    border: 0px;
+    height: 19px;
+    width: 24px;
+    text-decoration: none;
+    background-image: url('../images/eng.png');
+
+}
+
+.estButton {
+    border: 0px;
+    height: 19px;
+    width: 24px;
+    text-decoration: none;
+    background-image: url('../images/est.png');
+
 }
 
 .site-nav {
@@ -255,3 +274,4 @@
         }
     }
 }
+

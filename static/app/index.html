@@ -93,21 +93,22 @@
 
         </div>
 
+        <div class="wrapper">
+            <button class="enButton" ng-click="changeLanguage('en')"></button>
+            <button class="estButton" ng-click="changeLanguage('et')"></button>
+        </div>
+
     </header>
 
-    <button ng-click="changeLanguage('en')">
-        eng
-    </button>
 
-    <button ng-click="changeLanguage('et')">
-        est
-    </button>
 
     <div class="wrapper">
         <div class="home">
             <ng-view></ng-view>
         </div>
     </div>
+
+
 
     <!--<footer class="site-footer">-->
 
