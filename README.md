@@ -90,3 +90,13 @@ To generate tokens for headless clients, use  TokenMint.go:
 ```
 go run src/authn/mint/TokenMint.go -key <a file containing a minting key> -user <a username the token should be assigned to>
 ```
+
+## Generating passwords for authentication
+To use the basic password authentication provider, passwords must be hashed and strored on server side. This happens like so:
+
+```
+touch pwd.list
+go run src/authn/pwd/main/pwdMaker.go -user <username> -pwd <password> >> pwd.list
+```
+
+The pwd.list is a file referred to by the authn.PwdProvider.PwdFileName key in the config
