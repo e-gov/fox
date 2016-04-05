@@ -28,7 +28,7 @@ var _ = Describe("Fox", func() {
 	
 	BeforeEach(func(){
 		util.LoadConfigByName("test_config")
-		router = NewRouter("test")
+		router = NewRouter()
 		recorder = httptest.NewRecorder()
 		
 		aFox = Fox{

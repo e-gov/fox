@@ -5,12 +5,12 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/op/go-logging"
 	"authz"
+	"util"
 )
 
 var log = logging.MustGetLogger("FoxService")
 
-func NewRouter(name string) *mux.Router{
-	nodeName = name
+func NewRouter() *mux.Router{
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
 		var handler http.Handler
@@ -18,10 +18,10 @@ func NewRouter(name string) *mux.Router{
 		authz.GetProvider().AddRestriction(route.Role, route.Method, route.Pattern)
 			
 		handler = route.HandlerFunc
-		handler = NewTelemetry(handler, route.Name)
+		handler = util.NewTelemetry(handler, route.Name)
 		
-		handler = LoggingHandler(handler, log)
-		handler = PermissionHandler(handler)
+		handler = util.LoggingHandler(handler, log)
+		handler = authz.PermissionHandler(handler)
 		router.
 		Methods(route.Method).
 		Path(route.Pattern).

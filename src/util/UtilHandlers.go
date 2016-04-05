@@ -1,4 +1,4 @@
-package fox
+package util
 import(
 	"net"
 	"net/http"
@@ -13,7 +13,6 @@ import(
 var parallelRequestCount int = 0
 var timeOfLastNOK time.Time = time.Now()
 var timeOfLastOK time.Time = time.Now()
-var nodeName string
 
 var c metrics.Meter
 
@@ -32,7 +31,7 @@ type statResponseWriter interface {
 	Size() int
 }
 
-func makeLogger(w http.ResponseWriter) statResponseWriter{
+func MakeLogger(w http.ResponseWriter) statResponseWriter{
 	var l statResponseWriter = &statLogger{w: w}
 	return l
 }
@@ -67,7 +66,7 @@ func (l *statLogger) Size() int{
 // HTTP logging handler
 func LoggingHandler(inner http.Handler, log *logging.Logger) http.Handler{
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
-		sw := makeLogger(w)
+		sw := MakeLogger(w)
 		
 		inner.ServeHTTP(sw, r)
 		log.Info(buildCommonLogLine(r, *r.URL, time.Now(), sw.Status(), sw.Size()))

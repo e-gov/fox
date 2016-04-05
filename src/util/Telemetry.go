@@ -1,4 +1,4 @@
-package fox
+package util
 
 import(
 	"net/http"
@@ -20,7 +20,7 @@ type Telemetry struct{
 // ServeHTTP delegates the serving to the inner handler and updates telemetry
 func (t Telemetry)ServeHTTP(w http.ResponseWriter, r *http.Request){
 	t.rCount.Mark(1)	
-	sw := makeLogger(w)
+	sw := MakeLogger(w)
 
 	start := time.Now()
 	t.inner.ServeHTTP(sw, r)

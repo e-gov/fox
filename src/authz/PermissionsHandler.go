@@ -1,11 +1,10 @@
-package fox
+package authz
 
 import(
 	"strings"
 	"authn"
-	"authz"
 	"net/http"
-
+	"util"
 )
 
 
@@ -23,8 +22,8 @@ func PermissionHandler(inner http.Handler) http.Handler{
 			user = ""
 		}
 		
-		if authz.GetProvider().IsAuthorized(user, r.Method, r.URL.RequestURI()){
-			sw := makeLogger(w)
+		if GetProvider().IsAuthorized(user, r.Method, r.URL.RequestURI()){
+			sw := util.MakeLogger(w)
 			inner.ServeHTTP(sw, r)		
 		} else {
 				for _, p := range authn.KnownProviders(){
