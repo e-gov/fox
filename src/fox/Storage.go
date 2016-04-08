@@ -52,7 +52,6 @@ func GetFoxes() ([]Fox, error) {
 	fname := util.GetConfig().Storage.Filepath
 	files, _ := ioutil.ReadDir(fname)
 	for _, f := range files {
-		log.Debug(f.Name())
 		fox, err := ReadFox(f.Name())
 		if err != nil {
 			return foxes, err
