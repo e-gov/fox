@@ -55,6 +55,18 @@ go build -i -o login login/main # the login service will be built into ./login
 go build -i -o login.exe fox/main # when building on Windows
 ```
 
+2.2. Alternative
+```
+go install fox/foxservice
+go install login/loginservice
+
+#for later usage
+go install authn/pwd/pwdmaker
+go install authn/keygen
+go install authn/mint
+```
+
+
 ## Running a REST server
 
 1. Create folder config/{username} in bin, then copy and adapt example configuration file. 
