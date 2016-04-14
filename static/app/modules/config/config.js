@@ -37,13 +37,7 @@ foxApp.config(function ($routeProvider) {
 
 foxApp.config(['$translateProvider', function ($translateProvider) {
     // add translation table
-    var language = localStorage.language;
-    if (!language) {
-        language = 'en';
-        localStorage.language = language;
-    }
-
     $translateProvider.translations('en', translations_EN);
     $translateProvider.translations('et', translations_ET);
-    $translateProvider.preferredLanguage(language);
+    $translateProvider.preferredLanguage('et');
 }]);
