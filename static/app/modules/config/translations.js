@@ -15,7 +15,10 @@ var translations_EN = {
         'applications in code so they can be deployed, broken and generally messed with.',
         LINK_DESCRIPTION: 'The original wiki page with the architecture we seek to implement is available',
         LINK_TEXT: 'HERE'
-    }
+    },
+    NAME: 'Name',
+    PARENTS: 'Parents',
+    ADD_PARENT: 'Add new parent'
 };
 
 var translations_ET = {
@@ -30,5 +33,8 @@ var translations_ET = {
         DESCRIPTION: 'VAJAB TÕLKIMIST',
         LINK_DESCRIPTION: 'Ametlik wiki leht koos soovitud arhitektuuri kirjeldusega on saadaval ',
         LINK_TEXT: 'SIIN'
-    }
+    },
+    NAME: 'Nimi',
+    PARENTS: 'Vanemad',
+    ADD_PARENT: 'Lisa uus vanem'
 };

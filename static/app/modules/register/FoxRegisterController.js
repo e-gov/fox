@@ -1,37 +1,70 @@
-
 /**
  * Created by mihkelk on 17.02.2016.
  */
 
-
-foxApp.controller('RegisterController', function ($scope, FoxRegisterService) {
+foxApp.controller("RegisterController", function ($scope, $log, FoxRegisterService) {
 
     function initRegisterList() {
         $scope.foxName = undefined;
+        $scope.selectedFox = {};
         FoxRegisterService.getAll(function(result) {
             $scope.foxList = result.data;
         });
     }
 
-    $scope.add = function (foxName) {
-        if (!foxName || foxName == '') {
+    $scope.add = function (fox) {
+        if (!fox.name || fox.name == '') {
             return;
         }
-        FoxRegisterService.addFox(foxName, function() {
+        FoxRegisterService.addFox(fox, function() {
             initRegisterList();
-            $scope.newFoxName = undefined;
+            // $scope.newFoxName = undefined;
         });
     };
 
-    //TODO LISA FOX UPDATE IMPL
     $scope.update = function(fox) {
-        console.log(fox);
+        FoxRegisterService.updateFox(fox, function() {
+            initRegisterList();
+        });
     };
 
     $scope.delete = function(fox) {
         FoxRegisterService.deleteFox(fox.uuid, function() {
             initRegisterList();
         });
+    };
+
+    $scope.edit = function(fox) {
+        FoxRegisterService.getFox(fox.uuid, function(result) {
+            $scope.selectedFox = result.data;
+        });
+    };
+
+    $scope.getAvailableParents = function(selectedParent) {
+        if (!$scope.selectedFox) {
+            return $scope.foxList;
+        } else {
+            return $scope.foxList.filter(function(fox) {
+                return fox.uuid !== $scope.selectedFox.uuid
+                    && $scope.selectedFox.parents
+                        .map(function(parent) {
+                            return parent.uuid; // get array of parent uuids
+                        }).filter(function(uuid) {
+                            return uuid !== selectedParent.uuid; // exclude currently selected parent's uuid
+                        }).indexOf(fox.uuid) === -1; // check if this fox is not already selected fox's parent
+            });
+        }
+    };
+
+    $scope.addParent = function() {
+        if ($scope.selectedFox.parents === undefined) {
+            $scope.selectedFox.parents = [];
+        }
+        $scope.selectedFox.parents.push({});
+    };
+
+    $scope.removeParent = function(index) {
+        $scope.selectedFox.parents.splice(index, 1);
     };
 
     $scope.changeLanguage = function(key) {

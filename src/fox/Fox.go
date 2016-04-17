@@ -1,8 +1,8 @@
 package fox
 
 type Fox struct {
-	Name 		string	`json:"name"`
-	Parents 	[]string `json:"parents"`
+	Name 		string	`json:"name,omitempty"`
+	Parents 	[]Fox `json:"parents,omitempty"`
 	Uuid		string 	`json:"uuid"`
 }
 
@@ -19,9 +19,9 @@ func Compare(a, b Fox) bool{
 	if len(a.Parents) != len(b.Parents){
 		return false
 	}
-	
+
 	for i := range a.Parents{
-		if a.Parents[i] != b.Parents[i] {
+		if a.Parents[i].Uuid != b.Parents[i].Uuid {
 			return false
 		}
 	}

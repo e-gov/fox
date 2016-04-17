@@ -1,7 +1,7 @@
 /**
  * Created by mihkelk on 17.02.2016.
  */
-foxApp.service("FoxRegisterService", function ($http, configConstant, $translate) {
+foxApp.service("FoxRegisterService", function ($http, $log, configConstant, $translate) {
 
     this.getAll = function (onSuccess, onError) {
         $http({
@@ -15,14 +15,42 @@ foxApp.service("FoxRegisterService", function ($http, configConstant, $translate
         }).then(onSuccess, onError);
     };
 
-    this.addFox = function (foxName, onSuccess, onError) {
+    this.getFox = function (uuid, onSuccess, onError) {
+        $http({
+            method: "GET",
+            cache: false,
+            responseType: 'json',
+            url: configConstant.backendURL + "/fox/foxes/" + uuid,
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            }
+        }).then(function (result) {
+            if (!result.data.parents) {
+                result.data.parents = [];
+            }
+            return result;
+        }).then(onSuccess, onError);
+    };
+
+    this.addFox = function (fox, onSuccess, onError) {
         $http({
             method: "POST",
             cache: false,
             responseType: 'json',
-            data: {name: foxName},
-            headers: {'Content-Type': 'application/json; charset=utf-8'},
+            data: fox,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
             url: configConstant.backendURL + "/fox/foxes"
+        }).then(onSuccess, onError);
+    };
+
+    this.updateFox = function (fox, onSuccess, onError) {
+        $http({
+            method: "PUT",
+            cache: false,
+            responseType: 'json',
+            data: fox,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            url: configConstant.backendURL + "/fox/foxes/" + fox.uuid
         }).then(onSuccess, onError);
     };
 
@@ -31,8 +59,8 @@ foxApp.service("FoxRegisterService", function ($http, configConstant, $translate
             method: "DELETE",
             cache: false,
             responseType: 'json',
-            headers: {'Content-Type': 'application/json; charset=utf-8'},
-            url: configConstant.backendURL + "/fox/foxes/" + uuid + "/delete"
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            url: configConstant.backendURL + "/fox/foxes/" + uuid
         }).then(onSuccess, onError);
     };
 
