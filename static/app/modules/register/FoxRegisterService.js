@@ -66,6 +66,7 @@ foxApp.service("FoxRegisterService", function ($http, $log, configConstant, $tra
 
     this.changeLanguage = function(key) {
         $translate.use(key);
+        localStorage.language = key;
     };
 
 });
