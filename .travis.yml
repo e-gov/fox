@@ -7,10 +7,9 @@ install:
         - ls -Al
         - pwd
         - export GOPATH=$PWD
-        - go get fox/main
-        - go get login/main
-        - go get github.com/onsi/ginkgo
-        - go get github.com/onsi/gomega
+        - go get -d fox/foxservice login/loginservice
+        - go get -d github.com/onsi/ginkgo
+        - go get -d github.com/onsi/gomega
         - go install github.com/onsi/ginkgo/ginkgo
         - export PATH=$PATH:$GOPATH/bin
 

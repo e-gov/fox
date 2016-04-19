@@ -33,12 +33,12 @@ var _ = Describe("Fox", func() {
 		
 		aFox = Fox{
 			Name: "Rein",
-			Parents: []string{"2", "3"},			
+			Parents: []Fox{},
 		}
 		
 		anotherFox = Fox{
 			Name: "NewName",
-			Parents: []string{"4", "5"},
+			Parents: []Fox{aFox},
 		}
 		authn.InitValidator()
 		authn.InitMint()
