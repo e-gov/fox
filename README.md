@@ -48,6 +48,10 @@ export LANG=en_US.UTF-8
 export GOPATH=$PWD
 go get fox/foxservice
 go get login/loginservice
+
+#tests only need to be downloaded, not installed, need a special -t flag
+go get -d -t fox/fox_test
+go get -d -t login/login_test
 ```
 
 ## Running a REST server
@@ -59,11 +63,7 @@ Linux
 ```
 mkdir -p bin/config/$USER
 cp src/config/config.json.template bin/config/$USER/config.json
-```
-Windows
-```
-mkdir -p bin/config/$env:username 
-cp src/config/config.json.template bin/config/$env:username/config.json 
+cp src/config/config.json.template bin/config/$USER/test_config.json
 ```
 
 ```
