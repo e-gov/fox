@@ -10,6 +10,7 @@ go get -d -t login/login_test
 
 mkdir -p bin/config/$USER
 cp src/config/config.json.template bin/config/$USER/config.json
+cp src/config/config.json.template bin/config/$USER/test_config.json
 
 mkdir /tmp/foxdb  
 ./bin/foxservice

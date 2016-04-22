@@ -63,11 +63,7 @@ Linux
 ```
 mkdir -p bin/config/$USER
 cp src/config/config.json.template bin/config/$USER/config.json
-```
-Windows
-```
-mkdir -p bin/config/$env:username 
-cp src/config/config.json.template bin/config/$env:username/config.json 
+cp src/config/config.json.template bin/config/$USER/test_config.json
 ```
 
 ```
