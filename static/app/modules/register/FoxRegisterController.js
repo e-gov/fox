@@ -40,27 +40,27 @@ foxApp.controller("RegisterController", function ($scope, $log, FoxRegisterServi
         });
     };
 
-    $scope.getAvailableParents = function(selectedParent) {
+    $scope.getAvailableParents = function(parentUuid) {
         if (!$scope.selectedFox) {
             return $scope.foxList;
         } else {
             return $scope.foxList.filter(function(fox) {
                 return fox.uuid !== $scope.selectedFox.uuid
                     && $scope.selectedFox.parents
-                        .map(function(parent) {
-                            return parent.uuid; // get array of parent uuids
-                        }).filter(function(uuid) {
-                            return uuid !== selectedParent.uuid; // exclude currently selected parent's uuid
+                        .filter(function(uuid) {
+                            return uuid !== parentUuid; // exclude currently selected parent's uuid
                         }).indexOf(fox.uuid) === -1; // check if this fox is not already selected fox's parent
             });
         }
     };
 
     $scope.addParent = function() {
-        if ($scope.selectedFox.parents === undefined) {
+        if (!$scope.selectedFox.parents) {
             $scope.selectedFox.parents = [];
         }
-        $scope.selectedFox.parents.push({});
+        if ($scope.selectedFox.parents.indexOf("") < 0){
+            $scope.selectedFox.parents.push("");
+        }
     };
 
     $scope.removeParent = function(index) {

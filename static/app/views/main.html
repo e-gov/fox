@@ -32,7 +32,7 @@
 
             <label>{{ 'PARENTS' | translate }}</label>
             <div>
-                <select name="selectParent-$index" id="selectParent-$index" ng-model="parent.uuid" ng-repeat-start="parent in selectedFox.parents">
+                <select name="selectParent-$index" id="selectParent-$index" ng-model="selectedFox.parents[$index]" ng-repeat-start="parent in selectedFox.parents">
                     <option ng-repeat="fox in getAvailableParents(parent)" value="{{fox.uuid}}">{{ fox.name }}</option>
                 </select>
                 <a href="" ng-repeat-end ng-click="removeParent($index)">X</a>
