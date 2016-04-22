@@ -48,6 +48,10 @@ export LANG=en_US.UTF-8
 export GOPATH=$PWD
 go get fox/foxservice
 go get login/loginservice
+
+#tests only need to be downloaded, not installed, need a special -t flag
+go get -d -t fox/fox_test
+go get -d -t login/login_test
 ```
 
 ## Running a REST server
