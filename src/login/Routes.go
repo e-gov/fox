@@ -3,6 +3,7 @@ package login
 import (
 	"fmt"
 	"net/http"
+	"util"
 )
 
 type Route struct {
@@ -28,13 +29,20 @@ var routes = Routes{
 	Route{
 		"Reissue",
 		"GET",
-		"/reissue",
+		"/login/reissue",
 		Reissue,	
 	},
 	Route{
 		"Roles",
 		"GET",
-		"/roles",
+		"/login/roles",
 		Roles,
 	},
+	Route{
+		"APIStatus",
+		"GET",
+		"/login/status",
+		util.StatsHandler,
+	},
+
 }

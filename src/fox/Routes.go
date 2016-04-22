@@ -3,6 +3,7 @@ package fox
 import (
 	"fmt"
 	"net/http"
+	"util"
 )
 
 type Route struct {
@@ -59,7 +60,7 @@ var routes = Routes{
 		"APIStatus",
 		"GET",
 		"/fox/status",
-		Stats,
+		util.StatsHandler,
 		"*",
 	},
 }
