@@ -16,13 +16,6 @@ var log = logging.MustGetLogger("FoxService")
 
 
 func main()  {
-	format := logging.MustStringFormatter(
-    	`%{color}%{time:15:04:05.000} %{shortfunc} ▶ %{level:.4s} %{id:03x}%{color:reset} %{message}`,
-	)
-
-	b := logging.NewLogBackend(os.Stdout, "", 0)
-	bFormatter := logging.NewBackendFormatter(b, format)
-	logging.SetBackend(bFormatter)
 	
 	var port = flag.Int("port", 8090, "Port to bind to on the localhost interface")
 	flag.Parse()
@@ -34,6 +27,7 @@ func main()  {
 
 func init()  {
 	util.LoadConfig()
+	setupLogging()
 	
 	sc := make(chan os.Signal, 1)
 	
@@ -45,4 +39,15 @@ func init()  {
 			util.LoadConfig()
 		}		
 	}()
+}
+
+func setupLogging()  {
+	format := logging.MustStringFormatter(
+    	`%{color}%{time:15:04:05.000} %{shortfunc} ▶ %{level:.4s} %{id:03x}%{color:reset} %{message}`,
+	)
+
+	b := logging.NewLogBackend(os.Stdout, "", 0)
+	//b,err := logging.NewSyslogBackend("Fox")
+	bFormatter := logging.NewBackendFormatter(b, format)
+	logging.SetBackend(bFormatter)	
 }

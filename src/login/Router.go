@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/gorilla/handlers"
 	"github.com/op/go-logging"
+	"util"
 )
 
 var log = logging.MustGetLogger("LoginService")
@@ -17,6 +18,9 @@ func NewRouter() *mux.Router{
 		var handler http.Handler
 
 		handler = route.HandlerFunc
+		handler = util.NewTelemetry(handler, route.Name)
+		
+		handler = util.LoggingHandler(handler, log)
 
 		router.
 		Methods(route.Method).

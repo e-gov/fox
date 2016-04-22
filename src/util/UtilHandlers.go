@@ -67,7 +67,6 @@ func (l *statLogger) Size() int{
 func LoggingHandler(inner http.Handler, log *logging.Logger) http.Handler{
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
 		sw := MakeLogger(w)
-		
 		inner.ServeHTTP(sw, r)
 		log.Info(buildCommonLogLine(r, *r.URL, time.Now(), sw.Status(), sw.Size()))
 	})

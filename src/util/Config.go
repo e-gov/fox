@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-var log = logging.MustGetLogger("LoginService")
+var log = logging.MustGetLogger("Config")
 
 // Config is the data structure for passing configuration info
 type Config struct {
