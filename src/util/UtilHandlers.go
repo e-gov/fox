@@ -113,3 +113,15 @@ func buildCommonLogLine(req *http.Request, url url.URL, ts time.Time, status int
 		status, 
 		size)
 }
+
+// Stats is a handler for displaying API statistics
+func StatsHandler(w http.ResponseWriter, r *http.Request) {
+	SendHeaders(w)
+	w.WriteHeader(http.StatusOK)
+	metrics.WriteJSONOnce(metrics.DefaultRegistry, w)
+}
+
+func SendHeaders(w http.ResponseWriter) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+}
+

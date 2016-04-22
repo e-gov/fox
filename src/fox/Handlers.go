@@ -10,13 +10,9 @@ import (
 	"io/ioutil"
 
 	"github.com/pborman/uuid"
-	"github.com/rcrowley/go-metrics"
+	"util"
 )
 
-
-func sendHeaders(w http.ResponseWriter) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-}
 
 // Show ia s handler for returning a specific fox
 func Show(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +22,7 @@ func Show(w http.ResponseWriter, r *http.Request) {
 	// Read the fox from storage
 	fox, err := ReadFox(vars["foxId"])
 
-	sendHeaders(w)
+	util.SendHeaders(w)
 	// Translate any storage error to a basic 404
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
@@ -50,7 +46,7 @@ func List(w http.ResponseWriter, r *http.Request) {
 	foxes, err := GetFoxes()
 	log.Debugf("Found %d foxes", len(foxes))
 
-	sendHeaders(w)
+	util.SendHeaders(w)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		if err := json.NewEncoder(w).Encode(Error{Code: 404, Message: "Fox list not available"}); err != nil {
@@ -77,7 +73,7 @@ func addFoxToStorage(w http.ResponseWriter, r *http.Request, status int, uuid st
 		panic(err)
 	}
 
-	sendHeaders(w)
+	util.SendHeaders(w)
 
 	if err := json.Unmarshal(body, &fox); err != nil {
 		w.WriteHeader(422)
@@ -129,7 +125,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 func Delete(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
-	sendHeaders(w)
+	util.SendHeaders(w)
 	foxId := vars["foxId"]
 	if !FoxExists(foxId) {
 		w.WriteHeader(http.StatusNotFound)
@@ -141,11 +137,4 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	DeleteFoxFromStorage(foxId)
 	w.WriteHeader(http.StatusOK)
 
-}
-
-// Stats is a handler for displaying API statistics
-func Stats(w http.ResponseWriter, r *http.Request) {
-	sendHeaders(w)
-	w.WriteHeader(http.StatusOK)
-	metrics.WriteJSONOnce(metrics.DefaultRegistry, w)
 }

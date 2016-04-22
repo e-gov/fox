@@ -18,16 +18,19 @@ var log = logging.MustGetLogger("FoxService")
 func main()  {
 	
 	var port = flag.Int("port", 8090, "Port to bind to on the localhost interface")
+	var slog = flag.Bool("syslog", false, "If present, logs are sent to syslog")
 	flag.Parse()
 
+	initConfig()
+	setupLogging(slog)
+	
 	router := fox.NewRouter()
 	log.Infof("Starting a server on localhost:%d", *port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), router))
 }
 
-func init()  {
+func initConfig()  {
 	util.LoadConfig()
-	setupLogging()
 	
 	sc := make(chan os.Signal, 1)
 	
@@ -41,13 +44,19 @@ func init()  {
 	}()
 }
 
-func setupLogging()  {
+func setupLogging(slog *bool)  {
+	var b logging.Backend
+	
 	format := logging.MustStringFormatter(
     	`%{color}%{time:15:04:05.000} %{shortfunc} ▶ %{level:.4s} %{id:03x}%{color:reset} %{message}`,
 	)
 
-	b := logging.NewLogBackend(os.Stdout, "", 0)
-	//b,err := logging.NewSyslogBackend("Fox")
+	if *slog  {
+		b, _ = logging.NewSyslogBackend("Fox")	
+	}else{
+		b = logging.NewLogBackend(os.Stdout, "", 0)	
+	}
+	
 	bFormatter := logging.NewBackendFormatter(b, format)
 	logging.SetBackend(bFormatter)	
 }
