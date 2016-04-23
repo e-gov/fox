@@ -75,7 +75,7 @@ go run src/authn/keygen/KeyGen.go > key.base64 # Generate the keyfile for authen
 ```
 
 REST interface will respond on **http://localhost:8090/**. You should now be able to use web UI in **http://localhost:9000/**.
-To change a port or name of the application ("my" by default), check **./bin/foxservice -h**.
+To change a port used or logging target (defaults to stdout and can be sent to syslog), check **./bin/foxservice -h** and **./bin/loginservice -h**.
 
 ## Configuration
 Configuration is user-based, every user has a folder with their username under config/, where their personal config file(s) live.
