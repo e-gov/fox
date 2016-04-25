@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1">
 
-    <title>{{ 'TITLE' | translate }}</title>
+    <title ng-bind="'TITLE' | translate"></title>
     <meta name="description"
           content="Näidisrakendus">
 
@@ -62,8 +62,8 @@
         <div class="wrapper">
 
             <a class="site-title"
-               ng-href="/#/" >
-                {{ 'TITLE' | translate }}
+               ng-href="/#/"
+               ng-bind="'TITLE' | translate">
             </a>
 
             <nav class="site-nav">
@@ -78,17 +78,18 @@
                               d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
                     </svg>
                 </a>
-
+                <div>
+                    <span ng-show="getUser()">Logged in as: <span ng-bind="getUser()"></span></span>
+                </div>
                 <div class="trigger">
-                    <span class="page-link" ng-bind="getUser()"></span>
                     <a class="page-link"
-                       ng-href="/#/">{{ 'TITLE' | translate }}
+                       ng-href="/#/" ng-bind="'TITLE' | translate">
                     </a>
                     <a class="page-link"
-                       ng-href="/#/swagger">{{ 'API_DOC' | translate }}
+                       ng-href="/#/swagger" ng-bind="'API_DOC' | translate">
                     </a>
                     <a class="page-link"
-                       ng-href="/#/about">{{ 'ABOUT' | translate }}
+                       ng-href="/#/about" ng-bind="'ABOUT' | translate">
                     </a>
                 </div>
             </nav>
@@ -96,12 +97,13 @@
         </div>
 
         <div class="wrapper">
-            <button class="enButton" ng-click="changeLanguage('en')"></button>
-            <button class="estButton" ng-click="changeLanguage('et')"></button>
+            <button class="enButton"
+                    ng-click="changeLanguage('en')"></button>
+            <button class="estButton"
+                    ng-click="changeLanguage('et')"></button>
         </div>
 
     </header>
-
 
 
     <div class="wrapper">
@@ -109,7 +111,6 @@
             <ng-view></ng-view>
         </div>
     </div>
-
 
 
     <!--<footer class="site-footer">-->

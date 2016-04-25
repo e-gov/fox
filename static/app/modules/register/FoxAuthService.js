@@ -3,8 +3,12 @@
  */
 foxApp.service("FoxAuthService", function ($http, $log, configConstant) {
 
-    var Token;
-    var User;
+    var User = "mihkel";
+    var Token = "gAAAAABXHnIMI2xOhmLYoW29-TZ-XTQ3vRJJCRCH0hueKSnIO59NGLJWKrpiF7ilI1d1GrvhhgFgDmxomNtXVK5e2A3MBdGs4AwV0EZ_c3pz4BIoItIkKUzZSjFZlteqKOGKGISGSs3ujWLEQr_lYolEsspv7a6u0C13hN-_Z9gaD4z_oFkQjRI=";
+
+    //
+    //var User;
+    //var Token;
 
     this.login = function (username, password, onSuccess, onError) {
         $http({

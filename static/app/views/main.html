@@ -1,51 +1,103 @@
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <table class="table table-bordered table-hover table-striped">
 
             <thead>
-                <tr>
-                    <th>#</th>
-                    <th>{{ 'COLUMN_NAME' | translate }}</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th>#</th>
+                <th>{{ 'COLUMN_NAME' | translate }}</th>
+                <th ng-if="isAuthenticated()"></th>
+            </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="fox in foxList">
-                    <td ng-bind="$index + 1"></td>
-                    <td ng-bind="fox.name"></td>
-                    <td>
-                        <a href="" 
-                           ng-click="delete(fox)">{{ 'DELETE' | translate }}
-                        </a>
-                        <a href=""
-                           ng-click="edit(fox)">{{ 'UPDATE' | translate }}
-                        </a>
-                    </td>
-                </tr>
+            <tr ng-repeat="fox in foxList">
+                <td ng-bind="$index + 1"></td>
+                <td ng-bind="fox.name"></td>
+                <td ng-if="isAuthenticated()">
+                    <a href=""
+                       ng-click="delete(fox)">{{ 'DELETE' | translate }}
+                    </a>
+                    <a href=""
+                       ng-click="edit(fox)">{{ 'UPDATE' | translate }}
+                    </a>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4"
+         ng-if="isAuthenticated()">
         <form>
-            <label>{{ 'NAME' | translate }}</label>
-            <input type="text" ng-model="selectedFox.name">
-
-            <label>{{ 'PARENTS' | translate }}</label>
-            <div>
-                <select name="selectParent-$index" id="selectParent-$index" ng-model="selectedFox.parents[$index]" ng-repeat-start="parent in selectedFox.parents">
-                    <option ng-repeat="fox in getAvailableParents(parent)" value="{{fox.uuid}}">{{ fox.name }}</option>
+            <div class="form-group">
+                <label>{{ 'NAME' | translate }}</label>
+                <input type="text"
+                       class="form-control"
+                       ng-model="selectedFox.name">
+            </div>
+            <div class="form-group">
+            <label for="{{selectParent-$index}}">
+                {{ 'PARENTS' | translate }}
+            </label>
+                <select name="selectParent-$index"
+                        id="{{selectParent-$index}}"
+                        class="form-control"
+                        ng-model="selectedFox.parents[$index]"
+                        ng-repeat-start="parent in selectedFox.parents">
+                    <option ng-repeat="fox in getAvailableParents(parent)"
+                            value="{{fox.uuid}}">{{ fox.name }}
+                    </option>
                 </select>
-                <a href="" ng-repeat-end ng-click="removeParent($index)">X</a>
+                <a href=""
+                   ng-repeat-end
+                   ng-click="removeParent($index)">X
+                </a>
             </div>
 
-            <button ng-click="addParent()">{{ 'ADD_PARENT' | translate }}</button>
+            <button ng-click="addParent()"
+                    class="btn btn-default">
+                {{ 'ADD_PARENT' | translate }}
+            </button>
 
-            <button type="submit" ng-if="!selectedFox.uuid" ng-click="add(selectedFox)">
+            <button type="submit"
+                    class="btn btn-default"
+                    ng-if="!selectedFox.uuid"
+                    ng-click="add(selectedFox)">
                 {{ 'ADD' | translate }}
             </button>
-            <button type="submit" ng-if="selectedFox.uuid " ng-click="update(selectedFox)">
+            <button type="submit"
+                    class="btn btn-default"
+                    ng-if="selectedFox.uuid "
+                    ng-click="update(selectedFox)">
                 {{ 'UPDATE' | translate }}
             </button>
+        </form>
+    </div>
+    <div class="col-md-4"
+         ng-if="!isAuthenticated()">
+        <form>
+            <div class="form-group">
+                <label for="lg_username"
+                       class="sr-only">Username
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="lg_username"
+                       name="lg_username"
+                       placeholder="username">
+            </div>
+            <div class="form-group">
+                <label for="lg_password"
+                       class="sr-only">Password
+                </label>
+                <input type="password"
+                       class="form-control"
+                       id="lg_password"
+                       name="lg_password"
+                       placeholder="password">
+            </div>
+            <a class="btn btn-default pull-right">
+                Login
+            </a>
         </form>
     </div>
 </div>
