@@ -1,7 +1,7 @@
 swagger: '2.0'
 
 info:
-  version: "0.0.4"
+  version: "0.0.5"
   title: LoginAPI
   description: The LoginAPI allows to generate tokens based on either third party credentials or previously minted tokens
 paths:
@@ -57,14 +57,11 @@ paths:
             items:
               type: string
               description: Role of the authentication context
-    /login/status:
+  /login/status:
     get:
       description: Returns status information for the API
       tags:
         - Statistics
       responses:
-        '200':
-           description: Status of the API instance
-           schema:
-             $ref: '#/definitions/APIStatus'
-
+        200:
+           description: Returns a JSON serialization of the current API telemetry. The structure and content of the response are not defined by the API

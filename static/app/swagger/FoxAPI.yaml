@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 0.0.6
+  version: 0.0.7
   title: 'FoxAPI'
   description: The FoxAPI allows to perform basic CRUD operations on the fox registry. Requests to all non-public operations must present a bearer token as per http://tools.ietf.org/html/rfc6750
 paths:
@@ -141,9 +141,7 @@ paths:
         - Statistics
       responses:
         '200':
-           description: Status of the API instance
-           schema:
-             $ref: '#/definitions/APIStatus'
+           description: JSON serialization of the status of the API instance. The structure of this is not definied on the API level
         default:
            description: Unexpected error
            schema:
@@ -175,21 +173,4 @@ definitions:
   UUID:
      type: string
      description: Unique identifier of any object
-  APIStatus:
-     type: object
-     properties:
-        timeSinceLastOK:
-           type: integer
-           format: int64
-           description: The number of milliseconds since the API instance returned a HTTP 200 indicating a successful response or the API instance was started
-        timeSinceLastNOK:
-           type: integer
-           format: int64          
-           description: The number of milliseconds since the API instance returned a code not from 2-series or the API instance was started
-        currentRequestCount:
-           type: integer
-           format: int64           
-           description: The number of meaningful requests being processed in parallel at the time of the status request
-        nodeName:
-          type: string
-          description: The name of the API node
+  
