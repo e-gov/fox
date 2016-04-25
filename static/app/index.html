@@ -41,6 +41,7 @@
 
     <!-- Angular Services -->
     <script src="modules/register/FoxRegisterService.js"></script>
+    <script src="modules/register/FoxAuthService.js"></script>
 
     <style>
         .nav, .pagination, .carousel, .panel-title a {
@@ -79,6 +80,7 @@
                 </a>
 
                 <div class="trigger">
+                    <span class="page-link" ng-bind="getUser()"></span>
                     <a class="page-link"
                        ng-href="/#/">{{ 'TITLE' | translate }}
                     </a>

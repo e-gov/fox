@@ -15,7 +15,8 @@ foxApp.config(function ($httpProvider) {
 });
 
 foxApp.constant("configConstant", {
-    backendURL: 'http://localhost:9000/api'
+    backendURL: 'http://localhost:9000/fox',
+    loginURL: 'http://localhost:9000/login'
 });
 
 foxApp.config(function ($routeProvider) {
@@ -47,3 +48,8 @@ foxApp.config(['$translateProvider', function ($translateProvider) {
     $translateProvider.translations('et', translations_ET);
     $translateProvider.preferredLanguage(language);
 }]);
+
+foxApp.run(function($rootScope, FoxAuthService) {
+    $rootScope.isAuthenticated = FoxAuthService.isAuthenticated;
+    $rootScope.getUser = FoxAuthService.getUser
+});

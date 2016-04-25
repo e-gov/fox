@@ -22,12 +22,11 @@ type Config struct {
 			MintKeyName      string
 			ValidateKeyNames []string
 			TokenTTL         int
-			PwdProvider struct {
-				PwdFileName string
-				Salt		string
-			}
+			PwdProvider      struct {
+						 PwdFileName string
+						 Salt        string
+					 }
 		}
-	
 }
 
 // Sanitize the configuration
@@ -69,7 +68,7 @@ func LoadConfigByName(name string) {
 
 	userName := getUserName()
 	log.Debugf("Current user is %s", userName)
-	
+
 	viper.SetConfigName(name)
 	viper.SetConfigType("json")
 
@@ -137,11 +136,11 @@ func getConfigPath(userName string) string {
 	var a []string
 	if iBin > iSrc {
 		a = pathEl[:iBin + 1] // take up to bin (inclusive)
-	}else {
+	} else {
 		a = pathEl[:iSrc + 1] // take up to src (inclusive)
 		// If neither bin nor source is found, we are probably at 
 		// project home
-		if iSrc == -1{
+		if iSrc == -1 {
 			a = append(pathEl, "src")
 		}
 	}

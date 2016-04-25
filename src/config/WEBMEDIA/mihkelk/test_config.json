@@ -1,0 +1,17 @@
+{
+  "storage": {
+    "filepath": "/tmp/foxdb"
+  },
+  "authn": {
+    "MintKeyName": "test_key.base64",
+    "ValidateKeyNames": [
+      "test_key.base64",
+      "test_key2.base64"
+    ],
+    "TokenTTL": 15,
+    "PwdProvider": {
+      "PwdFileName": "C:/RIA/rebaseregister/fox/src/config/WEBMEDIA/mihkelk/test_pwd.list",
+      "Salt": "RebasedJaKanad"
+    }
+  }
+}

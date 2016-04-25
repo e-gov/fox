@@ -16,7 +16,7 @@ import (
 var log = logging.MustGetLogger("login")
 
 func main() {
-	var port = flag.Int("port", 8090, "Port to bind to on the localhost interface")
+	var port = flag.Int("port", 8091, "Port to bind to on the localhost interface")
 	var slog = flag.Bool("syslog", false, "If present, logs are sent to syslog")
 
 	flag.Parse()

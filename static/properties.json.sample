@@ -2,12 +2,16 @@
   "dataSource": "proxy",
   "proxies": [
     {
-      "context": "/api",
+      "context": "/fox",
       "host": "localhost",
       "port": 8090,
-      "rewrite": {
-        "^/api": "/"
-      }
+      "changeOrigin": true
+    },
+    {
+      "context": "/login",
+      "host": "localhost",
+      "port": 8091,
+      "changeOrigin": true
     }
   ]
 }

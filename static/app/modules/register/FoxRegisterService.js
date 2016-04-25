@@ -8,7 +8,7 @@ foxApp.service("FoxRegisterService", function ($http, $log, configConstant, $tra
             method: "GET",
             cache: false,
             responseType: 'json',
-            url: configConstant.backendURL + "/fox/foxes",
+            url: configConstant.backendURL + "/foxes",
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             }
@@ -20,7 +20,7 @@ foxApp.service("FoxRegisterService", function ($http, $log, configConstant, $tra
             method: "GET",
             cache: false,
             responseType: 'json',
-            url: configConstant.backendURL + "/fox/foxes/" + uuid,
+            url: configConstant.backendURL + "/foxes/" + uuid,
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             }
@@ -39,7 +39,7 @@ foxApp.service("FoxRegisterService", function ($http, $log, configConstant, $tra
             responseType: 'json',
             data: fox,
             headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            url: configConstant.backendURL + "/fox/foxes"
+            url: configConstant.backendURL + "/foxes"
         }).then(onSuccess, onError);
     };
 
@@ -50,7 +50,7 @@ foxApp.service("FoxRegisterService", function ($http, $log, configConstant, $tra
             responseType: 'json',
             data: fox,
             headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            url: configConstant.backendURL + "/fox/foxes/" + fox.uuid
+            url: configConstant.backendURL + "/foxes/" + fox.uuid
         }).then(onSuccess, onError);
     };
 
@@ -60,7 +60,7 @@ foxApp.service("FoxRegisterService", function ($http, $log, configConstant, $tra
             cache: false,
             responseType: 'json',
             headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            url: configConstant.backendURL + "/fox/foxes/" + uuid
+            url: configConstant.backendURL + "/foxes/" + uuid
         }).then(onSuccess, onError);
     };
 
