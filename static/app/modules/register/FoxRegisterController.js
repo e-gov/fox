@@ -2,7 +2,7 @@
  * Created by mihkelk on 17.02.2016.
  */
 
-foxApp.controller("RegisterController", function ($scope, $log, FoxRegisterService) {
+foxApp.controller("RegisterController", function ($scope, $log, FoxRegisterService, FoxAuthService) {
 
     function initRegisterList() {
         $scope.foxName = undefined;
@@ -11,6 +11,15 @@ foxApp.controller("RegisterController", function ($scope, $log, FoxRegisterServi
             $scope.foxList = result.data;
         });
     }
+
+    $scope.login = function(username, password) {
+        FoxAuthService.login(username, password, function() {
+            alert("Login success");
+        }, function(error) {
+            alert("Error" + error);
+            console.error("Error", error);
+        })
+    };
 
     $scope.add = function (fox) {
         if (!fox.name || fox.name == '') {
