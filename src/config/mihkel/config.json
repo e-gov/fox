@@ -1,0 +1,17 @@
+{
+  "storage": {
+    "filepath": "/tmp/foxdb"
+  },
+  "authn": {
+    "MintKeyName": "key.base64",
+    "ValidateKeyNames": [
+      "key.base64",
+      "key2.base64"
+    ],
+    "TokenTTL": 15,
+    "PwdProvider": {
+      "PwdFileName": "/Users/mihkel/Documents/RIA/fox/src/config/mihkel/test_pwd.list",
+      "Salt": "RebasedJaKanad"
+    }
+  }
+}
