@@ -95,7 +95,7 @@ To use the basic password authentication provider, passwords must be hashed and 
 
 ```
 touch pwd.list
-go run src/authn/pwd/main/pwdMaker.go -user <username> -pwd <password> >> pwd.list
+go run src/authn/pwd/pwdmaker/pwdMaker.go -user <username> -pwd <password> >> pwd.list
 ```
 
 The pwd.list is a file referred to by the authn.PwdProvider.PwdFileName key in the config
