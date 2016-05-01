@@ -10,6 +10,7 @@ import (
 	"os"
 	"fox"
 	"util"
+	"authn"
 )
 
 var log = logging.MustGetLogger("FoxService")
@@ -31,6 +32,7 @@ func main()  {
 
 func initConfig()  {
 	util.LoadConfig()
+	authn.InitValidator()
 	
 	sc := make(chan os.Signal, 1)
 	
