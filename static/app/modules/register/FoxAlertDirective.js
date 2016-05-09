@@ -10,6 +10,12 @@ foxApp.directive("foxAlert", function (FoxAlertService) {
             }, function(newVal) {
                 scope.alerts = newVal;
             }, true);
+
+            scope.$watch(function() {
+                return FoxAlertService.infos;
+            }, function(newVal) {
+                scope.infos = newVal;
+            }, true);
         }
     }
 });

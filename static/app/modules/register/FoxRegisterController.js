@@ -2,11 +2,12 @@
  * Created by mihkelk on 17.02.2016.
  */
 
-foxApp.controller("RegisterController", function ($scope, $log, FoxRegisterService, FoxAuthService) {
+foxApp.controller("RegisterController", function ($scope, $log, FoxRegisterService, FoxAuthService, FoxAlertService) {
 
     function initRegisterList() {
         $scope.foxName = undefined;
         $scope.selectedFox = {};
+        FoxAlertService.clearInfos();
         FoxRegisterService.getAll(function(result) {
             $scope.foxList = result.data;
         });
