@@ -4,3 +4,9 @@
          ng-bind="alert | translate">
     </div>
 </div>
+<div ng-if="infos.length > 0">
+    <div class="alert alert-info"
+         ng-repeat="info in infos"
+         ng-bind="info | translate">
+    </div>
+</div>

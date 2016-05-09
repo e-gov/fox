@@ -9,11 +9,17 @@ var foxApp = angular.module("fox", [
     'pascalprecht.translate'
 ]);
 
-foxApp.factory('requestInterceptor', function(FoxAlertService) {
-    var defaultErrorHandler = function(response) {
+foxApp.factory('requestInterceptor', function (FoxAlertService) {
+    var defaultErrorHandler = function (response) {
         FoxAlertService.addError(response.statusText);
     };
+    var defaultSuccessHandler = function (response) {
+        FoxAlertService.clearInfos();
+        return response;
+    };
     return {
+        request: defaultSuccessHandler,
+        response: defaultSuccessHandler,
         responseError: defaultErrorHandler,
         requestError: defaultErrorHandler
     };
@@ -60,7 +66,7 @@ foxApp.config(['$translateProvider', function ($translateProvider) {
     $translateProvider.preferredLanguage(language);
 }]);
 
-foxApp.run(function($rootScope, FoxAuthService) {
+foxApp.run(function ($rootScope, FoxAuthService) {
     $rootScope.isAuthenticated = FoxAuthService.isAuthenticated;
     $rootScope.getUser = FoxAuthService.getUser
 });

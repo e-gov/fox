@@ -1,12 +1,8 @@
 /**
  * Created by mihkelk on 19.04.2016.
  */
-foxApp.service("FoxAuthService", function ($http, $log, configConstant) {
+foxApp.service("FoxAuthService", function ($http, $log, configConstant, FoxAlertService) {
 
-    //var User = "mihkel";
-    //var Token = "gAAAAABXHnIMI2xOhmLYoW29-TZ-XTQ3vRJJCRCH0hueKSnIO59NGLJWKrpiF7ilI1d1GrvhhgFgDmxomNtXVK5e2A3MBdGs4AwV0EZ_c3pz4BIoItIkKUzZSjFZlteqKOGKGISGSs3ujWLEQr_lYolEsspv7a6u0C13hN-_Z9gaD4z_oFkQjRI=";
-
-    //
     var User;
     var Token;
 
@@ -29,6 +25,8 @@ foxApp.service("FoxAuthService", function ($http, $log, configConstant) {
             User = username;
             $http.defaults.headers.common.Authorization = 'Bearer ' + Token;
             console.log("Recived token", Token);
+            FoxAlertService.addInfo(result.statusText);
+            FoxAlertService.clearErrors();
             onSuccess();
         }, onError);
     };
