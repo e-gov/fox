@@ -1,0 +1,6 @@
+<div ng-if="alerts.length > 0">
+    <div class="alert alert-danger"
+         ng-repeat="alert in alerts"
+         ng-bind="alert | translate">
+    </div>
+</div>

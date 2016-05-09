@@ -9,9 +9,20 @@ var foxApp = angular.module("fox", [
     'pascalprecht.translate'
 ]);
 
+foxApp.factory('requestInterceptor', function(FoxAlertService) {
+    var defaultErrorHandler = function(response) {
+        FoxAlertService.addError(response.statusText);
+    };
+    return {
+        responseError: defaultErrorHandler,
+        requestError: defaultErrorHandler
+    };
+});
+
 foxApp.config(function ($httpProvider) {
     $httpProvider.defaults.headers.common["Accept"] = "application/json";
     $httpProvider.defaults.headers.common["Content-Type"] = "application/json";
+    $httpProvider.interceptors.push("requestInterceptor");
 });
 
 foxApp.constant("configConstant", {
