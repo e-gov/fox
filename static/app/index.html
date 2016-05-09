@@ -42,6 +42,8 @@
     <!-- Angular Services -->
     <script src="modules/register/FoxRegisterService.js"></script>
     <script src="modules/register/FoxAuthService.js"></script>
+    <script src="modules/register/FoxAlertService.js"></script>
+    <script src="modules/register/FoxAlertDirective.js"></script>
 
     <style>
         .nav, .pagination, .carousel, .panel-title a {
@@ -107,50 +109,11 @@
 
 
     <div class="wrapper">
+        <div fox-alert></div>
         <div class="home">
             <ng-view></ng-view>
         </div>
     </div>
-
-
-    <!--<footer class="site-footer">-->
-
-    <!--<div class="wrapper">-->
-
-    <!--&lt;!&ndash;<h2 class="footer-heading">{{ site.title }}</h2>&ndash;&gt;-->
-
-    <!--<div class="footer-col-wrapper">-->
-    <!--<div class="footer-col footer-col-1">-->
-    <!--<ul class="contact-list">-->
-    <!--&lt;!&ndash;<li>{{ site.title }}</li>&ndash;&gt;-->
-    <!--&lt;!&ndash;<li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>&ndash;&gt;-->
-    <!--</ul>-->
-    <!--</div>-->
-
-    <!--<div class="footer-col footer-col-2">-->
-    <!--<ul class="social-media-list">-->
-    <!--&lt;!&ndash;{% if site.github_username %}&ndash;&gt;-->
-    <!--&lt;!&ndash;<li>&ndash;&gt;-->
-    <!--&lt;!&ndash;{% include icon-github.html username=site.github_username %}&ndash;&gt;-->
-    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-    <!--&lt;!&ndash;{% endif %}&ndash;&gt;-->
-
-    <!--&lt;!&ndash;{% if site.twitter_username %}&ndash;&gt;-->
-    <!--&lt;!&ndash;<li>&ndash;&gt;-->
-    <!--&lt;!&ndash;{% include icon-twitter.html username=site.twitter_username %}&ndash;&gt;-->
-    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-    <!--&lt;!&ndash;{% endif %}&ndash;&gt;-->
-    <!--</ul>-->
-    <!--</div>-->
-
-    <!--<div class="footer-col footer-col-3">-->
-    <!--&lt;!&ndash;<p>{{ site.description }}</p>&ndash;&gt;-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--</div>-->
-
-    <!--</footer>-->
 
 </div>
 </body>
