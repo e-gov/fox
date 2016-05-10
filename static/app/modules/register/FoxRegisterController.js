@@ -14,12 +14,7 @@ foxApp.controller("RegisterController", function ($scope, $log, FoxRegisterServi
     }
 
     $scope.login = function(username, password) {
-        FoxAuthService.login(username, password, function() {
-            alert("Login success");
-        }, function(error) {
-            alert("Error" + error);
-            console.error("Error", error);
-        })
+        FoxAuthService.login(username, password);
     };
 
     $scope.add = function (fox) {
