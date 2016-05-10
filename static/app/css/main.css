@@ -157,6 +157,7 @@ pre {
   letter-spacing: 1px;
   margin-bottom: 0;
   float: left;
+  border: 1px solid #ff0000;
   text-transform: uppercase; }
   .site-title, .site-title:visited {
     color: #111 !important; }
