@@ -15,7 +15,6 @@ var _ = Describe("Authn", func() {
 	var challange = "test"
 	var provider = "pwd"
 
-
 	BeforeEach(func(){
 		util.LoadConfigByName("test_config")
 		authn.InitMint()
@@ -39,7 +38,6 @@ var _ = Describe("Authn", func() {
 	})
 
 	Describe ("Reissuing a token", func(){
-
 		Context("Username is preserved", func(){
 			It("should return the username that was given to the old token", func(){
 				oldToken = authn.GetToken(user)

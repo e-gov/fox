@@ -27,6 +27,10 @@ type Config struct {
 						 Salt        string
 					 }
 		}
+	Authz struct {
+			User string
+			Password string
+	      }
 }
 
 // Sanitize the configuration

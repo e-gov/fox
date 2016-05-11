@@ -16,6 +16,6 @@
   },
   "authz": {
     "User": "foxapi",
-    "Password": "foxapi"
+    "Password": "{ssha512}9WQhpVzv9dBr7xmtZP8nz0scGMkdFkILMYDr0ZyIqr89Y8Z8vM7b6zJlFxXdD71/4Xq9eriBsS7hp7girUPjugZGo1CEV/me"
   }
 }
