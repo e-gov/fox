@@ -8,6 +8,14 @@
       "test_key.base64",
       "test_key2.base64"
     ],
-    "TokenTTL": 15
+    "TokenTTL": 15,
+    "PwdProvider": {
+      "PwdFileName": "test_pwd.list",
+      "Salt": "RebasedJaKanad"
+    }
+  },
+  "authz": {
+    "User": "foxapi",
+    "Password": "foxapi"
   }
 }
