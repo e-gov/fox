@@ -6,7 +6,7 @@ pkg
 *.iml
 static/properties.json
 static/node_modules/
-./tmp
+static/.tmp/
 
 .vscode/
 .idea/
