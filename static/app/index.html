@@ -42,6 +42,8 @@
     <!-- Angular Services -->
     <script src="modules/register/FoxRegisterService.js"></script>
     <script src="modules/register/FoxAuthService.js"></script>
+    <script src="modules/register/FoxAlertService.js"></script>
+    <script src="modules/register/FoxAlertDirective.js"></script>
 
     <style>
         .nav, .pagination, .carousel, .panel-title a {
@@ -58,6 +60,19 @@
 <div class="page-content">
 
     <header class="site-header">
+
+        <div class="wrapper">
+           <div class="buttonsWrapper">
+               <button class="enButton"
+                       ng-click="changeLanguage('en')"></button>
+               <button class="estButton"
+                       ng-click="changeLanguage('et')"></button>
+           </div>
+
+            <div class="loginWrapper">
+                <span ng-show="getUser()">Logged in as: <span ng-bind="getUser()"></span></span>
+            </div>
+        </div>
 
         <div class="wrapper">
 
@@ -78,9 +93,9 @@
                               d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
                     </svg>
                 </a>
-                <div>
-                    <span ng-show="getUser()">Logged in as: <span ng-bind="getUser()"></span></span>
-                </div>
+
+
+
                 <div class="trigger">
                     <a class="page-link"
                        ng-href="/#/" ng-bind="'TITLE' | translate">
@@ -92,65 +107,22 @@
                        ng-href="/#/about" ng-bind="'ABOUT' | translate">
                     </a>
                 </div>
+
             </nav>
 
         </div>
 
-        <div class="wrapper">
-            <button class="enButton"
-                    ng-click="changeLanguage('en')"></button>
-            <button class="estButton"
-                    ng-click="changeLanguage('et')"></button>
-        </div>
+
 
     </header>
 
 
     <div class="wrapper">
+        <div fox-alert></div>
         <div class="home">
             <ng-view></ng-view>
         </div>
     </div>
-
-
-    <!--<footer class="site-footer">-->
-
-    <!--<div class="wrapper">-->
-
-    <!--&lt;!&ndash;<h2 class="footer-heading">{{ site.title }}</h2>&ndash;&gt;-->
-
-    <!--<div class="footer-col-wrapper">-->
-    <!--<div class="footer-col footer-col-1">-->
-    <!--<ul class="contact-list">-->
-    <!--&lt;!&ndash;<li>{{ site.title }}</li>&ndash;&gt;-->
-    <!--&lt;!&ndash;<li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>&ndash;&gt;-->
-    <!--</ul>-->
-    <!--</div>-->
-
-    <!--<div class="footer-col footer-col-2">-->
-    <!--<ul class="social-media-list">-->
-    <!--&lt;!&ndash;{% if site.github_username %}&ndash;&gt;-->
-    <!--&lt;!&ndash;<li>&ndash;&gt;-->
-    <!--&lt;!&ndash;{% include icon-github.html username=site.github_username %}&ndash;&gt;-->
-    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-    <!--&lt;!&ndash;{% endif %}&ndash;&gt;-->
-
-    <!--&lt;!&ndash;{% if site.twitter_username %}&ndash;&gt;-->
-    <!--&lt;!&ndash;<li>&ndash;&gt;-->
-    <!--&lt;!&ndash;{% include icon-twitter.html username=site.twitter_username %}&ndash;&gt;-->
-    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-    <!--&lt;!&ndash;{% endif %}&ndash;&gt;-->
-    <!--</ul>-->
-    <!--</div>-->
-
-    <!--<div class="footer-col footer-col-3">-->
-    <!--&lt;!&ndash;<p>{{ site.description }}</p>&ndash;&gt;-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--</div>-->
-
-    <!--</footer>-->
 
 </div>
 </body>

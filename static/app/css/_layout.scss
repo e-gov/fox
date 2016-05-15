@@ -17,7 +17,6 @@
     float: left;
     text-transform: uppercase;
 
-
     &,
     &:visited {
         color: $text-color !important;
@@ -26,6 +25,12 @@
     &:hover {
         text-decoration: none;
     }
+}
+
+.buttonsWrapper {
+    float: right;
+    width: 55px;
+    margin-top: 20px;
 }
 
 .enButton {
@@ -37,13 +42,28 @@
 
 }
 
+.home {
+    margin-top: 50px;
+}
+
+.col-md-8 {
+    margin-top: 25px;
+}
+
 .estButton {
     border: 0px;
     height: 19px;
     width: 24px;
     text-decoration: none;
     background-image: url('../images/est.png');
+}
 
+.loginWrapper {
+    float: right;
+    margin-top: 12px;
+    line-height: 40px;
+    margin-bottom: 10px;
+    margin-right: 25px;
 }
 
 .site-nav {
@@ -102,6 +122,7 @@
         }
 
         .trigger {
+            border: 1px solid green;
             clear: both;
             display: none;
         }
