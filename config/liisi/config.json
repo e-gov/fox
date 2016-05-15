@@ -6,7 +6,7 @@
     "MintKeyName": "key.base64",
     "ValidateKeyNames": [
       "key.base64",
-      "key2.base64"
+      "keys/key2.base64"
     ],
     "TokenTTL": 15,
     "PwdProvider": {

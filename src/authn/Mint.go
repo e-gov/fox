@@ -28,8 +28,11 @@ func loadMintKey() {
 // loadMintKeyByName loads a key by filename and strores it in the struct
 // The function is threadsafe and panics if the key file is invalid
 func LoadMintKeyByName(filename string) {
-	log.Debugf("Attempting to load mint key from %s", filename)
-	b, err := ioutil.ReadFile(filename)
+	
+	keyPath := util.GetPaths([]string{filename})[0]
+	
+	log.Debugf("Attempting to load mint key from %s", keyPath)
+	b, err := ioutil.ReadFile(keyPath)
 
 	if err != nil {
 		panic(err)
@@ -41,7 +44,7 @@ func LoadMintKeyByName(filename string) {
 		panic(err)
 	}
 
-	log.Debugf("Successfully loaded mint key from %s", filename)
+	log.Debugf("Successfully loaded mint key from %s", keyPath)
 	// Store only after we are sure loading was good
 	mintLock.Lock()
 	defer mintLock.Unlock()

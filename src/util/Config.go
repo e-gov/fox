@@ -71,13 +71,10 @@ func LoadConfigByName(name string) {
 	isFatal = (config == nil)
 	cLock.RUnlock()
 
-	userName := getUserName()
-	log.Debugf("Current user is %s", userName)
-
 	viper.SetConfigName(name)
 	viper.SetConfigType("json")
 
-	configFolder := getConfigPath(userName)
+	configFolder := getUserConfigFolderPath()
 	viper.AddConfigPath(configFolder)
 	viper.AddConfigPath(".") // default path
 
@@ -118,6 +115,42 @@ func GetConfig() *Config {
 	return config
 }
 
+// GetPaths returns absolute paths for input filenames.
+// If file exists in user's config folder, returns path to it,
+// otherwise returns path to file in 'config/' folder.
+func GetPaths(filenames []string) []string {
+	cfgFolder := getConfigFolderPath()
+	userCfgFolder := getUserConfigFolderPath()
+
+	var paths []string
+	
+	for _, name := range filenames {
+		path := cfgFolder + name
+		userPath := userCfgFolder + name
+
+		if _, err := os.Stat(userPath); err == nil {
+			paths = append(paths, userPath)
+		} else {
+			paths = append(paths, path)
+		}
+	}
+
+	return paths
+}
+
+// Generates path to user's config folder
+func getUserConfigFolderPath() string {
+
+	userName := getUserName()
+
+	cfgFolder := getConfigFolderPath()
+	sep := string(filepath.Separator)
+
+	path := cfgFolder + userName + sep
+
+	return path
+}
+
 // Return currently logged in user's username
 func getUserName() string {
 	u, err := user.Current()
@@ -127,11 +160,11 @@ func getUserName() string {
 	return u.Username
 }
 
-// Generate path to config folder
-func getConfigPath(userName string) string {
+// Generates path to general config folder (which contains all user's folders)
+func getConfigFolderPath() string {
 	sep := string(filepath.Separator)
 	wd, _ := os.Getwd()
-	
+
 	wdPath := strings.Split(wd, sep)
 	iSrc := lastIndexOf(wdPath, "src")
 	iBin := lastIndexOf(wdPath, "bin")
@@ -150,7 +183,7 @@ func getConfigPath(userName string) string {
 
 	if len(pathEl) > 0 {
 		cfgPath = strings.Join(pathEl, sep) + sep
-		cfgPath += "config" + sep + userName + sep
+		cfgPath += "config" + sep
 	}
 
 	return cfgPath
