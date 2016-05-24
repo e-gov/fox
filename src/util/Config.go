@@ -4,10 +4,11 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"strings"
 	"sync"
+
 	"github.com/op/go-logging"
 	"github.com/spf13/viper"
-	"strings"
 )
 
 var log = logging.MustGetLogger("Config")
@@ -16,17 +17,21 @@ var log = logging.MustGetLogger("Config")
 type Config struct {
 	Version int
 	Storage struct {
-			Filepath string
+		Filepath string
+	}
+	Authn struct {
+		MintKeyName      string
+		ValidateKeyNames []string
+		TokenTTL         int
+		PwdProvider      struct {
+			PwdFileName string
+			Salt        string
 		}
-	Authn   struct {
-			MintKeyName      string
-			ValidateKeyNames []string
-			TokenTTL         int
-			PwdProvider      struct {
-						 PwdFileName string
-						 Salt        string
-					 }
-		}
+	}
+	Authz struct {
+		User     string
+		Password string
+	}
 }
 
 // Sanitize the configuration
@@ -34,7 +39,7 @@ func sanitize(c *Config) {
 	s := c.Storage.Filepath
 	if len(s) > 0 {
 		// Make sure the db path ends with a forwardslash
-		if string(s[len(s) - 1]) != "/" {
+		if string(s[len(s)-1]) != "/" {
 			s = s + "/"
 			log.Debugf("Added forwardslash to db path '%s' ", s)
 		}
@@ -66,16 +71,12 @@ func LoadConfigByName(name string) {
 	isFatal = (config == nil)
 	cLock.RUnlock()
 
-	userName := getUserName()
-	log.Debugf("Current user is %s", userName)
-
 	viper.SetConfigName(name)
 	viper.SetConfigType("json")
 
-	configFolder := getConfigPath(userName)
+	configFolder := getUserConfigFolderPath()
 	viper.AddConfigPath(configFolder)
 	viper.AddConfigPath(".") // default path
-
 
 	if err := viper.ReadInConfig(); err != nil {
 		// No config to start up on
@@ -114,6 +115,42 @@ func GetConfig() *Config {
 	return config
 }
 
+// GetPaths returns absolute paths for input filenames.
+// If file exists in user's config folder, returns path to it,
+// otherwise returns path to file in 'config/' folder.
+func GetPaths(filenames []string) []string {
+	cfgFolder := getConfigFolderPath()
+	userCfgFolder := getUserConfigFolderPath()
+
+	var paths []string
+	
+	for _, name := range filenames {
+		path := cfgFolder + name
+		userPath := userCfgFolder + name
+
+		if _, err := os.Stat(userPath); err == nil {
+			paths = append(paths, userPath)
+		} else {
+			paths = append(paths, path)
+		}
+	}
+
+	return paths
+}
+
+// Generates path to user's config folder
+func getUserConfigFolderPath() string {
+
+	userName := getUserName()
+
+	cfgFolder := getConfigFolderPath()
+	sep := string(filepath.Separator)
+
+	path := cfgFolder + userName + sep
+
+	return path
+}
+
 // Return currently logged in user's username
 func getUserName() string {
 	u, err := user.Current()
@@ -123,31 +160,30 @@ func getUserName() string {
 	return u.Username
 }
 
-// Generate path to config folder
-func getConfigPath(userName string) string {
+// Generates path to general config folder (which contains all user's folders)
+func getConfigFolderPath() string {
 	sep := string(filepath.Separator)
 	wd, _ := os.Getwd()
 
-	pathEl := strings.Split(wd, sep)
-	iSrc := lastIndexOf(pathEl, "src")
-	iBin := lastIndexOf(pathEl, "bin")
+	wdPath := strings.Split(wd, sep)
+	iSrc := lastIndexOf(wdPath, "src")
+	iBin := lastIndexOf(wdPath, "bin")
 
 	cfgPath := ""
-	var a []string
-	if iBin > iSrc {
-		a = pathEl[:iBin + 1] // take up to bin (inclusive)
+	var pathEl []string
+	if iBin > -1 && iBin > iSrc {
+		pathEl = wdPath[:iBin] // take up to bin (exclusive)
+	} else if iSrc > -1 {
+		pathEl = wdPath[:iSrc] // take up to src (exclusive)
 	} else {
-		a = pathEl[:iSrc + 1] // take up to src (inclusive)
-		// If neither bin nor source is found, we are probably at 
+		// If neither bin nor source is found, we are probably at
 		// project home
-		if iSrc == -1 {
-			a = append(pathEl, "src")
-		}
+		pathEl = wdPath
 	}
 
-	if len(a) > 0 {
-		cfgPath = strings.Join(a, sep) + sep
-		cfgPath += "config" + sep + userName + sep
+	if len(pathEl) > 0 {
+		cfgPath = strings.Join(pathEl, sep) + sep
+		cfgPath += "config" + sep
 	}
 
 	return cfgPath
@@ -165,5 +201,5 @@ func lastIndexOf(h []string, n string) int {
 // Global to hold the conf and a lock
 var (
 	config *Config
-	cLock = new(sync.RWMutex)
+	cLock  = new(sync.RWMutex)
 )

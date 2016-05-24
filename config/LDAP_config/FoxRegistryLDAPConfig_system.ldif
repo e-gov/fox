@@ -1,0 +1,20 @@
+version: 1
+
+dn: uid=foxapi,ou=users,ou=system
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: Fox API
+sn: API
+displayName: Directory Reader
+uid: foxapi
+userPassword:: e3NzaGE1MTJ9OVdRaHBWenY5ZEJyN3htdFpQOG56MHNjR01rZEZrSUxNWURyM
+ Fp5SXFyODlZOFo4dk03YjZ6SmxGeFhkRDcxLzRYcTllcmlCc1M3aHA3Z2lyVVBqdWdaR28xQ0VW
+ L21l
+
+dn: ou=users,ou=system
+objectClass: organizationalUnit
+objectClass: top
+ou: users
+

@@ -1,0 +1,21 @@
+{
+  "storage": {
+    "filepath": "foxdb/"
+  },
+  "authn": {
+    "MintKeyName": "test_key.base64",
+    "ValidateKeyNames": [
+      "test_key.base64",
+      "test_key2.base64"
+    ],
+    "TokenTTL": 15,
+	"PwdProvider":{
+		"PwdFileName":"../../test_pwd.list",
+		"Salt":"RebasedJaKanad"
+	}
+  },
+  "authz": {
+    "User": "foxapi",
+    "Password": "9WQhpVzv9dBr7xmtZP8nz0scGMkdFkILMYDr0ZyIqr89Y8Z8vM7b6zJlFxXdD71/4Xq9eriBsS7hp7girUPjugZGo1CEV/me"
+  }
+}

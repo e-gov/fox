@@ -57,19 +57,22 @@ func loadValidateKeys() {
 func loadValidateKeyByName(filenames []string) {
 	var tempKeys []*fernet.Key 
 	
-	for _, name := range filenames{
-		log.Debugf("Attempting to load validation key from %s", name)
-		b, err := ioutil.ReadFile(name)
+	keyPaths := util.GetPaths(filenames)
+	
+	for _, path := range keyPaths {
+		
+		log.Debugf("Attempting to load validation key from %s", path)
+		b, err := ioutil.ReadFile(path)
 
 		if err != nil {
-			log.Errorf("Could not open a key file %s", name)
+			log.Errorf("Could not open a key file %s", path)
 		}else{
 			k, err := fernet.DecodeKey(string(b))
 
 			if err != nil {
-				log.Errorf("Could not parse a key from %s", name)
+				log.Errorf("Could not parse a key from %s", path)
 			}else{
-				log.Debugf("Successfully loaded validation key from %s", name)
+				log.Debugf("Successfully loaded validation key from %s", path)
 				tempKeys = append(tempKeys, k)			
 			}
 		}

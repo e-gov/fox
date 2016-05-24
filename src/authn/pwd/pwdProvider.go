@@ -19,9 +19,10 @@ type PwdProvider struct{}
 // password file. None of this is intended for prodcution use.
 func (p *PwdProvider)Authenticate(user string, challenge string) bool{
 	salt := util.GetConfig().Authn.PwdProvider.Salt
-	log.Debugf("Reading passwords from %s", util.GetConfig().Authn.PwdProvider.PwdFileName)
-	file, err := os.Open(util.GetConfig().Authn.PwdProvider.PwdFileName) 
-	
+	pwdFilePath := util.GetPaths([]string{util.GetConfig().Authn.PwdProvider.PwdFileName})[0]
+	log.Debugf("Reading passwords from %s", pwdFilePath)
+	file, err := os.Open(pwdFilePath) 
+	 
 	if err != nil{
 		panic(err)
 	}
