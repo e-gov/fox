@@ -54,19 +54,27 @@ go get -d -t fox/fox_test
 go get -d -t login/login_test
 ```
 
+## Running an Apache DS server
+
+1. Install Apache DS and Apache Directory Studio
+2. Import the config from FoxRegistryLDAPConfig.ldif and FoxRegistryLDAPConfig_system.ldif
+3. Alternatively, as a hot fix, ldapProvider can be replaced with simpleProvider in authz.go
+
+The travis file needs to be fixed for the build to succeed (LDAP server needs to put up on Travis' server).
+
+Redhat's 389 DS should be used instead of Apache DS, since the latter's functionality is not that well documented.
+
 ## Running a REST server
 
 1. Create folder config/{username} in bin, then copy and adapt example configuration file. 
 2. Execute Fox binary passing an instance name as a parameter.
 
-Linux
+
 ```
 mkdir -p bin/config/$USER
 cp src/config/config.json.template bin/config/$USER/config.json
 cp src/config/config.json.template bin/config/$USER/test_config.json
-```
 
-```
 mkdir /tmp/foxdb  # make sure that the configured storage folder exists.
 ./bin/foxservice
 
