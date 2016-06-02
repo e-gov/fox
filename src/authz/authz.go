@@ -26,7 +26,7 @@ type Provider interface{
 // trivial one is implemented 
 func GetProvider() Provider{
 	if (provider == nil){
-		provider = new(LdapProvider)
+		provider = new(SimpleProvider)
 	}
 	return provider
 }
