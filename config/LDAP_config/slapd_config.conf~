@@ -13,5 +13,5 @@ database  ldif
 directory /tmp/slapd
  
 suffix    "ou=users,ou=system"
-rootdn    "uid=admin,ou=system"
+rootdn    "uid=admin,ou=users,ou=system"
 rootpw    {ssha512}E47wOonlzbmG9UqGzSair1GaPy+JuuPINtDi7IH4/k76eOrp5qs+u6KBcIeIH49I/4WxpFz15NXJgqpQwpcJ94FeMxDiA0x0

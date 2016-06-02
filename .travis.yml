@@ -1,35 +1,21 @@
 language: go
 
 go:
-	- 1.5
-
-addons:
-	apt:
-		packages:
-		- ldap-utils
-		- slapd
-
-before_script:
-  - mkdir /tmp/slapd
-  - slapd -f config/LDAP_config/slapd_config.conf -h ldap://localhost:10389 &
-  - sleep 3
-  - ldapadd -h localhost:10389 -D uid=foxapi,ou=users,ou=system -w foxapi -f config/LDAP_config/FoxRegistryLDAPConfig.ldif
-  - ldapadd -h localhost:10389 -D uid=foxapi,ou=users,ou=system -w
-foxapi -f config/LDAP_config/FoxRegistryLDAPConfig_system.ldif
+  - 1.5
 
 install:
-        - ls -Al
-        - pwd
-        - export GOPATH=$PWD
-        - go get -d fox/foxservice login/loginservice
-        - go get -d github.com/onsi/ginkgo
-        - go get -d github.com/onsi/gomega
-        - go install github.com/onsi/ginkgo/ginkgo
-        - export PATH=$PATH:$GOPATH/bin
+  - ls -Al
+  - pwd
+  - export GOPATH=$PWD
+  - go get -d fox/foxservice login/loginservice
+  - go get -d github.com/onsi/ginkgo
+  - go get -d github.com/onsi/gomega
+  - go install github.com/onsi/ginkgo/ginkgo
+  - export PATH=$PATH:$GOPATH/bin
 
 script:
-        - mkdir src/fox/fox_test/foxdb/
-        - ginkgo src/login/login_test/
-        - ginkgo src/fox/fox_test/
-        - ginkgo src/authn/authn_test/
-	- ginkgo src/authz/authz_test/
+  - mkdir src/fox/fox_test/foxdb/
+  - ginkgo src/login/login_test/
+  - ginkgo src/fox/fox_test/
+  - ginkgo src/authn/authn_test/
+  - ginkgo src/authz/authz_test/
