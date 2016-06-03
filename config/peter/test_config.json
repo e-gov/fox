@@ -1,12 +1,12 @@
 {
   "storage": {
-    "filepath": "/tmp/foxdb/"
+    "filepath": "/tmp/foxdb"
   },
   "authn": {
-    "MintKeyName": "key.base64",
+    "MintKeyName": "test_key.base64",
     "ValidateKeyNames": [
-      "key.base64",
-      "key2.base64"
+      "test_key.base64",
+      "test_key2.base64"
     ],
     "TokenTTL": 15,
     "PwdProvider": {
