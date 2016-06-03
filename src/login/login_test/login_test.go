@@ -106,7 +106,7 @@ var _ = Describe("Login", func() {
 				request, _ = http.NewRequest("GET", "/login/roles", nil)
 				request.Header.Set("Authorization","Bearer " + token)
 				
-				Expect(getRoles(router, recorder, request)).To(ContainElement("registry user"))
+				Expect(getRoles(router, recorder, request)).To(ContainElement("registry administrator"))
 			})
 		})
 	})

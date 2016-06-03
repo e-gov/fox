@@ -51,7 +51,7 @@ func (provider *SimpleProvider)GetRoles(token string)[]string{
 	var roles []string
 	
 	if user != ""{
-		return append(roles, "ADMIN")
+		return append(roles, "registry administrator")
 	}
 	
 	return append(roles, "*") 
