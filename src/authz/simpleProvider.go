@@ -54,5 +54,5 @@ func (provider *SimpleProvider)GetRoles(token string)[]string{
 		return append(roles, "registry administrator")
 	}
 	
-	return append(roles, "*") 
+	return append(roles, "registry user")
 }
