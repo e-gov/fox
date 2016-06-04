@@ -27,7 +27,7 @@ func (provider *SimpleProvider)IsAuthorized(user string, method string, url stri
 
 	for _, r := range provider.requirements{
 		if strings.HasPrefix(url, r.url) && r.method == method{
-			b := (user == "" && r.role == "*") || (user != "")
+			b := (user == "" && r.role == "registry user") || (user != "")
 			log.Debugf("Request for %s to access %s %s returned %t", user, method, url, b)		
 			return b
 		}
