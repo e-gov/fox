@@ -66,19 +66,19 @@ Redhat's 389 DS should be used instead of Apache DS, since the latter's function
 
 ## Running a REST server
 
-1. Create folder config/{username} in bin, then copy and adapt example configuration file. 
+1. Create folder $USER (current system username) in `config`, then copy and adapt example configuration file. 
 2. Execute Fox binary passing an instance name as a parameter.
 
 
 ```
-mkdir -p bin/config/$USER
-cp src/config/config.json.template bin/config/$USER/config.json
-cp src/config/config.json.template bin/config/$USER/test_config.json
+mkdir -p config/$USER
+cp config/config.json.template config/$USER/config.json   # Normal config file
+cp config/config.json.template config/$USER/test_config.json   # Config file for tests
 
-mkdir /tmp/foxdb  # make sure that the configured storage folder exists.
+mkdir /tmp/foxdb   # make sure that the configured storage folder exists.
 ./bin/foxservice
 
-go run src/authn/keygen/KeyGen.go > key.base64 # Generate the keyfile for authentication tokens
+go run src/authn/keygen/KeyGen.go > config/$USER/key.base64   # Generate the keyfile for authentication tokens
 ./bin/loginservice
 ```
 
@@ -86,8 +86,16 @@ REST interface will respond on **http://localhost:8090/**. You should now be abl
 To change a port used or logging target (defaults to stdout and can be sent to syslog), check **./bin/foxservice -h** and **./bin/loginservice -h**.
 
 ## Configuration
-Configuration is user-based, every user has a folder with their username under config/, where their personal config file(s) live.
-All services and tests use the same configuration file: config.{ext} for services, test_config.{ext} for tests. Config files can be in all formats supported by [Viper](http://github.com/spf13/viper) (JSON, TOML, YAML, HCL, Java properties).
+Configuration is user-based, every user has a folder with their username under `config/`, where their personal config file(s) live.
+All services and tests use the same configuration file: `config.{ext}` for services, `test_config.{ext}` for tests. Config files can be in all formats supported by [Viper](http://github.com/spf13/viper) (JSON, TOML, YAML, HCL, Java properties).
+
+All files referenced in configuration (keys, password list etc) should also be placed in user's config folder.
+However, it's also possible to have both config and key files in config root folder as a fallback. These files are only used if corresponding file is not found in user's own folder. 
+
+Order of loading config and referenced files:
+
+1. User's folder `config/$USER/`
+2. General config folder `config/` 
 
 ## Reloading configuration
 To reload configuration, both the login and fox services accept a HUP signal that should have both produce log messages about re-loading configuration
@@ -103,7 +111,7 @@ To use the basic password authentication provider, passwords must be hashed and 
 
 ```
 touch pwd.list
-go run src/authn/pwd/pwdmaker/pwdMaker.go -user <username> -pwd <password> >> pwd.list
+go run src/authn/pwd/pwdmaker/pwdMaker.go -user <username> -pwd <password> >> config/$USER/pwd.list
 ```
 
 The pwd.list is a file referred to by the authn.PwdProvider.PwdFileName key in the config
