@@ -13,6 +13,13 @@ func getFileName(uuid string) string {
 
 // StoreFox persists the fox instance to somewhere
 func StoreFox(fox Fox, uuid string) UUID {
+
+	err := os.Chmod(getFileName(""), 0744)
+
+	if err != nil {
+		panic(err)
+	}
+
 	f, err := os.Create(getFileName(uuid))
 
 	if err != nil {
