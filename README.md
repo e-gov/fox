@@ -93,6 +93,7 @@ All files referenced in configuration (keys, password list etc) should also be p
 However, it's also possible to have both config and key files in config root folder as a fallback. These files are only used if corresponding file is not found in user's own folder. 
 
 Order of loading config and referenced files:
+
 1. User's folder `config/$USER/`
 2. General config folder `config/` 
 
