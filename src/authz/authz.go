@@ -36,7 +36,7 @@ func GetProvider() Provider{
 
 	p := util.GetConfig().Authz.Provider
 	if p == ""{
-		log.Error("No authorization provider configured, all access will be denied")
+		log.Warning("No authorization provider configured, all access will be denied")
 	}
 	
 	if provider == nil {
@@ -47,6 +47,7 @@ func GetProvider() Provider{
 		log.Debugf("Changing authz provider. Was %s is %s", provider.GetName(), p)
 		loadProvider(p)
 	}
+	
 	return provider
 }
 

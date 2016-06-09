@@ -77,14 +77,17 @@ func LoadConfigByName(name string) {
 	viper.SetConfigName(name)
 	viper.SetConfigType("json")
 
-	configFolder := getUserConfigFolderPath()
-	viper.AddConfigPath(configFolder)
+	userConfigFolder := getUserConfigFolderPath()
+	configFolder := getConfigFolderPath()
+	
+	viper.AddConfigPath(userConfigFolder) // user's own personal config file
+	viper.AddConfigPath(configFolder) // General fallback config file	
 	viper.AddConfigPath(".") // default path
 
 	if err := viper.ReadInConfig(); err != nil {
 		// No config to start up on
 		if isFatal {
-			log.Debugf("Looking for config in: %s", configFolder)
+			log.Debugf("Looking for config in: %s (user) or %s (fallback)", userConfigFolder, configFolder)
 			panic(err)
 		} else {
 			log.Errorf("Failed to load configuration from %s\n", name)
@@ -129,6 +132,14 @@ func GetPaths(filenames []string) []string {
 	var paths []string
 	
 	for _, name := range filenames {
+		if (strings.HasPrefix(name, "/")){
+			if _, err := os.Stat(name); err == nil {
+				// File exists and starts with a '/', must be an absolute path
+				paths = append(paths, name)
+				continue				
+			}		
+		}
+		
 		path := cfgFolder + name
 		userPath := userCfgFolder + name
 
@@ -189,7 +200,7 @@ func getConfigFolderPath() string {
 		cfgPath = strings.Join(pathEl, sep) + sep
 		cfgPath += "config" + sep
 	}
-
+	
 	return cfgPath
 }
 

@@ -1,6 +1,6 @@
 {
   "storage": {
-    "filepath": "/tmp/foxdb"
+    "filepath": "/tmp/foxdb/"
   },
   "authn": {
     "MintKeyName": "key.base64",
@@ -9,10 +9,13 @@
       "key2.base64"
     ],
     "TokenTTL": 15,
-	"PwdProvider":{
-		"PwdFileName":"pwd.list",
-		"Salt":"RebasedJaKanad"
-	}
-
+    "PwdProvider": {
+      "PwdFileName": "test_pwd.list",
+      "Salt": "RebasedJaKanad"
+    }
+  },
+  "authz": {
+    "User": "foxapi",
+    "Password": "foxapi"
   }
 }

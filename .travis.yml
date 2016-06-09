@@ -18,14 +18,14 @@ before_script:
 foxapi -f config/LDAP_config/FoxRegistryLDAPConfig_system.ldif
 
 install:
-        - ls -Al
-        - pwd
-        - export GOPATH=$PWD
-        - go get -d fox/foxservice login/loginservice
-        - go get -d github.com/onsi/ginkgo
-        - go get -d github.com/onsi/gomega
-        - go install github.com/onsi/ginkgo/ginkgo
-        - export PATH=$PATH:$GOPATH/bin
+  - ls -Al
+  - pwd
+  - export GOPATH=$PWD
+  - go get -d fox/foxservice login/loginservice
+  - go get -d github.com/onsi/ginkgo
+  - go get -d github.com/onsi/gomega
+  - go install github.com/onsi/ginkgo/ginkgo
+  - export PATH=$PATH:$GOPATH/bin
 
 script:
         - mkdir src/fox/fox_test/foxdb/

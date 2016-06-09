@@ -13,6 +13,13 @@ func getFileName(uuid string) string {
 
 // StoreFox persists the fox instance to somewhere
 func StoreFox(fox Fox, uuid string) UUID {
+
+	err := os.MkdirAll(getFileName(""), 0300)
+
+	if err != nil {
+		panic(err)
+	}
+
 	f, err := os.Create(getFileName(uuid))
 
 	if err != nil {
