@@ -125,6 +125,8 @@ func GetConfig() *Config {
 // GetPaths returns absolute paths for input filenames.
 // If file exists in user's config folder, returns path to it,
 // otherwise returns path to file in 'config/' folder.
+// If the file starts with a '/' and exists, leaves it alone - we 
+// are using absolute paths for some reason 
 func GetPaths(filenames []string) []string {
 	cfgFolder := getConfigFolderPath()
 	userCfgFolder := getUserConfigFolderPath()
