@@ -69,15 +69,6 @@ Redhat's 389 DS should be used instead of Apache DS, since the latter's function
 1. Create folder $USER (current system username) in `config`, then copy and adapt example configuration file. 
 2. Execute Fox binary passing an instance name as a parameter.
 
-<<<<<<< HEAD
-
-```
-mkdir -p bin/config/$USER
-cp src/config/config.json.template bin/config/$USER/config.json
-cp src/config/config.json.template bin/config/$USER/test_config.json
-
-mkdir /tmp/foxdb  # make sure that the configured storage folder exists.
-=======
 
 ```
 mkdir -p config/$USER
@@ -85,7 +76,6 @@ cp config/config.json.template config/$USER/config.json   # Normal config file
 cp config/config.json.template config/$USER/test_config.json   # Config file for tests
 
 mkdir /tmp/foxdb   # make sure that the configured storage folder exists.
->>>>>>> 21b12734e3a486bde2e91db6bae749b3ed1b0453
 ./bin/foxservice
 
 go run src/authn/keygen/KeyGen.go > config/$USER/key.base64   # Generate the keyfile for authentication tokens
@@ -124,4 +114,4 @@ touch pwd.list
 go run src/authn/pwd/pwdmaker/pwdMaker.go -user <username> -pwd <password> >> config/$USER/pwd.list
 ```
 
-The pwd.list is a file referred to by the authn.PwdProvider.PwdFileName key in the config
+The pwd.list is a file referred to by the authn.PwdProvider.PwdFileName key in the config. In the sample file a user FantasticMrFox is present with password "test"
