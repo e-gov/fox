@@ -28,10 +28,11 @@ func (provider *SimpleProvider)IsAuthorized(user string, method string, url stri
 	for _, r := range provider.requirements{
 		if strings.HasPrefix(url, r.url) && r.method == method{
 			b := (user == "" && r.role == "*") || (user != "")
-			log.Debugf("Request for %s to access %s %s returned %t", user, method, url, b)		
+			log.Debugf("Request for \"%s\" to access %s %s returned %t", user, method, url, b)		
 			return b
 		}
 	}
+	// Unless there is an explicit rule about allowing access, we fall back to denying access
 	log.Debugf("No matching rules found, denying %s to access %s %s ", user, method, url)
 	return false
 }
@@ -44,7 +45,7 @@ func (provider *SimpleProvider)AddRestriction(role string, method string, url st
 	log.Debugf("Role %s mapped to %s  %s, %d rules in total", role, method, u, len(provider.requirements))
 }
 
-// GetRoles implements a naive role listing. All valid tokens will 
+// GetRoles implements a naive role listing for a user. All valid tokens will 
 // result in a single "ADMIN" role, everybody else gets "*"
 func (provider *SimpleProvider)GetRoles(token string)[]string{
 	user, _ := authn.Validate(token)
@@ -55,4 +56,9 @@ func (provider *SimpleProvider)GetRoles(token string)[]string{
 	}
 	
 	return append(roles, "*") 
+}
+
+// GetName returns the name of the provider
+func (provider *SimpleProvider)GetName() string{
+	return "simple"
 }

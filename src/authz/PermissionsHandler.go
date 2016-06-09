@@ -5,6 +5,7 @@ import(
 	"authn"
 	"net/http"
 	"util"
+	"encoding/json"
 )
 
 
@@ -23,9 +24,11 @@ func PermissionHandler(inner http.Handler) http.Handler{
 		}
 		
 		if GetProvider().IsAuthorized(user, r.Method, r.URL.RequestURI()){
+			log.Debugf("Authorize access, sending an error message")
 			sw := util.MakeLogger(w)
 			inner.ServeHTTP(sw, r)		
 		} else {
+				log.Debugf("Unauthorized access, sending an error message")
 				for _, p := range authn.KnownProviders(){
 					if ps > ""{
 						ps = ps + "," + p	
@@ -35,7 +38,9 @@ func PermissionHandler(inner http.Handler) http.Handler{
 				}
 				w.Header().Set("WWW-Authenticate", "WWW-Authenticate:" + ps)
 				w.WriteHeader(http.StatusUnauthorized)
-				
+				if err := json.NewEncoder(w).Encode(util.Error{Code: http.StatusUnauthorized, Message: "Permission denied"}); err != nil {
+					panic(err)
+				}
 		}
 						
 	})

@@ -110,8 +110,8 @@ func (provider *LdapProvider) startTlsConnectionToLdapServer() (*ldap.Conn, erro
 
 func (provider *LdapProvider) bindFoxApiAsUser(ldapConnection *ldap.Conn) (bool,error) {
 	err := ldapConnection.Bind(
-		fmt.Sprintf("uid=%s,ou=users,ou=system", util.GetConfig().Authz.User),
-		util.GetConfig().Authz.Password)
+		fmt.Sprintf("uid=%s,ou=users,ou=system", util.GetConfig().Authz.LDAPProvider.User),
+		util.GetConfig().Authz.LDAPProvider.Password)
 	fmt.Print("")
 	if err != nil {
 		return true, err
@@ -143,9 +143,12 @@ func (provider *LdapProvider) searchForRegistryUserEntry(ldapConnection *ldap.Co
 
 	if err != nil {
 		return userEntry, err
-	} else {
-		return userEntry, nil
-	}
+	} 
+	
+	return userEntry, nil
 }
 
-
+// GetName returns the name of the provider, ldap in this case
+func (provider *LdapProvider) GetName() string{
+	return "ldap"
+}

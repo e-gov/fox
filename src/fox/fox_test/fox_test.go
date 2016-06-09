@@ -13,7 +13,8 @@ import (
 	"io"
 	"util"
 	"authn"
-	"fmt"
+//	"fmt"
+	"time"
 )
 
 var bufferLength int64 = 1048576
@@ -154,13 +155,19 @@ var _ = Describe("Fox", func() {
 	
 	Describe("Permissions should be checked", func(){
 		It("Should return 401", func(){
+			// No token present
 			request, _ := http.NewRequest("DELETE", "/fox/foxes/nosuchfoxforsure", nil)
 			router.ServeHTTP(recorder, request)	
 			Expect(recorder.Code).To(Equal(401))
 			
-			fmt.Println(recorder.HeaderMap)
 			Expect(recorder.HeaderMap).To(ContainElement(ContainElement(ContainSubstring("WWW-Authenticate"))))
 		})
+		
+		It("Should fail if we wait until the token expires", func(done Done){
+			time.Sleep(14 * time.Second)
+			addFoxExpectingCode(aFox, router, 401)
+			close(done)
+		}, 180)
 	})
 	
 	Describe("Getting statistics", func(){
@@ -175,6 +182,10 @@ var _ = Describe("Fox", func() {
 })
 
 func addFox(f Fox, router *mux.Router) string{
+	return addFoxExpectingCode(f, router, 201)
+}
+
+func addFoxExpectingCode(f Fox, router *mux.Router, retCode int) string{
 	var id *UUID
 	var r *http.Request
 
@@ -185,7 +196,7 @@ func addFox(f Fox, router *mux.Router) string{
 	r.Header.Set("Authorization","Bearer " + token)
 		
 	router.ServeHTTP(recorder, r)
-	Expect(recorder.Code).To(Equal(201))
+	Expect(recorder.Code).To(Equal(retCode))
 	
 	body, err := ioutil.ReadAll(io.LimitReader(recorder.Body, bufferLength))
 	Expect(err).To(BeNil())

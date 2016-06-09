@@ -16,6 +16,7 @@ func StoreFox(fox Fox, uuid string) UUID {
 	f, err := os.Create(getFileName(uuid))
 
 	if err != nil {
+		log.Error("Failed to write file " + getFileName(uuid))
 		panic(err)
 	}
 

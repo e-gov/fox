@@ -26,7 +26,7 @@ func Show(w http.ResponseWriter, r *http.Request) {
 	// Translate any storage error to a basic 404
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
-		if err := json.NewEncoder(w).Encode(Error{Code: 404, Message: "Fox not found"}); err != nil {
+		if err := json.NewEncoder(w).Encode(util.Error{Code: 404, Message: "Fox not found"}); err != nil {
 			panic(err)
 		}
 		return
@@ -49,7 +49,7 @@ func List(w http.ResponseWriter, r *http.Request) {
 	util.SendHeaders(w)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
-		if err := json.NewEncoder(w).Encode(Error{Code: 404, Message: "Fox list not available"}); err != nil {
+		if err := json.NewEncoder(w).Encode(util.Error{Code: 404, Message: "Fox list not available"}); err != nil {
 			panic(err)
 		}
 		return
@@ -77,7 +77,7 @@ func addFoxToStorage(w http.ResponseWriter, r *http.Request, status int, uuid st
 
 	if err := json.Unmarshal(body, &fox); err != nil {
 		w.WriteHeader(422)
-		if err := json.NewEncoder(w).Encode(Error{Code: 422, Message: err.Error()}); err != nil {
+		if err := json.NewEncoder(w).Encode(util.Error{Code: 422, Message: err.Error()}); err != nil {
 			panic(err)
 		}
 		return
@@ -109,7 +109,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 		log.Debugf("Deleting prior version of fox %s" , foxId)
 		addFoxToStorage(w, r, http.StatusAccepted, foxId)
 
-		if err := json.NewEncoder(w).Encode(Error{Code: http.StatusAccepted, Message: fmt.Sprint("Fox %s updated", foxId)}); err != nil {
+		if err := json.NewEncoder(w).Encode(util.Error{Code: http.StatusAccepted, Message: fmt.Sprintf("Fox %s updated", foxId)}); err != nil {
 			panic(err)
 		}
 
@@ -129,7 +129,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	foxId := vars["foxId"]
 	if !FoxExists(foxId) {
 		w.WriteHeader(http.StatusNotFound)
-		if err := json.NewEncoder(w).Encode(Error{Code: http.StatusNotFound, Message: fmt.Sprint("Fox %s not found", foxId)}); err != nil {
+		if err := json.NewEncoder(w).Encode(util.Error{Code: http.StatusNotFound, Message: fmt.Sprintf("Fox %s not found", foxId)}); err != nil {
 			panic(err)
 		}
 		return

@@ -1,10 +1,13 @@
 package authz
 import(
 	"github.com/op/go-logging"
+	"util"
+	"sync"
 )
 	
 var log = logging.MustGetLogger("AuthZ")
 var provider Provider
+var pLock  = new(sync.RWMutex)
 
 // Provider is the generic interface all authorization providers 
 // must implement
@@ -19,14 +22,41 @@ type Provider interface{
 	
 	// GetRoles returns a list of authorized roles for a given token
 	GetRoles(string)[]string
+	
+	// Returns the name of the provider so we can tell which one is being used
+	GetName() string
+
 }
 
-// GetProvider returns the current authz provider
-// Ideally is configurable and all but currently just a 
-// trivial one is implemented 
+// GetProvider returns the current authz provider and loads a new one 
+// if configuration has changed
 func GetProvider() Provider{
-	if (provider == nil){
-		provider = new(LdapProvider)
+	pLock.Lock()
+	defer pLock.Unlock()
+
+	p := util.GetConfig().Authz.Provider
+	if p == ""{
+		log.Error("No authorization provider configured, all access will be denied")
+	}
+	
+	if provider == nil {
+		loadProvider(p)
+	}
+	
+	if provider.GetName() != p{
+		log.Debugf("Changing authz provider. Was %s is %s", provider.GetName(), p)
+		loadProvider(p)
 	}
 	return provider
+}
+
+func loadProvider(name string){
+	if name == "simple" || name == "" {
+		provider = new(SimpleProvider)
+		log.Debug("Loading simple authz provider")
+	}
+	if name == "ldap"{
+		provider = new(LdapProvider)
+		log.Debug("Loading LDAP authz provider")
+	}
 }

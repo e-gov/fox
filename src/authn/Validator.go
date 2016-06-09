@@ -7,6 +7,7 @@ import (
 	"time"
 	"io/ioutil"
 	"util"
+	"math"
 )
 
 var (
@@ -37,7 +38,10 @@ func Decrypt(token string) *TokenStruct {
 	}
 
 	tok := []byte(token)
-	m := fernet.VerifyAndDecrypt(tok, time.Duration(util.GetConfig().Authn.TokenTTL)*time.Minute, GetValidateKeys())
+	// Do the math, TTL in minutes could be a fraction
+	ttl := int64(math.Floor(util.GetConfig().Authn.TokenTTL*float64(time.Minute)))
+
+	m := fernet.VerifyAndDecrypt(tok, time.Duration(ttl),GetValidateKeys())
 
 	err := json.Unmarshal(m, &message)
 	if err != nil {

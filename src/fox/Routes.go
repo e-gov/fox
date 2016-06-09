@@ -20,47 +20,49 @@ func (r Route) String() string {
 
 type Routes []Route
 
+// The last element of the route is internal role name that is required for access
+// * indicates an un-restricted route. 
 var routes = Routes{
 	Route{
 		"GetFox",
 		"GET",
 		"/fox/foxes/{foxId}",
 		Show,
-		"registry user",
+		"*",
 	},
 	Route{
 		"GetFoxes",
 		"GET",
 		"/fox/foxes",
 		List,
-		"registry user",
+		"*",
 	},
 	Route{
 		"UpdateFox",
 		"PUT",
 		"/fox/foxes/{foxId}",
 		Update,
-		"registry administrator",
+		"ADMIN",
 	},
 	Route{
 		"AddFox",
 		"POST",
 		"/fox/foxes",
 		Add,
-		"registry administrator",
+		"ADMIN",
 	},
 	Route{
 		"DeleteFox",
 		"DELETE",
 		"/fox/foxes/{foxId}",
 		Delete,
-		"registry administrator",
+		"ADMIN",
 	},
 	Route{
 		"APIStatus",
 		"GET",
 		"/fox/status",
 		util.StatsHandler,
-		"registry user",
+		"*",
 	},
 }

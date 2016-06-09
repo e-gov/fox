@@ -20,17 +20,20 @@ type Config struct {
 		Filepath string
 	}
 	Authn struct {
-		MintKeyName      string
-		ValidateKeyNames []string
-		TokenTTL         int
-		PwdProvider      struct {
-			PwdFileName string
-			Salt        string
+		MintKeyName      	string
+		ValidateKeyNames 	[]string
+		TokenTTL         	float64
+		PwdProvider      	struct {
+			PwdFileName 	string
+			Salt        	string
 		}
 	}
 	Authz struct {
-		User     string
-		Password string
+		Provider			string
+		LDAPProvider		struct{
+			User     		string
+			Password 		string
+		}
 	}
 }
 
@@ -109,6 +112,7 @@ func LoadConfigByName(name string) {
 	log.Infof("Success loading configuration ver %d from %s", config.Version, viper.ConfigFileUsed())
 }
 
+// TODO: make it so it loads the config if it is not there
 func GetConfig() *Config {
 	cLock.RLock()
 	defer cLock.RUnlock()
