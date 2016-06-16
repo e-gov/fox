@@ -30,7 +30,7 @@ var routes = Routes{
 		"Reissue",
 		"GET",
 		"/login/reissue",
-		Reissue,	
+		Reissue,
 	},
 	Route{
 		"Roles",
@@ -44,5 +44,4 @@ var routes = Routes{
 		"/login/status",
 		util.StatsHandler,
 	},
-
 }

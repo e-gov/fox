@@ -1,10 +1,12 @@
 package util
-import(
+
+import (
+	"fmt"
 	"net"
 	"net/http"
 	"net/url"
 	"time"
-	"fmt"
+
 	logging "github.com/op/go-logging"
 	"github.com/rcrowley/go-metrics"
 )
@@ -20,9 +22,9 @@ var c metrics.Meter
 // HTTP status codes sent out
 // Design taken from Gorilla
 type statLogger struct {
-	w 		http.ResponseWriter
-	size int
-	status	int
+	w      http.ResponseWriter
+	size   int
+	status int
 }
 
 type statResponseWriter interface {
@@ -31,16 +33,16 @@ type statResponseWriter interface {
 	Size() int
 }
 
-func MakeLogger(w http.ResponseWriter) statResponseWriter{
+func MakeLogger(w http.ResponseWriter) statResponseWriter {
 	var l statResponseWriter = &statLogger{w: w}
 	return l
 }
 
-func (l *statLogger) Header() http.Header{
+func (l *statLogger) Header() http.Header {
 	return l.w.Header()
 }
 
-func (l *statLogger) Write(b []byte) (int, error){
+func (l *statLogger) Write(b []byte) (int, error) {
 	// 200 if nothing has been set
 	if l.status == 0 {
 		l.status = http.StatusOK
@@ -50,28 +52,27 @@ func (l *statLogger) Write(b []byte) (int, error){
 	return size, err
 }
 
-func (l *statLogger) WriteHeader(s int){
+func (l *statLogger) WriteHeader(s int) {
 	l.w.WriteHeader(s)
 	l.status = s
 }
 
-func (l *statLogger) Status() int{
+func (l *statLogger) Status() int {
 	return l.status
 }
 
-func (l *statLogger) Size() int{
+func (l *statLogger) Size() int {
 	return l.size
 }
 
 // HTTP logging handler
-func LoggingHandler(inner http.Handler, log *logging.Logger) http.Handler{
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+func LoggingHandler(inner http.Handler, log *logging.Logger) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		sw := MakeLogger(w)
 		inner.ServeHTTP(sw, r)
 		log.Info(buildCommonLogLine(r, *r.URL, time.Now(), sw.Status(), sw.Size()))
 	})
 }
-
 
 // buildCommonLogLine builds a log entry for req in Apache Common Log Format.
 // ts is the timestamp with which the entry should be logged.
@@ -103,14 +104,14 @@ func buildCommonLogLine(req *http.Request, url url.URL, ts time.Time, status int
 		uri = url.RequestURI()
 	}
 
-	return fmt.Sprintf("%s %s [%s] \"%s %s %s\" %d %d", 
-		host, 
-		username, 
-		ts.Format("02/Jan/2006:15:04:05 -0700"), 
-		req.Method, 
-		uri, 
-		req.Proto, 
-		status, 
+	return fmt.Sprintf("%s %s [%s] \"%s %s %s\" %d %d",
+		host,
+		username,
+		ts.Format("02/Jan/2006:15:04:05 -0700"),
+		req.Method,
+		uri,
+		req.Proto,
+		status,
 		size)
 }
 
@@ -124,4 +125,3 @@ func StatsHandler(w http.ResponseWriter, r *http.Request) {
 func SendHeaders(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 }
-

@@ -20,19 +20,19 @@ type Config struct {
 		Filepath string
 	}
 	Authn struct {
-		MintKeyName      	string
-		ValidateKeyNames 	[]string
-		TokenTTL         	float64
-		PwdProvider      	struct {
-			PwdFileName 	string
-			Salt        	string
+		MintKeyName      string
+		ValidateKeyNames []string
+		TokenTTL         float64
+		PwdProvider      struct {
+			PwdFileName string
+			Salt        string
 		}
 	}
 	Authz struct {
-		Provider			string
-		LDAPProvider		struct{
-			User     		string
-			Password 		string
+		Provider     string
+		LDAPProvider struct {
+			User     string
+			Password string
 		}
 	}
 }
@@ -79,10 +79,10 @@ func LoadConfigByName(name string) {
 
 	userConfigFolder := getUserConfigFolderPath()
 	configFolder := getConfigFolderPath()
-	
+
 	viper.AddConfigPath(userConfigFolder) // user's own personal config file
-	viper.AddConfigPath(configFolder) // General fallback config file	
-	viper.AddConfigPath(".") // default path
+	viper.AddConfigPath(configFolder)     // General fallback config file
+	viper.AddConfigPath(".")              // default path
 
 	if err := viper.ReadInConfig(); err != nil {
 		// No config to start up on
@@ -125,23 +125,23 @@ func GetConfig() *Config {
 // GetPaths returns absolute paths for input filenames.
 // If file exists in user's config folder, returns path to it,
 // otherwise returns path to file in 'config/' folder.
-// If the file starts with a '/' and exists, leaves it alone - we 
-// are using absolute paths for some reason 
+// If the file starts with a '/' and exists, leaves it alone - we
+// are using absolute paths for some reason
 func GetPaths(filenames []string) []string {
 	cfgFolder := getConfigFolderPath()
 	userCfgFolder := getUserConfigFolderPath()
 
 	var paths []string
-	
+
 	for _, name := range filenames {
-		if (strings.HasPrefix(name, "/")){
+		if strings.HasPrefix(name, "/") {
 			if _, err := os.Stat(name); err == nil {
 				// File exists and starts with a '/', must be an absolute path
 				paths = append(paths, name)
-				continue				
-			}		
+				continue
+			}
 		}
-		
+
 		path := cfgFolder + name
 		userPath := userCfgFolder + name
 
@@ -202,7 +202,7 @@ func getConfigFolderPath() string {
 		cfgPath = strings.Join(pathEl, sep) + sep
 		cfgPath += "config" + sep
 	}
-	
+
 	return cfgPath
 }
 

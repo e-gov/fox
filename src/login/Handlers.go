@@ -1,20 +1,18 @@
 package login
 
 import (
-	"net/http"
-	"encoding/json"
 	"authn"
-	"strings"
 	"authz"
+	"encoding/json"
+	"net/http"
+	"strings"
 )
 
 func sendHeaders(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 }
 
-
-
-// Login returns a token 
+// Login returns a token
 func Login(w http.ResponseWriter, r *http.Request) {
 	u := r.FormValue("username")
 	c := r.FormValue("challenge")
