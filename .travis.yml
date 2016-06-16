@@ -1,7 +1,7 @@
 language: go
 
 go:
-	- 1.5
+  - 1.5
 
 install:
   - ls -Al
@@ -14,8 +14,8 @@ install:
   - export PATH=$PATH:$GOPATH/bin
 
 script:
-        - mkdir src/fox/fox_test/foxdb/
-        - ginkgo src/login/login_test/
-        - ginkgo src/fox/fox_test/
-        - ginkgo src/authn/authn_test/
-    	- ginkgo src/authz/authz_test/
+  - mkdir src/fox/fox_test/foxdb/
+  - ginkgo src/login/login_test/
+  - ginkgo src/fox/fox_test/
+  - ginkgo src/authn/authn_test/
+  - ginkgo src/authz/authz_test/
