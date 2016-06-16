@@ -5,6 +5,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"testing"
+
 	"github.com/op/go-logging"
 )
 

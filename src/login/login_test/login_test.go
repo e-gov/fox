@@ -1,11 +1,9 @@
 package login_test
 
 import (
+	"authn"
 	. "authn"
 	"encoding/json"
-	"github.com/gorilla/mux"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	. "login"
@@ -13,7 +11,10 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"util"
-	"authn"
+
+	"github.com/gorilla/mux"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var bufferLength int64 = 1048576
@@ -43,7 +44,7 @@ var _ = Describe("Login", func() {
 		u.RawQuery = q.Encode()
 
 		request, _ = http.NewRequest("GET", u.RequestURI(), nil)
-		
+
 		authn.InitMint()
 		token = authn.GetToken("testuser")
 
@@ -66,27 +67,27 @@ var _ = Describe("Login", func() {
 			})
 		})
 	})
-	
-	Describe("Token re-issue", func(){
-		Context("Re-issue a token", func(){
-			It("Should return 200", func(){
+
+	Describe("Token re-issue", func() {
+		Context("Re-issue a token", func() {
+			It("Should return 200", func() {
 				request, _ = http.NewRequest("GET", "/login/reissue", nil)
-				request.Header.Set("Authorization","Bearer " + token)
-				
+				request.Header.Set("Authorization", "Bearer "+token)
+
 				router.ServeHTTP(recorder, request)
 				Expect(recorder.Code).To(Equal(200))
 			})
-			
-			It("No token should yield 401", func(){
+
+			It("No token should yield 401", func() {
 				request, _ = http.NewRequest("GET", "/login/reissue", nil)
 				// No token is present
 				router.ServeHTTP(recorder, request)
 				Expect(recorder.Code).To(Equal(401))
 
 			})
-			It("False token should yield 401", func(){
+			It("False token should yield 401", func() {
 				request, _ = http.NewRequest("GET", "/login/reissue", nil)
-				request.Header.Set("Authorization","Bearer no such token")
+				request.Header.Set("Authorization", "Bearer no such token")
 				router.ServeHTTP(recorder, request)
 				Expect(recorder.Code).To(Equal(401))
 			})
@@ -94,41 +95,40 @@ var _ = Describe("Login", func() {
 		})
 
 	})
-	
-	Describe("Role list", func(){
-		Context("Get a role list without a token", func(){
-			It("Should get a brief list of roles", func(){	
+
+	Describe("Role list", func() {
+		Context("Get a role list without a token", func() {
+			It("Should get a brief list of roles", func() {
 				request, _ = http.NewRequest("GET", "/login/roles", nil)
 
 				Expect(getRoles(router, recorder, request)).To(Not(BeEmpty()))
 			})
-			It("Should get an admin role", func(){	
+			It("Should get an admin role", func() {
 				request, _ = http.NewRequest("GET", "/login/roles", nil)
-				request.Header.Set("Authorization","Bearer " + token)
-				
+				request.Header.Set("Authorization", "Bearer "+token)
+
 				Expect(getRoles(router, recorder, request)).To(ContainElement("ADMIN"))
 			})
 		})
 	})
 
-	Describe("Getting statistics", func(){
-		Context("Get the stats", func(){
-			It("Should return 200", func(){
+	Describe("Getting statistics", func() {
+		Context("Get the stats", func() {
+			It("Should return 200", func() {
 				request, _ := http.NewRequest("GET", "/login/status", nil)
-				router.ServeHTTP(recorder, request)	
-				Expect(recorder.Code).To(Equal(200))			
+				router.ServeHTTP(recorder, request)
+				Expect(recorder.Code).To(Equal(200))
 			})
 		})
 	})
 
 })
 
-
-func getRoles(router *mux.Router, recorder *httptest.ResponseRecorder, request *http.Request)[]string{
-	var roles []string			
+func getRoles(router *mux.Router, recorder *httptest.ResponseRecorder, request *http.Request) []string {
+	var roles []string
 	router.ServeHTTP(recorder, request)
 	Expect(recorder.Code).To(Equal(200))
-	
+
 	body, err := ioutil.ReadAll(io.LimitReader(recorder.Body, bufferLength))
 	Expect(err).To(BeNil())
 
@@ -137,4 +137,3 @@ func getRoles(router *mux.Router, recorder *httptest.ResponseRecorder, request *
 
 	return roles
 }
-

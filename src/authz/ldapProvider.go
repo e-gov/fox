@@ -1,30 +1,31 @@
 package authz
 
-import(
-	"strings"
+import (
 	"authn"
-	"gopkg.in/ldap.v2"
-	"fmt"
 	"crypto/tls"
+	"fmt"
 	"path"
+	"strings"
 	"util"
+
+	"gopkg.in/ldap.v2"
 )
 
-type LdapProvider struct{
+type LdapProvider struct {
 	requirements []requirement
 }
 
 // TODO: multiple groups for users
 // TODO: make use of the registryGroups organizational unit in the LDAP directory
-func (provider *LdapProvider) IsAuthorized (user string, method string, url string) bool{
-	entry,err := provider.getEntryForUser(user)
+func (provider *LdapProvider) IsAuthorized(user string, method string, url string) bool {
+	entry, err := provider.getEntryForUser(user)
 
-	if (err != nil) {
+	if err != nil {
 		log.Fatal(err)
 		return false
 	}
 
-	for _, r := range provider.requirements{
+	for _, r := range provider.requirements {
 		fmt.Println("ddd")
 		fmt.Println(url)
 		fmt.Println(r.url)
@@ -32,7 +33,7 @@ func (provider *LdapProvider) IsAuthorized (user string, method string, url stri
 		fmt.Println(r.method)
 		fmt.Println(entry.GetAttributeValue("cn"))
 		fmt.Println(r.role)
-		if strings.HasPrefix(url, r.url) && r.method == method && r.role == entry.GetAttributeValue("cn"){
+		if strings.HasPrefix(url, r.url) && r.method == method && r.role == entry.GetAttributeValue("cn") {
 			b := (user == "" && r.role == "registry user") || (user != "")
 			log.Debugf("Request for %s to access %s %s returned %t", user, method, url, b)
 			return b
@@ -43,14 +44,14 @@ func (provider *LdapProvider) IsAuthorized (user string, method string, url stri
 	return false
 }
 
-func (provider *LdapProvider) AddRestriction (role string, method string, url string) {
+func (provider *LdapProvider) AddRestriction(role string, method string, url string) {
 	u := path.Dir(url)
 	provider.requirements = append(provider.requirements, requirement{role, method, u})
 	log.Debugf("Role %s mapped to %s  %s, %d rules in total", role, method, u, len(provider.requirements))
 }
 
 // TODO: make it possible to get multiple groups for users
-func (provider *LdapProvider) GetRoles (token string) []string {
+func (provider *LdapProvider) GetRoles(token string) []string {
 	user, _ := authn.Validate(token)
 
 	entry, err := provider.getEntryForUser(user)
@@ -78,11 +79,11 @@ func (provider *LdapProvider) getEntryForUser(user string) (ldap.Entry, error) {
 		return entry, err
 	}
 
-	entry, err = provider.searchForRegistryUserEntry(ldapConnection,user)
-	if (err != nil) {
+	entry, err = provider.searchForRegistryUserEntry(ldapConnection, user)
+	if err != nil {
 		return entry, err
 	}
-	return entry, nil;
+	return entry, nil
 
 }
 
@@ -108,7 +109,7 @@ func (provider *LdapProvider) startTlsConnectionToLdapServer() (*ldap.Conn, erro
 	}
 }
 
-func (provider *LdapProvider) bindFoxApiAsUser(ldapConnection *ldap.Conn) (bool,error) {
+func (provider *LdapProvider) bindFoxApiAsUser(ldapConnection *ldap.Conn) (bool, error) {
 	err := ldapConnection.Bind(
 		fmt.Sprintf("uid=%s,ou=users,ou=system", util.GetConfig().Authz.LDAPProvider.User),
 		util.GetConfig().Authz.LDAPProvider.Password)
@@ -136,19 +137,19 @@ func (provider *LdapProvider) searchForRegistryUserEntry(ldapConnection *ldap.Co
 	}
 
 	for _, entry := range sr.Entries {
-		if (entry.GetAttributeValue("uid") == user) {
+		if entry.GetAttributeValue("uid") == user {
 			userEntry = *entry
 		}
 	}
 
 	if err != nil {
 		return userEntry, err
-	} 
-	
+	}
+
 	return userEntry, nil
 }
 
 // GetName returns the name of the provider, ldap in this case
-func (provider *LdapProvider) GetName() string{
+func (provider *LdapProvider) GetName() string {
 	return "ldap"
 }

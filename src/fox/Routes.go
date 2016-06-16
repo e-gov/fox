@@ -11,7 +11,7 @@ type Route struct {
 	Method      string
 	Pattern     string
 	HandlerFunc http.HandlerFunc
-	Role		string
+	Role        string
 }
 
 func (r Route) String() string {
@@ -21,7 +21,7 @@ func (r Route) String() string {
 type Routes []Route
 
 // The last element of the route is internal role name that is required for access
-// * indicates an un-restricted route. 
+// * indicates an un-restricted route.
 var routes = Routes{
 	Route{
 		"GetFox",

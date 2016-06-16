@@ -49,16 +49,18 @@ export GOPATH=$PWD
 go get fox/foxservice
 go get login/loginservice
 
-#tests only need to be downloaded, not installed, need a special -t flag
+# test dependencies only need to be downloaded,
+# the test itself does not need to be installed.
+# It also needs a special -t flag
 go get -d -t fox/fox_test
 go get -d -t login/login_test
 ```
 
-## Running an Apache DS server
+## Running a LDAP server
 
 1. Install Apache DS and Apache Directory Studio
 2. Import the config from FoxRegistryLDAPConfig.ldif and FoxRegistryLDAPConfig_system.ldif
-3. Alternatively, as a hot fix, ldapProvider can be replaced with simpleProvider in authz.go
+3. LdapProvider is, by default, not in use (see config.json.template in the config folder).
 
 The travis file needs to be fixed for the build to succeed (LDAP server needs to put up on Travis' server).
 

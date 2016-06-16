@@ -1,21 +1,7 @@
 language: go
-sudo: false
 
 go:
 	- 1.5
-
-addons:
-	apt:
-		packages:
-		- ldap-utils
-		- slapd
-
-before_script:
-  - mkdir /tmp/slapd
-  - slapd -f /home/peter/GitProjects/fox/config/LDAP_config/slapd_config.conf -h ldap://localhost:10389 &
-  - sleep 3
-  - ldapadd -h localhost:10389 -D uid=foxapi,ou=users,ou=system -w foxapi -f config/LDAP_config/FoxRegistryLDAPConfig.ldif
-foxapi -f config/LDAP_config/FoxRegistryLDAPConfig_system.ldif
 
 install:
   - ls -Al
@@ -32,4 +18,4 @@ script:
         - ginkgo src/login/login_test/
         - ginkgo src/fox/fox_test/
         - ginkgo src/authn/authn_test/
-	- ginkgo src/authz/authz_test/
+    	- ginkgo src/authz/authz_test/

@@ -5,14 +5,15 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gorilla/mux"
 	"io"
 	"io/ioutil"
 
-	"github.com/pborman/uuid"
-	"util"
-)
+	"github.com/gorilla/mux"
 
+	"util"
+
+	"github.com/pborman/uuid"
+)
 
 // Show ia s handler for returning a specific fox
 func Show(w http.ResponseWriter, r *http.Request) {
@@ -21,8 +22,8 @@ func Show(w http.ResponseWriter, r *http.Request) {
 
 	// Read the fox from storage
 	fox, err := ReadFox(vars["foxId"])
-
 	util.SendHeaders(w)
+
 	// Translate any storage error to a basic 404
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
@@ -106,7 +107,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 
 	if FoxExists(foxId) {
 		DeleteFoxFromStorage(foxId)
-		log.Debugf("Deleting prior version of fox %s" , foxId)
+		log.Debugf("Deleting prior version of fox %s", foxId)
 		addFoxToStorage(w, r, http.StatusAccepted, foxId)
 
 		if err := json.NewEncoder(w).Encode(util.Error{Code: http.StatusAccepted, Message: fmt.Sprintf("Fox %s updated", foxId)}); err != nil {

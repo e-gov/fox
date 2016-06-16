@@ -2,11 +2,12 @@ package authn
 
 import (
 	"encoding/json"
-	fernet "github.com/fernet/fernet-go"
 	"io/ioutil"
 	"sync"
 	"time"
 	"util"
+
+	fernet "github.com/fernet/fernet-go"
 )
 
 var (
@@ -28,9 +29,9 @@ func loadMintKey() {
 // loadMintKeyByName loads a key by filename and strores it in the struct
 // The function is threadsafe and panics if the key file is invalid
 func LoadMintKeyByName(filename string) {
-	
+
 	keyPath := util.GetPaths([]string{filename})[0]
-	
+
 	log.Debugf("Attempting to load mint key from %s", keyPath)
 	b, err := ioutil.ReadFile(keyPath)
 

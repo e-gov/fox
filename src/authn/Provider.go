@@ -1,14 +1,14 @@
 package authn
 
-import(
+import (
 	pwd "authn/pwd"
 )
 
 // Provider is a simple interface all authentication providers must implement
-type Provider interface{
+type Provider interface {
 	Authenticate(string, string) bool
 }
 
-func GetProvider(name string) Provider  {
+func GetProvider(name string) Provider {
 	return new(pwd.PwdProvider)
 }
