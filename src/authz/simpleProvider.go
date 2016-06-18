@@ -26,10 +26,10 @@ type requirement struct {
 func (provider *SimpleProvider) IsAuthorized(user string, method string, url string) bool {
 
 	for _, r := range provider.requirements {
-		log.Debugf("Comparing %s, %s:%s to %s:%s", user, method, url, r.method, r.url)
+		log.Debugf("Comparing user %s, %s:%s to %s:%s", user, method, url, r.method, r.url)
 		if strings.HasPrefix(url, r.url) && r.method == method {
 			b := (user == "" && r.role == "*") || (user != "")
-			log.Debugf("Request for %s to access %s %s returned %t", user, method, url, b)
+			log.Debugf("Request for user %s to access %s %s returned %t", user, method, url, b)
 			return b
 		}
 	}

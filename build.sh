@@ -12,6 +12,6 @@ if [ $(dpkg-query -W -f='${Status}' npm 2>/dev/null | grep -c "ok installed") -e
     [[ $answer =~ [Yy] ]] && sudo apt-get install golang-go
 fi
 
-gnome-terminal --tab -e "./build_scripts/build_frontend.sh" --tab -e "./build_scripts/build_backend.sh"
-xterm -hold -e "./build_scripts/build_frontend.sh" & xterm -hold -e "./build_scripts/build_backend.sh"
-konsole --noclose -e "./build_scripts/build_frontend.sh" & konsole --noclose -e "./build_scripts/build_backend.sh"
+gnome-terminal --tab -e "./bash_scripts/build_frontend.sh" --tab -e "./bash_scripts/build_backend.sh"
+xterm -hold -e "./bash_scripts/build_frontend.sh" & xterm -hold -e "./bash_scripts/build_backend.sh"
+konsole --noclose -e "./bash_scripts/build_frontend.sh" & konsole --noclose -e "./bash_scripts/build_backend.sh"

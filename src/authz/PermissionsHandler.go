@@ -20,10 +20,11 @@ func PermissionHandler(inner http.Handler) http.Handler {
 			log.Debugf("Getting user %s from %s", user, t)
 		} else {
 			user = ""
+			log.Debugf("Failed to get user from %s", t)
 		}
 
 		if GetProvider().IsAuthorized(user, r.Method, r.URL.RequestURI()) {
-			log.Debugf("Authorize access, sending an error message")
+			log.Debugf("Authorized access, sending an error message")
 			sw := util.MakeLogger(w)
 			inner.ServeHTTP(sw, r)
 		} else {

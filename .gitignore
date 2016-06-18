@@ -15,3 +15,6 @@ src/9fans.net/
 src/golang.org/
 src/rsc.io/
 src/sourcegraph.com/
+
+coverage_in_html/
+
