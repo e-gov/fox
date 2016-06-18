@@ -165,7 +165,7 @@ var _ = Describe("Fox", func() {
 		})
 
 		It("Should fail if we wait until the token expires", func(done Done) {
-			time.Sleep(14 * time.Second)
+			time.Sleep(5 * time.Second)
 			addFoxExpectingCode(aFox, router, 401)
 			close(done)
 		}, 180)
