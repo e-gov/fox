@@ -21,8 +21,8 @@ func NewRouter() *mux.Router {
 		handler = route.HandlerFunc
 		handler = util.NewTelemetry(handler, route.Name)
 
-		handler = util.LoggingHandler(handler, log)
 		handler = authz.PermissionHandler(handler)
+		handler = util.LoggingHandler(handler, log)
 		router.
 			Methods(route.Method).
 			Path(route.Pattern).
