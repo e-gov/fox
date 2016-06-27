@@ -2,25 +2,49 @@ package authz_test
 
 import (
 	"authz"
-	"fox"
 	"util"
+
+	"fox"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/spf13/viper"
 )
 
 var _ = Describe("Authz", func() {
 
-	var provider authz.Provider
+	var (
+		provider authz.Provider
+	)
 
 	BeforeEach(func() {
-		util.LoadConfigByName("test_config")
-		fox.NewRouter()
-		provider = authz.GetProvider()
+		viper.Reset()
 	})
 
-	Describe("Authorization querys", func() {
+	Describe("Getting the provider", func() {
+		Context("Default provider is set", func() {
+			It("Should return nil", func() {
+				util.LoadConfigByPathWOExtension("authz/test_config_no-provider")
+				provider = authz.GetProvider()
+				Expect(provider).To(BeNil())
+			})
+		})
+
+		Context("Default provider is set", func() {
+			It("Should return simple provider", func() {
+				util.LoadConfigByPathWOExtension("test_config")
+				provider = authz.GetProvider()
+				Expect(provider.GetName()).To(Equal("simple"))
+			})
+		})
+
+	})
+
+	Describe("Provider authorization queries", func() {
 		BeforeEach(func() {
+			util.LoadConfigByPathWOExtension("test_config")
+			fox.NewRouter()
+			provider = authz.GetProvider()
 		})
 
 		Context("User exists and has rights", func() {

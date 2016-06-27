@@ -34,10 +34,10 @@ type Provider interface {
 func GetProvider() Provider {
 	pLock.Lock()
 	defer pLock.Unlock()
-
 	p := util.GetConfig().Authz.Provider
 	if p == "" {
 		log.Warning("No authorization provider configured, all access will be denied")
+		return nil
 	}
 
 	if provider == nil {
@@ -53,12 +53,15 @@ func GetProvider() Provider {
 }
 
 func loadProvider(name string) {
-	if name == "simple" || name == "" {
+	if name == "simple" {
 		provider = new(SimpleProvider)
 		log.Debug("Loading simple authz provider")
 	}
 	if name == "ldap" {
 		provider = new(LdapProvider)
 		log.Debug("Loading LDAP authz provider")
+	}
+	if name == "" {
+		provider = nil
 	}
 }

@@ -26,13 +26,6 @@ func (provider *LdapProvider) IsAuthorized(user string, method string, url strin
 	}
 
 	for _, r := range provider.requirements {
-		fmt.Println("ddd")
-		fmt.Println(url)
-		fmt.Println(r.url)
-		fmt.Println(method)
-		fmt.Println(r.method)
-		fmt.Println(entry.GetAttributeValue("cn"))
-		fmt.Println(r.role)
 		if strings.HasPrefix(url, r.url) && r.method == method && r.role == entry.GetAttributeValue("cn") {
 			b := (user == "" && r.role == "registry user") || (user != "")
 			log.Debugf("Request for %s to access %s %s returned %t", user, method, url, b)

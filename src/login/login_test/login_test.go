@@ -30,7 +30,7 @@ var _ = Describe("Login", func() {
 	var token string
 
 	BeforeEach(func() {
-		util.LoadConfigByName("test_config")
+		util.LoadConfigByPathWOExtension("test_config")
 		InitMint()
 		InitValidator()
 		router = NewRouter()

@@ -9,15 +9,17 @@ import (
 )
 
 var _ = Describe("Authn", func() {
-	var oldToken string
-	var newToken string
-	var err error
-	var user = "FantasticMrFox"
-	var challange = "test"
-	var provider = "pwd"
+	var (
+		oldToken  string
+		newToken  string
+		err       error
+		user      = "FantasticMrFox"
+		challenge = "test"
+		provider  = "pwd"
+	)
 
 	BeforeEach(func() {
-		util.LoadConfigByName("test_config")
+		util.LoadConfigByPathWOExtension("test_config")
 		authn.InitMint()
 		authn.InitValidator()
 	})
@@ -31,9 +33,9 @@ var _ = Describe("Authn", func() {
 			})
 		})
 		Context("Authenticating the user", func() {
-			It("should return true, given valid username, challange and provider", func() {
-				bool := authn.Authenticate(user, challange, provider)
-				Expect(bool).To(BeTrue())
+			It("should return true, given valid username, challenge and provider", func() {
+				booln := authn.Authenticate(user, challenge, provider)
+				Expect(booln).To(BeTrue())
 			})
 		})
 	})

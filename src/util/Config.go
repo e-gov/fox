@@ -59,12 +59,12 @@ func sanitize(c *Config) {
 // LoadConfig loads configuration using a hard-coded name
 // This is what gets called during normal operation
 func LoadConfig() {
-	LoadConfigByName("config")
+	LoadConfigByPathWOExtension("config")
 }
 
 // LoadConfigByName loads a config from a specific file
 // Used for separating test from operational configuration
-func LoadConfigByName(name string) {
+func LoadConfigByPathWOExtension(name string) {
 	var isFatal bool
 	var tmp *Config
 
@@ -73,13 +73,11 @@ func LoadConfigByName(name string) {
 	cLock.RLock()
 	isFatal = (config == nil)
 	cLock.RUnlock()
-
 	viper.SetConfigName(name)
 	viper.SetConfigType("json")
 
 	userConfigFolder := getUserConfigFolderPath()
 	configFolder := getConfigFolderPath()
-
 	viper.AddConfigPath(userConfigFolder) // user's own personal config file
 	viper.AddConfigPath(configFolder)     // General fallback config file
 	viper.AddConfigPath(".")              // default path
@@ -183,15 +181,15 @@ func getConfigFolderPath() string {
 	wd, _ := os.Getwd()
 
 	wdPath := strings.Split(wd, sep)
-	iSrc := lastIndexOf(wdPath, "src")
-	iBin := lastIndexOf(wdPath, "bin")
+	indexOfSrc := lastIndexOf(wdPath, "src")
+	indexOfBin := lastIndexOf(wdPath, "bin")
 
 	cfgPath := ""
 	var pathEl []string
-	if iBin > -1 && iBin > iSrc {
-		pathEl = wdPath[:iBin] // take up to bin (exclusive)
-	} else if iSrc > -1 {
-		pathEl = wdPath[:iSrc] // take up to src (exclusive)
+	if indexOfBin > -1 && indexOfBin > indexOfSrc {
+		pathEl = wdPath[:indexOfBin] // take up to bin (exclusive)
+	} else if indexOfSrc > -1 {
+		pathEl = wdPath[:indexOfSrc] // take up to src (exclusive)
 	} else {
 		// If neither bin nor source is found, we are probably at
 		// project home
