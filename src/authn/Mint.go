@@ -10,14 +10,13 @@ import (
 	fernet "github.com/fernet/fernet-go"
 )
 
-var (
-	key      *fernet.Key
-	mintLock *sync.RWMutex
-)
+var mint struct {
+	*fernet.Key
+	*sync.RWMutex
+}
 
 func InitMint() {
 	confVersion = util.GetConfig().Version
-	mintLock = new(sync.RWMutex)
 	loadMintKey()
 }
 
@@ -47,9 +46,9 @@ func LoadMintKeyByName(filename string) {
 
 	log.Debugf("Successfully loaded mint key from %s", keyPath)
 	// Store only after we are sure loading was good
-	mintLock.Lock()
-	defer mintLock.Unlock()
-	key = k
+	mint.Lock()
+	defer mint.Unlock()
+	mint.Key = k
 }
 
 // GetToken wraps the incoming username into a TokenStruct, serializes the result to json
@@ -75,9 +74,9 @@ func GetToken(username string) string {
 // GetKey returns the current key used for session tokens
 // If the key not initialized, nil is returned
 func GetKey() *fernet.Key {
-	mintLock.RLock()
-	defer mintLock.RUnlock()
-	return key
+	mint.RLock()
+	defer mint.RUnlock()
+	return mint.Key
 
 }
 

@@ -1,0 +1,9 @@
+version: '2'
+services:
+  main:
+    build: ./static
+    volumes_from:
+    - service:config_data:ro
+
+  config_data:
+    build: .
