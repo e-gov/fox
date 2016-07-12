@@ -1,9 +1,14 @@
 version: '2'
 services:
   main:
-    build: ./static
-    volumes_from:
-    - service:config_data:ro
+    build:
+     context: .
+     dockerfile: ./static/Dockerfile
+#    volumes:
+#     - npm_data:/statc/node_modules/
 
-  config_data:
-    build: .
+volumes:
+  npm_data:
+    driver: local-persist
+    driver_opts:
+      mountpoint: ./static/node_modules/
