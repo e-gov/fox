@@ -12,7 +12,7 @@ import (
 
 var mint struct {
 	*fernet.Key
-	*sync.RWMutex
+	sync.RWMutex
 }
 
 func InitMint() {
