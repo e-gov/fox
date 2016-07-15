@@ -1,14 +1,27 @@
 version: '2'
 services:
-  main:
+  front_end:
     build:
      context: .
      dockerfile: ./static/Dockerfile
-#    volumes:
-#     - npm_data:/statc/node_modules/
+    volumes:
+      - npm_data:/statc/node_modules/
+  fox:
+    build:
+     context: .
+     dockerfile: ./src/fox/Dockerfile
+  login:
+    build:
+     context: .
+     dockerfile: ./src/login/Dockerfile
+  haproxy:
+    build:
+     context: .
+     dockerfile: ./src/haproxy/Dockerfile
 
 volumes:
   npm_data:
     driver: local-persist
     driver_opts:
       mountpoint: ./static/node_modules/
+
