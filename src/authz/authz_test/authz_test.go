@@ -2,9 +2,9 @@ package authz_test
 
 import (
 	"authz"
-	"util"
+	"github.com/e-gov/fox/src/util"
 
-	"fox"
+	"github.com/e-gov/fox/src/fox"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

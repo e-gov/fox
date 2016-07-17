@@ -4,8 +4,8 @@ import (
 	pwd "authn/pwd"
 	"flag"
 	"fmt"
+	"github.com/e-gov/fox/src/util"
 	"os"
-	"util"
 
 	logging "github.com/op/go-logging"
 )

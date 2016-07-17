@@ -3,9 +3,9 @@ package authn
 import (
 	"bufio"
 	"encoding/base64"
+	"github.com/e-gov/fox/src/util"
 	"os"
 	"strings"
-	"util"
 
 	"github.com/op/go-logging"
 	bcrypt "golang.org/x/crypto/bcrypt"

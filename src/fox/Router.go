@@ -1,9 +1,10 @@
 package fox
 
 import (
-	"authz"
 	"net/http"
-	"util"
+
+	"github.com/e-gov/fox/src/authz"
+	"github.com/e-gov/fox/src/util"
 
 	"github.com/gorilla/mux"
 	"github.com/op/go-logging"

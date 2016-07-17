@@ -1,9 +1,9 @@
 package authz
 
 import (
-	"authn"
 	"crypto/tls"
 	"fmt"
+	"github.com/e-gov/fox/src/authn"
 	"path"
 	"strings"
 	"util"

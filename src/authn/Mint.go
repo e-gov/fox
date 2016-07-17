@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"sync"
 	"time"
-	"util"
+	"github.com/e-gov/fox/src/util"
 
 	fernet "github.com/fernet/fernet-go"
 )

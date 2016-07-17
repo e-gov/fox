@@ -3,7 +3,8 @@ package login
 import (
 	"net/http"
 	"os"
-	"util"
+
+	"github.com/e-gov/fox/src/util"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"

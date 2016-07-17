@@ -1,7 +1,7 @@
 package authz
 
 import (
-	"authn"
+	"github.com/e-gov/fox/src/authn"
 	"strings"
 )
 

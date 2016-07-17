@@ -1,7 +1,6 @@
 package fox_test
 
 import (
-	"authn"
 	"bytes"
 	"encoding/json"
 	. "fox"
@@ -9,7 +8,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	"util"
+
+	"github.com/e-gov/fox/src/authn"
+	"github.com/e-gov/fox/src/util"
 
 	"github.com/gorilla/mux"
 	. "github.com/onsi/ginkgo"

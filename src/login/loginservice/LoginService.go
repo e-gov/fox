@@ -1,7 +1,6 @@
 package main
 
 import (
-	"authn"
 	"flag"
 	"fmt"
 	"login"
@@ -9,8 +8,9 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"util"
 
+	"github.com/e-gov/fox/src/authn"
+	"github.com/e-gov/fox/src/util"
 	"github.com/op/go-logging"
 )
 

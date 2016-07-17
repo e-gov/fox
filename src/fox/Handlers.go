@@ -10,7 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"util"
+	"github.com/e-gov/fox/src/util"
 
 	"github.com/pborman/uuid"
 )
