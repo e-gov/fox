@@ -1,7 +1,7 @@
 package authn
 
 import (
-	pwd "authn/pwd"
+	pwd "github.com/e-gov/fox/src/authn/pwd"
 )
 
 // Provider is a simple interface all authentication providers must implement

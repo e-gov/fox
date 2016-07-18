@@ -1,7 +1,7 @@
 package main
 
 import (
-	pwd "authn/pwd"
+	pwd "github.com/e-gov/fox/src/authn/pwd"
 	"flag"
 	"fmt"
 	"os"
