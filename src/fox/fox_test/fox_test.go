@@ -3,12 +3,12 @@ package fox_test
 import (
 	"bytes"
 	"encoding/json"
-	. "fox"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 
+	. "github.com/e-gov/fox/src/fox"
 	"github.com/e-gov/fox/src/authn"
 	"github.com/e-gov/fox/src/util"
 

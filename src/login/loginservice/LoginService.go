@@ -3,12 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"login"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
+	"github.com/e-gov/fox/src/login"
 	"github.com/e-gov/fox/src/authn"
 	"github.com/e-gov/fox/src/util"
 	"github.com/op/go-logging"

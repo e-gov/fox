@@ -2,11 +2,12 @@ package authn
 
 import (
 	"encoding/json"
-	"github.com/e-gov/fox/src/util"
 	"io/ioutil"
 	"math"
 	"sync"
 	"time"
+
+	"github.com/e-gov/fox/src/util"
 
 	fernet "github.com/fernet/fernet-go"
 )

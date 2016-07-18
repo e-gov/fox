@@ -1,8 +1,9 @@
 package authz
 
 import (
-	"github.com/e-gov/fox/src/util"
 	"sync"
+
+	"github.com/e-gov/fox/src/util"
 
 	"github.com/op/go-logging"
 )
