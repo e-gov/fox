@@ -5,7 +5,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"util"
+
+	"github.com/e-gov/fox/src/util"
 
 	logging "github.com/op/go-logging"
 )

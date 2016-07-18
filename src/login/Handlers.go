@@ -1,11 +1,12 @@
 package login
 
 import (
-	"authn"
-	"authz"
 	"encoding/json"
 	"net/http"
 	"strings"
+
+	"github.com/e-gov/fox/src/authn"
+	"github.com/e-gov/fox/src/authz"
 )
 
 func sendHeaders(w http.ResponseWriter) {

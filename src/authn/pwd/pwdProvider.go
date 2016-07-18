@@ -5,7 +5,8 @@ import (
 	"encoding/base64"
 	"os"
 	"strings"
-	"util"
+
+	"github.com/e-gov/fox/src/util"
 
 	"github.com/op/go-logging"
 	bcrypt "golang.org/x/crypto/bcrypt"

@@ -2,16 +2,17 @@ package login_test
 
 import (
 	"authn"
-	. "authn"
 	"encoding/json"
 	"io"
 	"io/ioutil"
-	. "login"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"util"
 
+	. "github.com/e-gov/fox/src/login"
+
+	. "github.com/e-gov/fox/src/authn"
+	"github.com/e-gov/fox/src/util"
 	"github.com/gorilla/mux"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

@@ -1,9 +1,10 @@
 package main
 
 import (
-	"authn"
 	"flag"
 	"fmt"
+
+	"github.com/e-gov/fox/src/authn"
 )
 
 // Generate a token based on the key file and username

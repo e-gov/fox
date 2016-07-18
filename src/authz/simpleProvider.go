@@ -1,8 +1,9 @@
 package authz
 
 import (
-	"authn"
 	"strings"
+
+	"github.com/e-gov/fox/src/authn"
 )
 
 // SimpleProvider is the struct to implement

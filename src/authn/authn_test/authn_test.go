@@ -1,8 +1,8 @@
 package authn_test
 
 import (
-	"authn"
-	"util"
+	"github.com/e-gov/fox/src/authn"
+	"github.com/e-gov/fox/src/util"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

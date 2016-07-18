@@ -3,7 +3,8 @@ package login
 import (
 	"fmt"
 	"net/http"
-	"util"
+
+	"github.com/e-gov/fox/src/util"
 )
 
 type Route struct {

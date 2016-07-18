@@ -1,20 +1,23 @@
+.vscode/
+.idea/
 */.idea
-src/github.com/
-src/gopkg.in/
-bin
-pkg
 *.iml
+
+bin/
+pkg/
+
+# dependencies' source created by go get
+golang.org/
+github.com/
+gopkg.in/
+
+
 static/properties.json
 static/node_modules/
 static/.tmp/
 
-.vscode/
-.idea/
-
-src/9fans.net/
-src/golang.org/
-src/rsc.io/
-src/sourcegraph.com/
-
 coverage_in_html/
 
+# go vendoring
+vendor/*/
+.cache

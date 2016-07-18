@@ -1,11 +1,12 @@
 package authz
 
 import (
-	"authn"
 	"encoding/json"
 	"net/http"
 	"strings"
-	"util"
+
+	"github.com/e-gov/fox/src/authn"
+	"github.com/e-gov/fox/src/util"
 )
 
 // PermissionHandler validates the permissions of a user before further handling

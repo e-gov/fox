@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os"
-	"util"
+
+	"github.com/e-gov/fox/src/util"
 )
 
 func getFileName(uuid string) string {
