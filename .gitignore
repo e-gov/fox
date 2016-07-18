@@ -6,6 +6,12 @@
 bin/
 pkg/
 
+# dependencies' source created by go get
+golang.org/
+github.com/
+gopkg.in/
+
+
 static/properties.json
 static/node_modules/
 static/.tmp/
