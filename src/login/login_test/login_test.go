@@ -5,10 +5,11 @@ import (
 	"encoding/json"
 	"io"
 	"io/ioutil"
-	. "login"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+
+	. "github.com/e-gov/fox/src/login"
 
 	. "github.com/e-gov/fox/src/authn"
 	"github.com/e-gov/fox/src/util"

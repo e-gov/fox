@@ -3,10 +3,11 @@ package authz
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/e-gov/fox/src/authn"
 	"path"
 	"strings"
-	"util"
+
+	"github.com/e-gov/fox/src/authn"
+	"github.com/e-gov/fox/src/util"
 
 	"gopkg.in/ldap.v2"
 )

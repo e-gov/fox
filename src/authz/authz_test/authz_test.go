@@ -1,7 +1,8 @@
 package authz_test
 
 import (
-	"authz"
+	"github.com/e-gov/fox/src/authz"
+
 	"github.com/e-gov/fox/src/util"
 
 	"github.com/e-gov/fox/src/fox"
