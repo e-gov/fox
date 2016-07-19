@@ -7,8 +7,7 @@ install:
   - ls -Al
   - pwd
   - export GOPATH=$PWD
-  - go get -d github.com/e-gov/fox/fox/foxservice \
-	github.com/e-gov/fox/login/loginservice
+  - go get -d github.com/e-gov/fox/fox/foxservice github.com/e-gov/fox/login/loginservice
   - go get -d github.com/onsi/ginkgo
   - go get -d github.com/onsi/gomega
   - go install github.com/onsi/ginkgo/ginkgo
