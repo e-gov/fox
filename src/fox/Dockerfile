@@ -1,11 +1,15 @@
 #=============== FoxService ===============
 FROM golang:1.6
 
-COPY ./src/ /src/
+COPY ./src/fox/ /fox/
 
-ENV GOPATH=/src/
+ENV GOPATH=/fox/vendor
 
-RUN CGO_ENABLED=0 go build -a -installsuffix cgo -v -o foxservice.o /src/fox/foxservice/FoxService.go
+WORKDIR /fox/foxservice/
+
+RUN mkdir /fox/vendor && go get \ 
+	&& CGO_ENABLED=0 go build -a -installsuffix cgo -v \
+	-o foxservice.o FoxService.go
 
 COPY foxservice.o /bin/foxservice
 

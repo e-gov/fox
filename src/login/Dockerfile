@@ -1,11 +1,15 @@
 #=============== LoginService ===============
 FROM golang:1.6
 
-COPY ./src/ /src/
+COPY ./src/login/ /login/
 
-ENV GOPATH=/src/
+ENV GOPATH=/login/vendor/
 
-RUN CGO_ENABLED=0 go build -a -installsuffix cgo -v -o loginservice.o /src/login/loginservice/LoginService.go
+WORKDIR /login/loginservice/
+
+RUN mkdir /login/vendor && go get \
+	&& CGO_ENABLED=0 go build -a -installsuffix cgo -v \
+	-o loginservice.o LoginService.go
 
 COPY loginservice.o /bin/loginservice
 
