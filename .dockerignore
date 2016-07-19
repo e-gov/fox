@@ -1,8 +1,5 @@
 *
 !config/
 !static/
-!src/authn/
-!src/authz/
-!src/fox/
-!src/login/
-!src/haproxy/
+!src/github.com/e-gov/fox/
+!haproxy

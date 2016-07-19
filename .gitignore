@@ -7,9 +7,12 @@ bin/
 pkg/
 
 # dependencies' source created by go get
-golang.org/
-github.com/
-gopkg.in/
+src/golang.org/
+src/github.com/*
+!src/github.com/e-gov/
+src/github.com/e-gov/*
+!src/github.com/e-gov/fox
+src/gopkg.in/
 
 
 static/properties.json

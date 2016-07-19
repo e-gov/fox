@@ -7,15 +7,16 @@ install:
   - ls -Al
   - pwd
   - export GOPATH=$PWD
-  - go get -d fox/foxservice login/loginservice
+  - go get -d github.com/e-gov/fox/fox/foxservice \
+	github.com/e-gov/fox/login/loginservice
   - go get -d github.com/onsi/ginkgo
   - go get -d github.com/onsi/gomega
   - go install github.com/onsi/ginkgo/ginkgo
   - export PATH=$PATH:$GOPATH/bin
 
 script:
-  - mkdir src/fox/fox_test/foxdb/
-  - ginkgo src/login/login_test/
-  - ginkgo src/fox/fox_test/
-  - ginkgo src/authn/authn_test/
-  - ginkgo src/authz/authz_test/
+  - mkdir src/github.com/e-gov/fox/fox/fox_test/foxdb/
+  - ginkgo src/github.com/e-gov/fox/login/login_test/
+  - ginkgo src/github.com/e-gov/fox/fox/fox_test/
+  - ginkgo src/github.com/e-gov/fox/authn/authn_test/
+  - ginkgo src/github.com/e-gov/fox/authz/authz_test/

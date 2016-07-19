@@ -9,15 +9,15 @@ services:
   fox:
     build:
      context: .
-     dockerfile: ./src/fox/Dockerfile
+     dockerfile: ./src/github.com/e-gov/fox/Dockerfile
   login:
     build:
      context: .
-     dockerfile: ./src/login/Dockerfile
+     dockerfile: ./src/github.com/e-gov/login/Dockerfile
   haproxy:
     build:
      context: .
-     dockerfile: ./src/haproxy/Dockerfile
+     dockerfile: ./haproxy/Dockerfile
 
 volumes:
   npm_data:
