@@ -1,17 +1,25 @@
 #=============== FoxService ===============
 FROM golang:1.6
 
-COPY ./src/github.com/e-gov/fox/ /fox/
+RUN mkdir -p /src/github.com/e-gov/fox/fox/
 
-ENV GOPATH=/fox/vendor
+COPY ./src/github.com/e-gov/fox/fox/ /src/github.com/e-gov/fox/fox/
 
-WORKDIR /fox/foxservice/
+RUN mkdir -p /src/vendor/github.com/e-gov/fox/
 
-RUN mkdir /fox/vendor && go get \ 
-	&& CGO_ENABLED=0 go build -a -installsuffix cgo -v \
-	-o foxservice.o FoxService.go
+WORKDIR /src/vendor/github.com/e-gov/fox/
+ 
+COPY ./src/github.com/e-gov/fox/authn/ authn/
+COPY ./src/github.com/e-gov/fox/authz/ authz/
+COPY ./src/github.com/e-gov/fox/util/ util/
 
-COPY foxservice.o /bin/foxservice
+ENV GOPATH=/
+
+WORKDIR /src/github.com/e-gov/fox/fox/foxservice/
+
+RUN go get -d && CGO_ENABLED=0 go build -a -installsuffix cgo -v \
+	-o foxservice.o FoxService.go \
+	&& cp foxservice.o /bin/foxservice
 
 CMD ["bin/foxservice"]
 

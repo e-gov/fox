@@ -9,11 +9,11 @@ services:
   fox:
     build:
      context: .
-     dockerfile: ./src/github.com/e-gov/fox/Dockerfile
+     dockerfile: ./src/github.com/e-gov/fox/fox/Dockerfile
   login:
     build:
      context: .
-     dockerfile: ./src/github.com/e-gov/login/Dockerfile
+     dockerfile: ./src/github.com/e-gov/fox/login/Dockerfile
   haproxy:
     build:
      context: .
