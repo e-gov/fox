@@ -78,14 +78,19 @@ func LoadConfigByPathWOExtension(name string) {
 
 	userConfigFolder := getUserConfigFolderPath()
 	configFolder := getConfigFolderPath()
-	viper.AddConfigPath(userConfigFolder) // user's own personal config file
-	viper.AddConfigPath(configFolder)     // General fallback config file
-	viper.AddConfigPath(".")              // default path
+
+        if (userConfigFolder != "") {
+                viper.AddConfigPath(userConfigFolder) // user's own personal config file
+        }
+        if (configFolder != "") {
+                viper.AddConfigPath(configFolder)     // General fallback config file
+        }
 
 	if err := viper.ReadInConfig(); err != nil {
 		// No config to start up on
 		if isFatal {
-			log.Debugf("Looking for config in: %s (user) or %s (fallback)", userConfigFolder, configFolder)
+			log.Debugf("Failed to find config in: %s (user) or %s (fallback)",
+				userConfigFolder, configFolder)
 			panic(err)
 		} else {
 			log.Errorf("Failed to load configuration from %s\n", name)
@@ -110,7 +115,8 @@ func LoadConfigByPathWOExtension(name string) {
 	config = tmp
 	cLock.Unlock()
 
-	log.Infof("Success loading configuration ver %d from %s", config.Version, viper.ConfigFileUsed())
+	log.Infof("Success loading configuration ver %d from %s",
+		config.Version, viper.ConfigFileUsed())
 }
 
 // TODO: make it so it loads the config if it is not there
@@ -158,6 +164,10 @@ func getUserConfigFolderPath() string {
 
 	userName := getUserName()
 
+        if userName == "" {
+                return ""
+        }
+
 	cfgFolder := getConfigFolderPath()
 	sep := string(filepath.Separator)
 
@@ -170,7 +180,8 @@ func getUserConfigFolderPath() string {
 func getUserName() string {
 	u, err := user.Current()
 	if err != nil {
-		log.Errorf("Cannot find current user")
+		log.Errorf("Cannot find current user -- %s", err.Error())
+		return ""
 	}
 	return u.Username
 }
@@ -190,10 +201,6 @@ func getConfigFolderPath() string {
 		pathEl = wdPath[:indexOfBin] // take up to bin (exclusive)
 	} else if indexOfSrc > -1 {
 		pathEl = wdPath[:indexOfSrc] // take up to src (exclusive)
-	} else {
-		// If neither bin nor source is found, we are probably at
-		// project home
-		pathEl = wdPath
 	}
 
 	if len(pathEl) > 0 {
