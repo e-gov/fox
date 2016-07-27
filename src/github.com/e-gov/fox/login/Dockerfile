@@ -16,16 +16,14 @@ COPY ./src/github.com/e-gov/fox/util/ util/
 
 ENV GOPATH=/
 
-# authn,authz use this config
-# getConfigFolderPath() should find the config in /config/ 
-RUN mkdir /config/docker \
-	&& cp -n /config/config.json.template /config/docker/config.json \
-	&& go get -d vendor/github.com/e-gov/fox/authn/keygen/ \ 
-	&& go run /src/vendor/github.com/e-gov/fox/authn/keygen/KeyGen.go > /config/key.base64 
-
 WORKDIR /src/github.com/e-gov/fox/login/loginservice/
 
-RUN go get -d && CGO_ENABLED=0 go build -a -installsuffix cgo -v \
+# authn,authz use this config
+# getConfigFolderPath() should find the config in /config/ 
+RUN go get -d vendor/github.com/e-gov/fox/authn/keygen/ \ 
+	&& go run /src/vendor/github.com/e-gov/fox/authn/keygen/KeyGen.go \
+	> /config/key.base64 \
+	&& go get -d && CGO_ENABLED=0 go build -a -installsuffix cgo -v \
 	-o loginservice.o LoginService.go \
 	&& cp loginservice.o /bin/loginservice
 

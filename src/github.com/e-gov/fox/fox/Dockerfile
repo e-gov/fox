@@ -20,11 +20,8 @@ WORKDIR /src/github.com/e-gov/fox/fox/foxservice/
 
 # fox,authn,authz use this config 
 # temporary database data for foxservice
-RUN mkdir /config/docker \
-	&& cp -n /config/config.json.template /config/docker/config.json \
-	&& mkdir -p /src/github.com/e-gov/fox/tmp/foxdb/  
-
-RUN go get -d && CGO_ENABLED=0 go build -a -installsuffix cgo -v \
+RUN mkdir -p /src/github.com/e-gov/fox/tmp/foxdb/ \
+	&& go get -d && CGO_ENABLED=0 go build -a -installsuffix cgo -v \
 	-o foxservice.o FoxService.go \
 	&& cp foxservice.o /bin/foxservice
 
