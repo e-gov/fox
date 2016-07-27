@@ -15,5 +15,5 @@ cp -n config/config.json.template config/$USER/test_config.json
 mkdir src/github.com/e-gov/fox/tmp/foxdb  
 ./bin/foxservice
 
-go run src/github.com/e-gov/fox/authn/keygen/KeyGen.go > key.base64 
+go run src/github.com/e-gov/fox/authn/keygen/KeyGen.go > config/key.base64 
 ./bin/loginservice
