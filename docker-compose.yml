@@ -1,24 +1,73 @@
 version: '2'
 services:
-  front_end:
+  static_web:
     build:
      context: .
      dockerfile: ./static/Dockerfile
     volumes:
       - npm_data:/statc/node_modules/
+    networks:
+      - static_nw
   fox:
     build:
      context: .
      dockerfile: ./src/github.com/e-gov/fox/fox/Dockerfile
-  login:
+    networks:
+     - fox_nw
+  session:
     build:
      context: .
      dockerfile: ./src/github.com/e-gov/fox/login/Dockerfile
-  haproxy:
-    build:
-     context: .
-     dockerfile: ./haproxy/Dockerfile
+    networks:
+     - session_nw
+  fox_LB:
+    image: haproxy:1.6
+    depends_on:
+     - fox
+     - session
+    volumes:
+     - ./config/fox_LB/fox_LB_hap.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    networks:
+     - fox_nw
+     - session_nw
+    ports:
+     - "70:70"
+     - "8090:8090"
+     - "8091:8091"
+  content_LB:
+    image: haproxy:1.6
+    depends_on:
+     - static_web
+    volumes:
+     - ./config/content_LB:/haproxy-override
+    networks:
+     - static_nw
+    ports:
+     - "9000:9000"
+     - "71:71"
 
+networks:
+    session_nw:
+      driver: bridge
+      ipam:
+        driver: default
+        config:
+         - subnet: 172.28.0.0/16
+    fox_nw:
+      driver: bridge
+      ipam:
+        driver: default
+        config:
+         - subnet: 172.29.0.0/16
+    static_nw:
+      driver: bridge
+      ipam:
+        driver: default
+        config:
+         - subnet: 172.30.0.0/16
+
+# node modules are going to remain even after
+# container is stopped
 volumes:
   npm_data:
     driver: local-persist
