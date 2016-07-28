@@ -4,8 +4,10 @@ services:
     build:
      context: .
      dockerfile: ./static/Dockerfile
+# gets the node modules that already exist
+# if npm install was run in the static dir previously
     volumes:
-      - npm_data:/statc/node_modules/
+      - .static/node_modules/:/statc/node_modules/
     networks:
       - static_nw
   fox:
@@ -65,12 +67,4 @@ networks:
         driver: default
         config:
          - subnet: 172.30.0.0/16
-
-# node modules are going to remain even after
-# container is stopped
-volumes:
-  npm_data:
-    driver: local-persist
-    driver_opts:
-      mountpoint: ./static/node_modules/
 
