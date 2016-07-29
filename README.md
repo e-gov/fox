@@ -18,8 +18,8 @@ To change a port used or logging target (defaults to stdout and can be sent to s
 ## Running the application
 
 There are two ways to run this application:
-1) Using Docker containers
-2) Using bash
+1. Using Docker containers
+2. Using bash
 
 Scroll down to see the instructions on how to do this.
 
@@ -27,10 +27,10 @@ Scroll down to see the instructions on how to do this.
 
 It is highly recommended to use a Linux distrubution to run the Docker containers.
 
-1) Install Docker
-2) To avoid having to use the `sudo` command in front of the `docker` command, [create a docker user group](https://docs.docker.com/engine/installation/linux/ubuntulinux/#/create-a-docker-group)
-3) Install Docker Compose
-4) Run the app with `docker-compose up`
+1. Install Docker
+2. To avoid having to use the `sudo` command in front of the `docker` command, [create a docker user group](https://docs.docker.com/engine/installation/linux/ubuntulinux/#/create-a-docker-group)
+3. Install Docker Compose
+4. Run the app with `docker-compose up`
 
 ### The bash way
 You can either run the build.sh file inside the project root, or do this manually.
