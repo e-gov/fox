@@ -7,7 +7,7 @@ WORKDIR /statc
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN cp /statc/properties.json.sample properties.json \
+RUN cp /statc/properties.json.sample /statc/properties.json \
 	&& apt-get update \
 	&& npm install \
 	&& npm install -g grunt-cli
