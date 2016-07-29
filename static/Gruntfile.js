@@ -30,9 +30,9 @@ module.exports = function (grunt) {
                     livereload: '<%= connect.options.livereload %>'
                 }
             },
-            compass: {
-                files: ['<%= yeoman.app %>/css/{,*/}*.{scss,sass}'],
-                tasks: ['compass:server', 'autoprefixer']
+            sass: {
+                files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+                tasks: ['sass:server', 'autoprefixer']
             },
             gruntfile: {
                 files: ['Gruntfile.js']
@@ -96,31 +96,29 @@ module.exports = function (grunt) {
             distModules: ['<%= yeoman.dist %>/modules'],
             server: '.tmp'
         },
-        compass: {
+        sass: {
             options: {
-                sassDir: '<%= yeoman.app %>/css',
-                cssDir: '.tmp/css',
-                generatedImagesDir: '.tmp/images/generated',
-                imagesDir: '<%= yeoman.app %>/images',
-                javascriptsDir: '<%= yeoman.app %>/scripts',
-                fontsDir: '<%= yeoman.app %>/css/fonts',
-                importPath: '<%= yeoman.app %>/bower_components',
-                httpImagesPath: '/images',
-                httpGeneratedImagesPath: '/images/generated',
-                httpFontsPath: '/css/fonts',
-                relativeAssets: false,
-                assetCacheBuster: false,
-                raw: 'Sass::Script::Number.precision = 10\n'
+                includePaths: [
+                'bower_components'
+                ]
             },
             dist: {
-                options: {
-                    generatedImagesDir: '<%= yeoman.dist %>/images/generated'
-                }
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/styles',
+                    src: ['*.scss'],
+                    dest: '.tmp/styles',
+                    ext: '.css'
+                }]
             },
             server: {
-                options: {
-                    debugInfo: true
-                }
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/styles',
+                    src: ['*.scss'],
+                    dest: '.tmp/styles',
+                    ext: '.css'
+                }]
             }
         },
         autoprefixer: {
@@ -179,7 +177,8 @@ module.exports = function (grunt) {
         },
         concurrent: {
             server: [
-                'compass:server'
+                'sass:server',
+                'copy:styles'
             ]
         }
     });
