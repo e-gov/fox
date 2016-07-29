@@ -7,9 +7,11 @@ There are two key components:
  1. The FoxService that implements the main business logic of the fox registry
  2. The LoginService that mints tokens for FoxService instances to be used and communicates with external authentication providers
 
-## The microservices and their ports
+## The microservices
 
-Fox service's REST interface will respond on **http://localhost:8090/**, Login service's on **http://localhost:8091/**. You should now be able to use web UI in **http://localhost:9000/**. To change a port used or logging target (defaults to stdout and can be sent to syslog), check **./bin/foxservice -h** and **./bin/loginservice -h**.
+Fox service's REST interface will respond on **http://localhost:8090/**, Login service's on **http://localhost:8091/**. You should, after running the app, be able to use web UI in **http://localhost:9000/**. 
+
+To change a port used or logging target (defaults to stdout and can be sent to syslog), check **./bin/foxservice -h** and **./bin/loginservice -h**.
 
 **In the sample "config/pwd.list" file, a user FantasticMrFox is present with the encrypted version of "test".**
 
