@@ -6,8 +6,6 @@ services:
      dockerfile: ./static/Dockerfile
 # gets the node modules that already exist
 # if npm install was run in the static dir previously
-    volumes:
-      - .static/node_modules/:/statc/node_modules/
     networks:
       - static_nw
   fox:
@@ -41,7 +39,7 @@ services:
     depends_on:
      - static_web
     volumes:
-     - ./config/content_LB:/haproxy-override
+     - ./config/content_LB/content_LB_hap.cfg:/usr/local/etc/haproxy/haproxy.cfg
     networks:
      - static_nw
     ports:
