@@ -4,10 +4,10 @@ services:
     build:
      context: .
      dockerfile: ./static/Dockerfile
-# gets the node modules that already exist
-# if npm install was run in the static dir previously
     networks:
-      - static_nw
+     - static_nw
+     - fox_nw
+     - session_nw
   fox:
     build:
      context: .
