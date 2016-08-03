@@ -3,13 +3,13 @@
   "proxies": [
     {
       "context": "/fox",
-      "host": "fox",
+      "host": "fox_LB",
       "port": 8090,
       "changeOrigin": true
     },
     {
       "context": "/login",
-      "host": "session",
+      "host": "fox_LB",
       "port": 8091,
       "changeOrigin": true
     }

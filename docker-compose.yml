@@ -4,10 +4,11 @@ services:
     build:
      context: .
      dockerfile: ./static/Dockerfile
+    depends_on:
+     - fox_LB
     networks:
      - static_nw
-     - fox_nw
-     - session_nw
+     - fox_lb_nw
   fox:
     build:
      context: .
@@ -27,21 +28,23 @@ services:
      - session
     volumes:
      - ./config/fox_LB/fox_LB_hap.cfg:/usr/local/etc/haproxy/haproxy.cfg
+     - /dev/log:/dev/log
     networks:
      - fox_nw
      - session_nw
+     - fox_lb_nw
     ports:
      - "70:70"
-     - "8090:8090"
-     - "8091:8091"
   content_LB:
     image: haproxy:1.6
     depends_on:
      - static_web
     volumes:
      - ./config/content_LB/content_LB_hap.cfg:/usr/local/etc/haproxy/haproxy.cfg
+     - /dev/log:/dev/log
     networks:
      - static_nw
+     - fox_lb_nw
     ports:
      - "9000:9000"
      - "71:71"
@@ -65,4 +68,9 @@ networks:
         driver: default
         config:
          - subnet: 172.30.0.0/16
-
+    fox_lb_nw:
+      driver: bridge
+      ipam:
+        driver: default
+        config:
+         - subnet: 172.31.0.0/16
