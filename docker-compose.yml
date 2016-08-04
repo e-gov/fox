@@ -13,12 +13,16 @@ services:
     build:
      context: .
      dockerfile: ./src/github.com/e-gov/fox/fox/Dockerfile
+    volumes:
+     - config-data:/config/:ro
     networks:
      - fox_nw
   session:
     build:
      context: .
      dockerfile: ./src/github.com/e-gov/fox/login/Dockerfile
+    volumes:
+     - config-data:/config/
     networks:
      - session_nw
   fox_LB:
@@ -49,28 +53,32 @@ services:
      - "9000:9000"
      - "71:71"
 
+volumes:
+  config-data:
+    driver: local
+
 networks:
-    session_nw:
-      driver: bridge
-      ipam:
-        driver: default
-        config:
-         - subnet: 172.28.0.0/16
-    fox_nw:
-      driver: bridge
-      ipam:
-        driver: default
-        config:
-         - subnet: 172.29.0.0/16
-    static_nw:
-      driver: bridge
-      ipam:
-        driver: default
-        config:
-         - subnet: 172.30.0.0/16
-    fox_lb_nw:
-      driver: bridge
-      ipam:
-        driver: default
-        config:
-         - subnet: 172.31.0.0/16
+  session_nw:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: 172.28.0.0/16
+  fox_nw:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: 172.29.0.0/16
+  static_nw:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: 172.30.0.0/16
+  fox_lb_nw:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: 172.31.0.0/16

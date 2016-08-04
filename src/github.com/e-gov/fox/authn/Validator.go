@@ -46,7 +46,7 @@ func Decrypt(token string) *TokenStruct {
 
 	err := json.Unmarshal(m, &message)
 	if err != nil {
-		log.Info("Failed to unmarshall token contents " + string(m))
+		log.Info("Failed to unmarshall token contents -- " + string(m))
 		return nil
 	}
 	return &message

@@ -4,7 +4,8 @@ FROM golang:1.6
 RUN mkdir -p /src/github.com/e-gov/fox/login/
 
 COPY ./src/github.com/e-gov/fox/login/ /src/github.com/e-gov/fox/login/
-COPY ./config /config/
+# copy all the config data to the named volume mounted at /config/
+COPY ./config/ /config/
 
 RUN mkdir -p /src/vendor/github.com/e-gov/fox/
 
@@ -18,7 +19,8 @@ ENV GOPATH=/
 
 WORKDIR /src/github.com/e-gov/fox/login/loginservice/
 
-# authn,authz use this config
+# key.base64 needs to be created for authn
+# authn,authz use config/
 # getConfigFolderPath() should find the config in /config/ 
 RUN go get -d vendor/github.com/e-gov/fox/authn/keygen/ \ 
 	&& go run /src/vendor/github.com/e-gov/fox/authn/keygen/KeyGen.go \
