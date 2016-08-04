@@ -1,14 +1,11 @@
 #=============== StaticWeb ===============
 FROM node:5.12
 
-COPY ./static /statc/
+COPY ./static/ /statc/
 
 WORKDIR /statc
 
-ARG DEBIAN_FRONTEND=noninteractive
-
 RUN cp /statc/properties.json.sample /statc/properties.json \
-	&& apt-get update \
 	&& npm install \
 	&& npm install -g grunt-cli
 
