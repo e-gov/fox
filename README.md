@@ -9,9 +9,9 @@ There are two key components:
 
 ## The microservices
 
-Fox service's REST interface will respond on **http://localhost:8090/**, Login service's on **http://localhost:8091/**. You should, after running the app, be able to use web UI in **http://localhost:9000/**. 
+**If Docker is not used**, Fox Service's REST interface will respond on http://localhost:8090/, Login Service's on http://localhost:8091/, **otherwise** these services will be accessible inside fox_lb_nw network (see docker-compose.yml) http://fox_LB:8090/ and http://fox_LB:8091/. You should, **after running the app**, be able to use web UI in **http://localhost:9000/**. 
 
-To change a port used or logging target (defaults to stdout and can be sent to syslog), check **./bin/foxservice -h** and **./bin/loginservice -h**.
+To change a port used or logging target (defaults to stdout and can be sent to syslog), check **./bin/foxservice -h** and **./bin/loginservice -h**. If using Docker, it is easier just to change the ports in static/properties.json.sample and edit the respective load balancer's haproxy.cfg in the config directory.
 
 **In the sample "config/pwd.list" file, a user FantasticMrFox is present with the encrypted version of "test".**
 
@@ -25,12 +25,51 @@ Scroll down to see the instructions on how to do this.
 
 ### The Docker way
 
-It is highly recommended to use a Linux distrubution to run the Docker containers.
+_It is highly recommended to use a Linux distrubution to run the Docker containers._
 
-1. Install Docker
+1. Install Docker Engine
 2. To avoid having to use the `sudo` command in front of the `docker` command, [create a docker user group](https://docs.docker.com/engine/installation/linux/ubuntulinux/#/create-a-docker-group)
 3. Install Docker Compose
-4. Run the app with `docker-compose up`
+4. `cd $GOPATH`
+5. Run the app with `docker-compose up`
+6. Go to localhost:9000, to use the app
+
+#### 1 Docker Compose
+The first time the app is run with this command, it should build the static_web, fox and session images (from the Dockerfiles located at, respectively, in static/, Fox Service's package [e-gov/fox/fox] and Login Service's package [e-gov/fox/login]), besides the third party Docker images (haproxy, node and golang) -- these six images combined take up about 3 GB (run `docker images` to see the details). 
+
+The next time this command is used, it will skip the building phase and go straight to running the containers mentioned in docker-compose.yml. If rebuilding of the images is desired, run `docker-compose up --build`.
+
+#### 2 Haproxy
+##### Haproxy's health checks
+Haproxy is configured to send health checks to static_web:9000, fox:8090/fox/status and session:8091/login/status (the addresses look confusing, because all these run on the localhost, if the app is started via Bash and not Docker).
+
+This will produce a lot of exessive and misinforming output:
+
+```Cannot find current user -- user: Current not implemented on linux/amd64```
+Docker's Golang image does not have os/user package and therefore LoadConfig() in Config.go notifies that we failed to get the user and falls back to using the config in config/.
+
+> fox_1         | 07:43:45.340 func1 ▶ DEBU 067 Failed to get user from  
+fox_1         | 07:43:45.340 IsAuthorized ▶ DEBU 068 Comparing user , GET:/fox/status to GET:/fox/foxes/  
+fox_1         | 07:43:45.340 IsAuthorized ▶ DEBU 069 Comparing user , GET:/fox/status to GET:/fox/foxes  
+fox_1         | 07:43:45.340 IsAuthorized ▶ DEBU 06a Comparing user , GET:/fox/status to PUT:/fox/foxes/   
+fox_1         | 07:43:45.340 IsAuthorized ▶ DEBU 06b Comparing user , GET:/fox/status to POST:/fox/foxes  
+fox_1         | 07:43:45.340 IsAuthorized ▶ DEBU 06c Comparing user , GET:/fox/status to DELETE:/fox/foxes/  
+fox_1         | 07:43:45.340 IsAuthorized ▶ DEBU 06d Comparing user , GET:/fox/status to GET:/fox/status  
+fox_1         | 07:43:45.340 IsAuthorized ▶ DEBU 06e Request for user  to access GET /fox/status returned true  
+fox_1         | 07:43:45.340 func1 ▶ DEBU 06f Authorized access, sending an error message  
+fox_1         | 07:43:45.341 func1 ▶ INFO 070 172.29.0.3 - [05/Aug/2016:07:43:45 +0000] "GET /fox/status HTTP/1.0" 200 2293  
+session_1     | 07:43:46.340 func1 ▶ INFO 014 172.28.0.3 - [05/Aug/2016:07:43:46 +0000] "GET /login/status HTTP/1.0" 200 1540  
+session_1     | 172.28.0.3 - - [05/Aug/2016:07:43:46 +0000] "GET /login/status HTTP/1.0" 200 1540  
+
+This indicates that the health check for fox did not provide a token and is therefore given the regular user's ('*') access rights (which suits it just fine).
+
+##### Haproxy logs
+
+Haproxy logs to `/var/log/syslog`. To see the logs, run `tail -n 400 /var/log/syslog | grep haproxy`
+
+#### 3 Cleaning the hard drive from unused Docker files
+
+Messing around with docker can quickly use up space on the hard drive. Therefore, from time to time, it is recommended to run a bash script, which we assembled from code found at https://lebkowski.name/docker-volumes/ **to clean the hard drive from exited containers, unused images and volumes**. The script is located at `bash_scripts/remove_unused_docker_files.sh`
 
 ### The bash way
 You can either run the build.sh file inside the project root, or do this manually.
