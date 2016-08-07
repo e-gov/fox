@@ -9,17 +9,17 @@ There are two key components:
 
 ## The microservices
 
-**If Docker is not used**, Fox Service's REST interface will respond on http://localhost:8090/, Login Service's on http://localhost:8091/, **otherwise** these services will be accessible inside fox_lb_nw network (see docker-compose.yml) http://fox_LB:8090/ and http://fox_LB:8091/. You should, **after running the app**, be able to use web UI in **http://localhost:9000/**. 
+**If Docker is not used**, Fox Service's REST interface will respond on http://localhost:8090/, Login Service's on http://localhost:8091/, **otherwise** these services will be accessible inside fox_lb_nw network (see docker-compose.yml) on http://fox_LB:8090/ and http://fox_LB:8091/. You should, **after running the app**, be able to use web UI in **http://localhost:9000/**. 
 
-To change a port used or logging target (defaults to stdout and can be sent to syslog), check **./bin/foxservice -h** and **./bin/loginservice -h**. If using Docker, it is easier just to change the ports in static/properties.json.sample and edit the respective load balancer's haproxy.cfg in the config directory.
+To change a port used or logging target (defaults to stdout and can be sent to syslog), check **./bin/foxservice -h** and **./bin/loginservice -h**. In the case of changing ports -- if using Docker -- it is easier just to change the ports in static/properties.json.sample and edit the respective load balancer's haproxy.cfg in the config directory.
 
-**In the sample "config/pwd.list" file, a user FantasticMrFox is present with the encrypted version of "test".**
+In the sample "config/pwd.list" file, **a user FantasticMrFox is present with the hashed version of "test".**
 
 ## Running the application
 
 There are two ways to run this application:
 1. Using Docker containers
-2. Using bash
+2. Using Bash
 
 Scroll down to see the instructions on how to do this.
 
@@ -39,13 +39,22 @@ The first time the app is run with this command, it should build the static_web,
 
 The next time this command is used, it will skip the building phase and go straight to running the containers mentioned in docker-compose.yml. If rebuilding of the images is desired, run `docker-compose up --build`.
 
-#### 2 Haproxy
+#### 2 Docker containers
+
+##### Running commands inside the container
+Once you have run `docker-compose up`, you can run `docker exec -it fox_fox_LB_1 /bin/bash` to use the Bash inside fox_LB -- this can be useful for debugging.
+
+##### Executing a container with a different command
+By default, the e-gov Dockerfiles (eg static/Dockerfile) specify a command that will execite when that image is run (eg for static/Dockerfile, this is `CMD [ "grunt", "serve" ]`). To add arguments to the command, you can add entrypoint to `docker-compose.yml` (eg `entrypoint: grunt serve --verbose`).
+
+#### 3 Haproxy
 ##### Haproxy's health checks
 Haproxy is configured to send health checks to static_web:9000, fox:8090/fox/status and session:8091/login/status (the addresses look confusing, because all these run on the localhost, if the app is started via Bash and not Docker).
 
 This will produce a lot of exessive and misinforming output:
 
-```Cannot find current user -- user: Current not implemented on linux/amd64```
+> Cannot find current user -- user: Current not implemented on linux/amd64
+
 Docker's Golang image does not have os/user package and therefore LoadConfig() in Config.go notifies that we failed to get the user and falls back to using the config in config/.
 
 > fox_1         | 07:43:45.340 func1 ▶ DEBU 067 Failed to get user from  
@@ -67,11 +76,11 @@ This indicates that the health check for fox did not provide a token and is ther
 
 Haproxy logs to `/var/log/syslog`. To see the logs, run `tail -n 400 /var/log/syslog | grep haproxy`
 
-#### 3 Cleaning the hard drive from unused Docker files
+#### 4 Cleaning the hard drive from unused Docker files
 
 Messing around with docker can quickly use up space on the hard drive. Therefore, from time to time, it is recommended to run a bash script, which we assembled from code found at https://lebkowski.name/docker-volumes/ **to clean the hard drive from exited containers, unused images and volumes**. The script is located at `bash_scripts/remove_unused_docker_files.sh`
 
-### The bash way
+### The Bash way
 You can either run the build.sh file inside the project root, or do this manually.
 
 #### 1 Starting a web-based UI
@@ -95,7 +104,7 @@ To run web ui run following command in `/static`
 ```bash
 grunt serve
 ```
-It should run webserver in `localhost:9000`
+It should run the webserver in `localhost:9000`
 
 ##### If you see errors about the encoding of files on OS X, try this:
 
@@ -124,13 +133,13 @@ go get -d -t login/login_test
 #### 3 (optional) Running a LDAP server on Apache DS
 
 A Director Service is, by default, not in use (see config.json.template in the config folder). However, one can be used, like this:
-1. Install Apache DS and Apache Directory Studio
-2. Create a new server in Apache DS (use the default configuration)
-3. Run the server
-4. Create a connection (again, use the default configuration)
-5. Connect with the server
-6. Import the config from FoxRegistryLDAPConfig_directories.ldif and FoxRegistryLDAPConfig_foxapi_as_user.ldif into the server
-7. Change the Provider in config.json to "ldap"
+1. Install Apache DS and Apache Directory Studio  
+2. Create a new server in Apache DS (use the default configuration)  
+3. Run the server  
+4. Create a connection (again, use the default configuration)  
+5. Connect with the server  
+6. Import the config from FoxRegistryLDAPConfig_directories.ldif and FoxRegistryLDAPConfig_foxapi_as_user.ldif into the server  
+7. Change the Provider in config.json to "ldap"  
 
 Redhat's 389 DS should be used to replace Apache DS, since the latter's functionality is not that well documented.
 
