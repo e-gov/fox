@@ -13,6 +13,8 @@ services:
     build:
      context: .
      dockerfile: ./src/github.com/e-gov/fox/fox/Dockerfile
+    depends_on:
+     - session
     volumes:
      - config-data:/config/:ro
     networks:
