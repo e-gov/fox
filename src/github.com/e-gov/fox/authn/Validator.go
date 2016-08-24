@@ -42,6 +42,7 @@ func Decrypt(token string) *TokenStruct {
 	// Do the math, TTL in minutes could be a fraction
 	ttl := int64(math.Floor(util.GetConfig().Authn.TokenTTL * float64(time.Minute)))
 
+	log.Debugf("Validating if token %s was issued more than %f seconds ago", string(tok), math.Floor(float64(ttl)/float64(time.Second)))
 	m := fernet.VerifyAndDecrypt(tok, time.Duration(ttl), GetValidateKeys())
 
 	err := json.Unmarshal(m, &message)

@@ -8,6 +8,7 @@
       "key.base64",
       "key2.base64"
     ],
+    "_comment" : "The TTL is in minutes",
     "TokenTTL": 15,
     "PwdProvider": {
       "PwdFileName": "test_pwd.list",
