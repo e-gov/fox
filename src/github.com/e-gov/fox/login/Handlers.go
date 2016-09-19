@@ -7,13 +7,7 @@ import (
 
 	"github.com/e-gov/fox/authn"
 	"github.com/e-gov/fox/authz"
-
-	log "github.com/Sirupsen/logrus"
 )
-
-func sendHeaders(w http.ResponseWriter) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-}
 
 // Login returns a token
 func Login(w http.ResponseWriter, r *http.Request) {

@@ -4,61 +4,27 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
-	"os"
-	"os/signal"
-	"syscall"
 
 	"github.com/e-gov/fox/login"
 	"github.com/e-gov/fox/authn"
 	"github.com/e-gov/fox/util"
-	"github.com/op/go-logging"
+
+	log "github.com/Sirupsen/logrus"
 )
 
-var log = logging.MustGetLogger("login")
 
 func main() {
 	var port = flag.Int("port", 8091, "Port to bind to on the localhost interface")
-	var slog = flag.Bool("syslog", false, "If present, logs are sent to syslog")
+	var env = flag.String("env", "DEV", "Environment the binary runs in. Accepts DEV and PROD")
 
 	flag.Parse()
 
-	initConfig()
-	setupLogging(slog)
+	util.SetupSvcLogging(env)
+	util.InitConfig()
+	authn.InitValidator()
 
 	router := login.NewRouter()
 	log.Infof("Starting a server on localhost:%d", *port)
-	log.Critical(http.ListenAndServe(fmt.Sprintf(":%d", *port), router))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), router))
 }
 
-func initConfig() {
-	util.LoadConfig()
-
-	authn.InitMint()
-	sc := make(chan os.Signal, 1)
-
-	signal.Notify(sc, syscall.SIGHUP)
-
-	go func() {
-		for {
-			<-sc
-			util.LoadConfig()
-		}
-	}()
-}
-
-func setupLogging(slog *bool) {
-	var b logging.Backend
-
-	format := logging.MustStringFormatter(
-		`%{color}%{time:15:04:05.000} %{shortfunc} ▶ %{level:.4s} %{id:03x}%{color:reset} %{message}`,
-	)
-
-	if *slog {
-		b, _ = logging.NewSyslogBackend("Login")
-	} else {
-		b = logging.NewLogBackend(os.Stdout, "", 0)
-	}
-
-	bFormatter := logging.NewBackendFormatter(b, format)
-	logging.SetBackend(bFormatter)
-}

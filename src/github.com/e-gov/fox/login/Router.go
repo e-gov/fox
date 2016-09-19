@@ -2,16 +2,12 @@ package login
 
 import (
 	"net/http"
-	"os"
-
 	"github.com/e-gov/fox/util"
 
-	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/op/go-logging"
+	log "github.com/Sirupsen/logrus"
 )
 
-var log = logging.MustGetLogger("LoginService")
 
 func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
@@ -21,15 +17,18 @@ func NewRouter() *mux.Router {
 		handler = route.HandlerFunc
 		handler = util.NewTelemetry(handler, route.Name)
 
-		handler = util.LoggingHandler(handler, log)
+		handler = util.LoggingHandler(handler)
 
 		router.
 			Methods(route.Method).
 			Path(route.Pattern).
 			Name(route.Name).
-			Handler(handlers.LoggingHandler(os.Stdout, handler))
-		log.Debug("Added " + route.String())
+			Handler(handler)
 
+		log.WithFields(log.Fields{
+			"path": route.Pattern,
+			"method": route.Method,
+		}).Infof("Added route %s", route.String())
 	}
 	return router
 }

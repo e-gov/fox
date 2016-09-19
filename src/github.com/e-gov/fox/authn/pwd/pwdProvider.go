@@ -8,11 +8,10 @@ import (
 
 	"github.com/e-gov/fox/util"
 
-	"github.com/op/go-logging"
+	log "github.com/Sirupsen/logrus"
 	bcrypt "golang.org/x/crypto/bcrypt"
 )
 
-var log = logging.MustGetLogger("pwdProvider")
 
 // PwdProvider creates a placeholder for the Provider interface implementation
 type PwdProvider struct{}
