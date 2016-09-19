@@ -2,12 +2,9 @@ package authn
 
 import (
 	"errors"
-
-	"github.com/op/go-logging"
 )
 
 var (
-	log         = logging.MustGetLogger("authn")
 	confVersion int
 )
 

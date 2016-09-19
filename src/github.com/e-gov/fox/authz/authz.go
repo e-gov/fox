@@ -5,10 +5,9 @@ import (
 
 	"github.com/e-gov/fox/util"
 
-	"github.com/op/go-logging"
+	log "github.com/Sirupsen/logrus"
 )
 
-var log = logging.MustGetLogger("AuthZ")
 var provider Provider
 var pLock = new(sync.RWMutex)
 

@@ -7,6 +7,7 @@ import (
 
 	"github.com/e-gov/fox/authn"
 	"github.com/e-gov/fox/util"
+	log "github.com/Sirupsen/logrus"
 )
 
 // PermissionHandler validates the permissions of a user before further handling

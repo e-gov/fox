@@ -11,19 +11,18 @@ import (
 
 	"github.com/e-gov/fox/authn"
 	"github.com/e-gov/fox/util"
-	"github.com/op/go-logging"
+	log "github.com/Sirupsen/logrus"
 )
 
-var log = logging.MustGetLogger("FoxService")
 
 func main() {
 
 	var port = flag.Int("port", 8090, "Port to bind to on the localhost interface")
-	var slog = flag.Bool("syslog", false, "If present, logs are sent to syslog")
+	var env = flag.String("env", "DEV", "Environment the binary runs in. Accepts DEV and PROD")
 	flag.Parse()
 
+	setupLogging(env)
 	initConfig()
-	setupLogging(slog)
 
 	router := fox.NewRouter()
 	log.Infof("Starting a server on localhost:%d", *port)
@@ -46,19 +45,28 @@ func initConfig() {
 	}()
 }
 
-func setupLogging(slog *bool) {
-	var b logging.Backend
+//func setupLogging(slog *bool) {
+//	var b logging.Backend
+//
+//	format := logging.MustStringFormatter(
+//		`%{color}%{time:15:04:05.000} %{shortfunc} ▶ %{level:.4s} %{id:03x}%{color:reset} %{message}`,
+//	)
+//
+//	if *slog {
+//		b, _ = logging.NewSyslogBackend("Fox")
+//	} else {
+//		b = logging.NewLogBackend(os.Stdout, "", 0)
+//	}
+//
+//	bFormatter := logging.NewBackendFormatter(b, format)
+//	logging.SetBackend(bFormatter)
+//}
 
-	format := logging.MustStringFormatter(
-		`%{color}%{time:15:04:05.000} %{shortfunc} ▶ %{level:.4s} %{id:03x}%{color:reset} %{message}`,
-	)
-
-	if *slog {
-		b, _ = logging.NewSyslogBackend("Fox")
-	} else {
-		b = logging.NewLogBackend(os.Stdout, "", 0)
-	}
-
-	bFormatter := logging.NewBackendFormatter(b, format)
-	logging.SetBackend(bFormatter)
+func setupLogging(env *string){
+	log.SetFormatter(&log.TextFormatter{})
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.DebugLevel)
+	log.WithFields(log.Fields{
+		"env":*env,
+	}).Info("Launching in " + *env + " environment")
 }

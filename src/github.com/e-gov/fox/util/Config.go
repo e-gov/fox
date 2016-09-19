@@ -7,11 +7,11 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/op/go-logging"
+	log "github.com/Sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
-var log = logging.MustGetLogger("Config")
+//var log = logging.MustGetLogger("Config")
 
 // Config is the data structure for passing configuration info
 type Config struct {
@@ -98,13 +98,9 @@ func LoadConfigByPathWOExtension(name string) {
 		}
 	}
 
-	log.Infof("Config file found: %s\n", viper.ConfigFileUsed())
-
 	viper.Unmarshal(tmp)
 	sanitize(tmp)
 
-	// TODO viper can reload config too. Remove this?
-	// Nope, the versioning is so we can trigger reloading of keys
 	cLock.Lock()
 	if config == nil {
 		tmp.Version = 1
@@ -115,8 +111,11 @@ func LoadConfigByPathWOExtension(name string) {
 	config = tmp
 	cLock.Unlock()
 
-	log.Infof("Success loading configuration ver %d from %s",
-		config.Version, viper.ConfigFileUsed())
+	log.WithFields(log.Fields{
+		"path": viper.ConfigFileUsed(),
+		"confVersion": config.Version,
+	}).Info("Success loading configuration")
+
 }
 
 // TODO: make it so it loads the config if it is not there

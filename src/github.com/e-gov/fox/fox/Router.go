@@ -7,29 +7,36 @@ import (
 	"github.com/e-gov/fox/util"
 
 	"github.com/gorilla/mux"
-	"github.com/op/go-logging"
+	log "github.com/Sirupsen/logrus"
 )
 
-var log = logging.MustGetLogger("FoxService")
+
 
 func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
 		var handler http.Handler
 
-		authz.GetProvider().AddRestriction(route.Role, route.Method, route.Pattern)
+		var ap = authz.GetProvider()
+		if ap != nil {
+			ap.AddRestriction(route.Role, route.Method, route.Pattern)
+		}
 
 		handler = route.HandlerFunc
 		handler = util.NewTelemetry(handler, route.Name)
 
 		handler = authz.PermissionHandler(handler)
-		handler = util.LoggingHandler(handler, log)
+		handler = util.LoggingHandler(handler)
 		router.
 			Methods(route.Method).
 			Path(route.Pattern).
 			Name(route.Name).
 			Handler(handler)
-		log.Debugf("Added route %s", route.String())
+
+		log.WithFields(log.Fields{
+			"path": route.Pattern,
+			"method": route.Method,
+		}).Infof("Added route %s", route.String())
 	}
 	return router
 }

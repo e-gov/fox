@@ -4,6 +4,8 @@ import (
 	"strings"
 
 	"github.com/e-gov/fox/authn"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 // SimpleProvider is the struct to implement
@@ -27,15 +29,27 @@ type requirement struct {
 func (provider *SimpleProvider) IsAuthorized(user string, method string, url string) bool {
 
 	for _, r := range provider.requirements {
-		log.Debugf("Comparing user %s, %s:%s to %s:%s", user, method, url, r.method, r.url)
+		log.WithFields(log.Fields{
+			"path": url,
+			"method": method,
+			"user": user,
+		}).Debugf("Comparing user %s, %s:%s to %s:%s", user, method, url, r.method, r.url)
 		if strings.HasPrefix(url, r.url) && r.method == method {
 			b := (user == "" && r.role == "*") || (user != "")
-			log.Debugf("Request for user %s to access %s %s returned %t", user, method, url, b)
+			log.WithFields(log.Fields{
+				"path": url,
+				"method": method,
+				"user": user,
+			}).Debugf("Request for user %s to access %s %s returned %t", user, method, url, b)
 			return b
 		}
 	}
 	// Unless there is an explicit rule about allowing access, we fall back to denying access
-	log.Debugf("No matching rules found, denying %s to access %s %s ", user, method, url)
+	log.WithFields(log.Fields{
+		"path": url,
+		"method": method,
+		"user": user,
+	}).Infof("No matching rules found, denying %s to access %s %s ", user, method, url)
 	return false
 }
 
@@ -44,7 +58,11 @@ func (provider *SimpleProvider) AddRestriction(role string, method string, url s
 	// Just take the prefix, remove the ID. Naive approach, do not replicate
 	u := strings.Split(url, "{")[0]
 	provider.requirements = append(provider.requirements, requirement{role, method, u})
-	log.Debugf("Role %s mapped to %s  %s, %d rules in total", role, method, u, len(provider.requirements))
+	log.WithFields(log.Fields{
+		"path": u,
+		"method": method,
+		"role": role,
+	}).Debugf("Role %s mapped to %s  %s, %d rules in total", role, method, u, len(provider.requirements))
 }
 
 // GetRoles implements a naive role listing for a user. All valid tokens will

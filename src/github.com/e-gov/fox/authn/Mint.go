@@ -9,6 +9,8 @@ import (
 	"github.com/e-gov/fox/util"
 
 	fernet "github.com/fernet/fernet-go"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 var mint struct {

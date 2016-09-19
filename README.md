@@ -163,6 +163,11 @@ mkdir /tmp/foxdb   # make sure that the configured storage folder exists.
 go run src/authn/keygen/KeyGen.go > config/$USER/key.base64   # Generate the keyfile for authentication tokens
 ./bin/loginservice
 ```
+3. Or 
+```bash
+cd src
+go run github.com/e-gov/fox/fox/foxservice/FoxService.go
+```
 
 ## Configuration
 Configuration is user-based, every user has a folder with their username under `config/`, where their personal config file(s) live.

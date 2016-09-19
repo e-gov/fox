@@ -1,13 +1,12 @@
 package util
 
 import (
-	"fmt"
 	"net"
 	"net/http"
 	"net/url"
 	"time"
 
-	logging "github.com/op/go-logging"
+	log "github.com/Sirupsen/logrus"
 	"github.com/rcrowley/go-metrics"
 )
 
@@ -66,11 +65,12 @@ func (l *statLogger) Size() int {
 }
 
 // HTTP logging handler
-func LoggingHandler(inner http.Handler, log *logging.Logger) http.Handler {
+func LoggingHandler(inner http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		sw := MakeLogger(w)
 		inner.ServeHTTP(sw, r)
-		log.Info(buildCommonLogLine(r, *r.URL, time.Now(), sw.Status(), sw.Size()))
+
+		logHTTP(r, *r.URL, time.Now(), sw.Status(), sw.Size())
 	})
 }
 
@@ -78,14 +78,7 @@ func LoggingHandler(inner http.Handler, log *logging.Logger) http.Handler {
 // ts is the timestamp with which the entry should be logged.
 // status and size are used to provide the response HTTP status and size.
 // Copied from gorilla/handlers/handlers.go, converted to strings instead of byte[]
-func buildCommonLogLine(req *http.Request, url url.URL, ts time.Time, status int, size int) string {
-	username := "-"
-	if url.User != nil {
-		if name := url.User.Username(); name != "" {
-			username = name
-		}
-	}
-
+func logHTTP(req *http.Request, url url.URL, ts time.Time, status int, size int) {
 	host, _, err := net.SplitHostPort(req.RemoteAddr)
 
 	if err != nil {
@@ -104,15 +97,14 @@ func buildCommonLogLine(req *http.Request, url url.URL, ts time.Time, status int
 		uri = url.RequestURI()
 	}
 
-	return fmt.Sprintf("%s %s [%s] \"%s %s %s\" %d %d",
-		host,
-		username,
-		ts.Format("02/Jan/2006:15:04:05 -0700"),
-		req.Method,
-		uri,
-		req.Proto,
-		status,
-		size)
+	log.WithFields(log.Fields{
+		"host": host,
+		"method": req.Method,
+		"uri": uri,
+		"proto": req.Proto,
+		"status": status,
+		"size": size,
+	}).Info(status)
 }
 
 // Stats is a handler for displaying API statistics

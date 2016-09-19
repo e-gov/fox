@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/e-gov/fox/util"
+	log "github.com/Sirupsen/logrus"
 )
 
 func getFileName(uuid string) string {
@@ -21,11 +22,13 @@ func StoreFox(fox Fox, uuid string) UUID {
 		panic(err)
 	}
 
-	f, err := os.Create(getFileName(uuid))
+	fname := getFileName(uuid)
+	f, err := os.Create(fname)
 
 	if err != nil {
-		log.Error("Failed to write file " + getFileName(uuid))
-		panic(err)
+		log.WithFields(log.Fields{
+			"path": fname,
+		}).Panic("Failed to write fox data to file")
 	}
 
 	defer f.Close()

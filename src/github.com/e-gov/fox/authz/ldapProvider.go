@@ -10,6 +10,8 @@ import (
 	"github.com/e-gov/fox/util"
 
 	"gopkg.in/ldap.v2"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 type LdapProvider struct {

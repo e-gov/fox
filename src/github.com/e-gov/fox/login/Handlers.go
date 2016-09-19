@@ -7,6 +7,8 @@ import (
 
 	"github.com/e-gov/fox/authn"
 	"github.com/e-gov/fox/authz"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 func sendHeaders(w http.ResponseWriter) {

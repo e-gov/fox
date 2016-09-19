@@ -13,6 +13,8 @@ import (
 	"github.com/e-gov/fox/util"
 
 	"github.com/pborman/uuid"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 // Show ia s handler for returning a specific fox
@@ -88,8 +90,7 @@ func addFoxToStorage(w http.ResponseWriter, r *http.Request, status int, uuid st
 
 	s := StoreFox(fox, uuid)
 	if err := json.NewEncoder(w).Encode(s); err != nil {
-		log.Critical("Error encoding the UUID")
-		panic(err)
+		log.Panic("Error encoding the UUID")
 	}
 
 }

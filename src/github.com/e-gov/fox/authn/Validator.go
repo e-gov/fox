@@ -10,6 +10,7 @@ import (
 	"github.com/e-gov/fox/util"
 
 	fernet "github.com/fernet/fernet-go"
+	log "github.com/Sirupsen/logrus"
 )
 
 var (
@@ -67,25 +68,30 @@ func loadValidateKeyByName(filenames []string) {
 
 	for _, path := range keyPaths {
 
-		log.Debugf("Attempting to load validation key from %s", path)
 		b, err := ioutil.ReadFile(path)
 
 		if err != nil {
-			log.Errorf("Could not open a key file %s", path)
+			log.WithFields(log.Fields{
+				"path": path,
+			}).Error("Could not open a key file")
 		} else {
 			k, err := fernet.DecodeKey(string(b))
 
 			if err != nil {
-				log.Errorf("Could not parse a key from %s", path)
+				log.WithFields(log.Fields{
+					"path": path,
+				}).Error("Could not parse a validation key from")
 			} else {
-				log.Debugf("Successfully loaded validation key from %s", path)
+				log.WithFields(log.Fields{
+					"path": path,
+				}).Debug("Successfully loaded validation key")
 				tempKeys = append(tempKeys, k)
 			}
 		}
 
 	}
 	if len(tempKeys) == 0 {
-		panic("Could not read any validation keys")
+		log.Panic("Could not read any validation keys")
 	}
 	// Store only after we are sure loading was good
 	validateLock.Lock()
