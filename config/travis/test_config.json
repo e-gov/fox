@@ -8,7 +8,7 @@
     "_comment" : "The TTL is in seconds",
     "TokenTTL": 1,
     "PwdProvider": {
-      "PwdFileName": "/Users/andreskytt/work/fox/config/andreskytt/test_pwd.list",
+      "PwdFileName": "test_pwd.list",
       "Salt": "RebasedJaKanad"
     }
   },
