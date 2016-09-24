@@ -1,24 +1,18 @@
 {
   "storage": {
-    "filepath": "/tmp/foxdb/"
+    "filepath": "/tmp/foxdb"
   },
   "authn": {
-    "MintKeyName": "key.base64",
-    "ValidateKeyNames": [
-      "key.base64",
-      "key2.base64"
-    ],
-    "TokenTTL": 15,
+    "MintKeyName": "private.rsa",
+    "ValidateKeyName": "public.rsa",
+    "_comment" : "The TTL is in seconds",
+    "TokenTTL": 600,
     "PwdProvider": {
-      "PwdFileName": "test_pwd.list",
+      "PwdFileName": "/Users/andreskytt/work/fox/config/andreskytt/test_pwd.list",
       "Salt": "RebasedJaKanad"
     }
   },
-  "authz": {
-    "Provider": "simple",
-    "LDAPProvider": {
-      "User": "foxapi",
-      "Password": "foxapi"
-    }
+  "authz":{
+    "provider":"simple"
   }
 }

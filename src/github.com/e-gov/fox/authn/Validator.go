@@ -1,20 +1,20 @@
 package authn
 
 import (
-	"encoding/json"
 	"io/ioutil"
-	"math"
 	"sync"
-	"time"
 
 	"github.com/e-gov/fox/util"
 
-	fernet "github.com/fernet/fernet-go"
 	log "github.com/Sirupsen/logrus"
+	"github.com/dgrijalva/jwt-go"
+	"fmt"
+	"crypto/rsa"
 )
 
 var (
-	keys         []*fernet.Key
+	key *rsa.PublicKey
+	//key *[]byte
 	validateLock *sync.RWMutex
 )
 
@@ -31,77 +31,91 @@ func InitValidator() {
 // - the token has been minted more than tokenTTL minutes ago
 // - the token message is not a valid TokenStruct
 // - the token cannot be decrypted using known keys
-func Decrypt(token string) *TokenStruct {
-	var message TokenStruct
+func Decrypt(tokenString string) *jwt.StandardClaims{
 
 	// If the configuration has changed, re-load the keys
 	if confVersion != util.GetConfig().Version {
 		loadValidateKeys()
 	}
 
-	tok := []byte(token)
-	// Do the math, TTL in minutes could be a fraction
-	ttl := int64(math.Floor(util.GetConfig().Authn.TokenTTL * float64(time.Minute)))
+	token, err := jwt.ParseWithClaims(tokenString,  &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+		}
+		return GetValidateKey(), nil
+	})
 
-	log.Debugf("Validating if token %s was issued more than %f seconds ago", string(tok), math.Floor(float64(ttl)/float64(time.Second)))
-	m := fernet.VerifyAndDecrypt(tok, time.Duration(ttl), GetValidateKeys())
 
-	err := json.Unmarshal(m, &message)
-	if err != nil {
-		log.Info("Failed to unmarshall token contents -- " + string(m))
+	if err != nil{
+		if ve, ok := err.(*jwt.ValidationError); ok{
+			if ve.Errors&jwt.ValidationErrorMalformed != 0{
+				log.WithFields(log.Fields{
+					"token": token,
+				}).Error("Malformed token received")
+
+			}else{
+				if ve.Errors&jwt.ValidationErrorExpired != 0{
+					log.WithFields(log.Fields{
+						"token": token,
+					}).Error("Token expired")
+
+				}else{
+					log.WithFields(log.Fields{
+						"token": token,
+					}).Error("Could not handle the token ", err)
+				}
+			}
+		}
 		return nil
+	}else{
+		if token.Valid {
+			return token.Claims.(*jwt.StandardClaims)
+		}else{
+			log.WithFields(log.Fields{
+				"token": token,
+			}).Error("Invalid token but no error given")
+			return nil
+		}
 	}
-	return &message
 }
 
 func loadValidateKeys() {
-	loadValidateKeyByName(util.GetConfig().Authn.ValidateKeyNames)
+	loadValidateKeyByName(util.GetConfig().Authn.ValidateKeyName)
 	confVersion = util.GetConfig().Version
 }
 
 // loadValidateKeyByName loads a key by filename and strores it in the struct
 // The function is threadsafe and panics if the key file is invalid
-func loadValidateKeyByName(filenames []string) {
-	var tempKeys []*fernet.Key
+func loadValidateKeyByName(filename string) {
+	keyPath := util.GetPaths([]string{filename})[0]
 
-	keyPaths := util.GetPaths(filenames)
+	b, err := ioutil.ReadFile(keyPath)
 
-	for _, path := range keyPaths {
-
-		b, err := ioutil.ReadFile(path)
-
-		if err != nil {
-			log.WithFields(log.Fields{
-				"path": path,
-			}).Error("Could not open a key file")
-		} else {
-			k, err := fernet.DecodeKey(string(b))
-
-			if err != nil {
-				log.WithFields(log.Fields{
-					"path": path,
-				}).Error("Could not parse a validation key from")
-			} else {
-				log.WithFields(log.Fields{
-					"path": path,
-				}).Debug("Successfully loaded validation key")
-				tempKeys = append(tempKeys, k)
-			}
-		}
-
+	if err != nil {
+		log.WithFields(log.Fields{
+			"path": keyPath,
+		}).Panic("Failed to load validation key: ", err)
 	}
-	if len(tempKeys) == 0 {
-		log.Panic("Could not read any validation keys")
+
+	k, err := jwt.ParseRSAPublicKeyFromPEM(b)
+	if err != nil{
+		log.WithFields(log.Fields{
+			"path": keyPath,
+		}).Panic("Failed to parse validation key: ", err)
 	}
-	// Store only after we are sure loading was good
+
+	log.WithFields(log.Fields{
+		"path": keyPath,
+	}).Debugf("Successfully loaded validation key from %s", keyPath)
+
 	validateLock.Lock()
 	defer validateLock.Unlock()
-	keys = tempKeys
+	key = k
 }
 
 // GetValidateKeys returns the key reference in a thread-safe fashion
-func GetValidateKeys() []*fernet.Key {
+func GetValidateKey() *rsa.PublicKey {
 	validateLock.RLock()
 	defer validateLock.RUnlock()
-	return keys
+	return key
 }

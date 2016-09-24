@@ -6,6 +6,7 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"fmt"
 )
 
 var _ = Describe("Authn", func() {
@@ -17,6 +18,9 @@ var _ = Describe("Authn", func() {
 		challenge = "test"
 		provider  = "pwd"
 	)
+
+	s := "TEST"
+	util.SetupSvcLogging(&s)
 
 	BeforeEach(func() {
 		util.LoadConfigByPathWOExtension("test_config")
@@ -43,11 +47,15 @@ var _ = Describe("Authn", func() {
 	Describe("Reissuing a token", func() {
 		Context("Username is preserved", func() {
 			It("should return the username that was given to the old token", func() {
+				fmt.Println("GetToken " + user)
 				oldToken = authn.GetToken(user)
+				fmt.Println("OldToken " + oldToken)
 				newToken, err = authn.ReissueToken(oldToken)
+				fmt.Println("Reissued " + newToken)
 				Expect(err).To(BeNil())
 
 				u, err := authn.Validate(newToken)
+				fmt.Println("Validate done " + u + "!")
 				Expect(err).To(BeNil())
 				Expect(u).To(Equal(user))
 			})

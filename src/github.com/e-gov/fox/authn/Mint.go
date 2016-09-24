@@ -1,20 +1,20 @@
 package authn
 
 import (
-	"encoding/json"
 	"io/ioutil"
 	"sync"
-	"time"
 
 	"github.com/e-gov/fox/util"
 
-	fernet "github.com/fernet/fernet-go"
-
+	jwt "github.com/dgrijalva/jwt-go"
 	log "github.com/Sirupsen/logrus"
+	"time"
+	"crypto/rsa"
 )
 
 var mint struct {
-	*fernet.Key
+	Key *rsa.PrivateKey
+	From string
 	sync.RWMutex
 }
 
@@ -28,55 +28,72 @@ func loadMintKey() {
 	confVersion = util.GetConfig().Version
 }
 
-// loadMintKeyByName loads a key by filename and strores it in the struct
+// loadMintKeyByName loads a key by filename and stores it in the struct
 // The function is threadsafe and panics if the key file is invalid
 func LoadMintKeyByName(filename string) {
 
 	keyPath := util.GetPaths([]string{filename})[0]
 
-	log.Debugf("Attempting to load mint key from %s", keyPath)
+
 	b, err := ioutil.ReadFile(keyPath)
 
 	if err != nil {
-		panic(err)
+		log.WithFields(log.Fields{
+			"path": keyPath,
+		}).Panic("Failed to load mint key: ", err)
 	}
 
-	k, err := fernet.DecodeKey(string(b))
-
+	k, err := jwt.ParseRSAPrivateKeyFromPEM(b)
 	if err != nil {
-		panic(err)
+		log.WithFields(log.Fields{
+			"path": keyPath,
+		}).Panic("Failed to parse mint key: ", err)
 	}
 
-	log.Debugf("Successfully loaded mint key from %s", keyPath)
+
+	log.WithFields(log.Fields{
+		"path": keyPath,
+	}).Debugf("Successfully loaded mint key from %s", keyPath)
 	// Store only after we are sure loading was good
+
 	mint.Lock()
 	defer mint.Unlock()
 	mint.Key = k
+	mint.From = keyPath
 }
 
 // GetToken wraps the incoming username into a TokenStruct, serializes the result to json
 // and generates a Fernet token based on the resulting string
 func GetToken(username string) string {
-	var t []byte
-
 	// If the configuration has changed, re-load the keys
 	if confVersion != util.GetConfig().Version {
 		loadMintKey()
 	}
 
-	n, _ := time.Now().MarshalText()
-	t, _ = json.Marshal(TokenStruct{Username: username, MintTime: string(n)})
-
-	token, err := fernet.EncryptAndSign(t, GetKey())
-	if err != nil {
-		panic(err)
+	claims := jwt.StandardClaims{
+			Issuer: "FoxAuthn",
+			Subject: username,
+			IssuedAt: time.Now().Unix(),
+			ExpiresAt: time.Now().Add(time.Duration(util.GetConfig().Authn.TokenTTL) * time.Second).Unix(),
 	}
-	return string(token)
+
+	log.WithFields(log.Fields{
+		"claims":claims,
+	}).Debug("Going to sign with these claims")
+
+	token := jwt.NewWithClaims(jwt.SigningMethodRS384, claims)
+	ss, err := token.SignedString(GetKey())
+	if err != nil{
+		log.WithFields(log.Fields{
+			"path": mint.From,
+		}).Panic("Failed to create signed token: ", err)
+	}
+	return ss
 }
 
 // GetKey returns the current key used for session tokens
 // If the key not initialized, nil is returned
-func GetKey() *fernet.Key {
+func GetKey() *rsa.PrivateKey {
 	mint.RLock()
 	defer mint.RUnlock()
 	return mint.Key
@@ -94,6 +111,7 @@ func ReissueToken(token string) (string, error) {
 		return "", e
 	}
 
+	log.Debug("Reissue. Username = " + decryptedTokensUsername)
 	newToken = GetToken(decryptedTokensUsername)
 
 	return newToken, nil

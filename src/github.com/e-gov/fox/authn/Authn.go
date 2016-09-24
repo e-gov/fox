@@ -8,11 +8,6 @@ var (
 	confVersion int
 )
 
-type TokenStruct struct {
-	Username string `json:"username"`
-	MintTime string `json:"mintTime"`
-}
-
 type Token struct {
 	Token string `json:"token"`
 }
@@ -34,7 +29,7 @@ func Validate(token string) (string, error) {
 	if t == nil {
 		return "", errors.New("Invalid token")
 	}
-	return t.Username, nil
+	return t.Subject, nil
 }
 
 // KnownProviders returns the list of known authentication providers

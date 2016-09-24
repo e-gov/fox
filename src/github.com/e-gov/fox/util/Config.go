@@ -21,8 +21,8 @@ type Config struct {
 	}
 	Authn struct {
 		MintKeyName      string
-		ValidateKeyNames []string
-		TokenTTL         float64
+		ValidateKeyName  string
+		TokenTTL         int64
 		PwdProvider      struct {
 			PwdFileName string
 			Salt        string
